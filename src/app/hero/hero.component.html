@@ -1,0 +1,39 @@
+<section class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-charcoal via-gray-900 to-black overflow-hidden">
+  <!-- Background glow effect -->
+  <div class="absolute inset-0 bg-pizza-orange/10 blur-3xl"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="mb-8">
+      <div class="relative inline-block">
+        <img
+          src="/images/benjamin-pizzaiolo.png"
+          alt="Benjamin - Pizzaiolo"
+          class="w-80 h-80 object-cover rounded-full border-8 border-pizza-orange shadow-2xl"
+        >
+        <div class="absolute inset-0 rounded-full bg-pizza-orange/20 blur-xl -z-10"></div>
+      </div>
+    </div>
+
+    <h1 class="text-6xl md:text-8xl font-bebas text-white mb-6 drop-shadow-lg">
+      {{ t().hero.headline }}
+    </h1>
+
+    <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+      {{ t().hero.subheadline }}
+    </p>
+
+    <button class="bg-pizza-orange hover:bg-pizza-red text-white text-xl font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg mb-8">
+      {{ t().hero.cta }}
+    </button>
+
+    <div class="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3">
+      <span class="text-pizza-orange font-bold text-lg">{{ t().hero.badge }}</span>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </div>
+</section>

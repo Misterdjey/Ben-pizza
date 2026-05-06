@@ -1,0 +1,78 @@
+<section class="py-20 bg-gradient-to-br from-gray-900 via-charcoal to-black">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-5xl md:text-6xl font-bebas text-white mb-4">{{ t().offers.title }}</h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">{{ t().offers.subtitle }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Formule 1 — Essentielle -->
+      <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-gray-700">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-pizza-orange rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl">🍕</span>
+          </div>
+          <h3 class="text-2xl font-bebas text-white mb-2">{{ t().offers.tiers[0].name }}</h3>
+          <div class="text-3xl font-bold text-pizza-orange mb-4">{{ t().offers.tiers[0].price }}</div>
+        </div>
+        <ul class="space-y-3 mb-8">
+          @for (feature of t().offers.tiers[0].features; track $index) {
+            <li class="flex items-center text-gray-300">
+              <span class="text-pizza-orange mr-3">✓</span>{{ feature }}
+            </li>
+          }
+        </ul>
+        <button class="w-full bg-pizza-orange hover:bg-pizza-red text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+          {{ t().offers.bookNow }}
+        </button>
+      </div>
+
+      <!-- Formule 2 — Premium (mise en avant) -->
+      <div class="bg-gradient-to-br from-pizza-orange/20 to-pizza-red/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-pizza-orange relative">
+        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <span class="bg-pizza-orange text-white px-4 py-2 rounded-full text-sm font-bold">{{ t().offers.popularBadge }}</span>
+        </div>
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-pizza-red rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl">👑</span>
+          </div>
+          <h3 class="text-2xl font-bebas text-white mb-2">{{ t().offers.tiers[1].name }}</h3>
+          <div class="text-3xl font-bold text-pizza-orange mb-4">{{ t().offers.tiers[1].price }}</div>
+        </div>
+        <ul class="space-y-3 mb-8">
+          @for (feature of t().offers.tiers[1].features; track $index) {
+            <li class="flex items-center text-gray-300">
+              <span class="text-pizza-orange mr-3">✓</span>{{ feature }}
+            </li>
+          }
+        </ul>
+        <button class="w-full bg-pizza-red hover:bg-pizza-orange text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+          {{ t().offers.bookNow }}
+        </button>
+      </div>
+
+      <!-- Formule 3 — VIP -->
+      <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-gray-700">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-gradient-to-r from-pizza-orange to-pizza-red rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl">⭐</span>
+          </div>
+          <h3 class="text-2xl font-bebas text-white mb-2">{{ t().offers.tiers[2].name }}</h3>
+          <div class="text-3xl font-bold text-pizza-orange mb-4">{{ t().offers.tiers[2].price }}</div>
+        </div>
+        <ul class="space-y-3 mb-8">
+          @for (feature of t().offers.tiers[2].features; track $index) {
+            <li class="flex items-center text-gray-300">
+              <span class="text-pizza-orange mr-3">✓</span>{{ feature }}
+            </li>
+          }
+        </ul>
+        <button class="w-full bg-gradient-to-r from-pizza-orange to-pizza-red hover:from-pizza-red hover:to-pizza-orange text-white font-bold py-3 px-6 rounded-full transition-all duration-300">
+          {{ t().offers.bookNow }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>

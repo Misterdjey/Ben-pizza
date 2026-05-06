@@ -1,0 +1,35 @@
+<section class="py-20 bg-gray-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-5xl md:text-6xl font-bebas text-white mb-4">{{ t().howItWorks.title }}</h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">{{ t().howItWorks.subtitle }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      @for (step of t().howItWorks.steps; track $index; let i = $index) {
+        <div class="text-center group">
+          <div class="relative mb-8">
+            <div class="w-20 h-20 bg-pizza-orange rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <span class="text-3xl">{{ stepIcons[i] }}</span>
+            </div>
+            <div class="absolute -top-2 -right-2 w-8 h-8 bg-pizza-red rounded-full flex items-center justify-center text-white font-bold text-sm">
+              {{ i + 1 }}
+            </div>
+          </div>
+          <h3 class="text-2xl font-bebas text-white mb-4">{{ step.title }}</h3>
+          <p class="text-gray-300">{{ step.description }}</p>
+        </div>
+      }
+    </div>
+
+    <div class="text-center mt-16">
+      <div class="bg-gradient-to-r from-pizza-orange to-pizza-red rounded-2xl p-8 max-w-2xl mx-auto">
+        <h3 class="text-3xl font-bebas text-white mb-4">{{ t().howItWorks.ctaTitle }}</h3>
+        <p class="text-white mb-6">{{ t().howItWorks.ctaText }}</p>
+        <button class="bg-white text-pizza-orange font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-colors duration-300">
+          {{ t().howItWorks.ctaButton }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

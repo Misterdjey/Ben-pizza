@@ -1,0 +1,94 @@
+{
+    "pizzas": [
+        {
+            "name": "Marguerita",
+            "category": "Base sauce tomate",
+            "image": "/images/pizzas/marguerita.png",
+            "ingredients": ["S. tomate", "Fromage", "Olive", "Origan"]
+        },
+        {
+            "name": "4 Fromages",
+            "category": "Base sauce tomate",
+            "image": "/images/pizzas/4-fromages.jpg",
+            "ingredients": ["S. tomate", "Fromage", "Camembert", "Chèvre", "Bleu"]
+        },
+        {
+            "name": "Pesto",
+            "category": "Base sauce tomate",
+            "image": "/images/pizzas/pesto.jpg",
+            "ingredients": ["S. tomate", "Fromage", "Chèvre", "Tomate", "Pesto"]
+        },
+        {
+            "name": "4 Saisons",
+            "category": "Base sauce tomate",
+            "image": "/images/pizzas/4-saisons.jpg",
+            "ingredients": ["S. tomate", "Fromage", "Champignon", "Oignon", "Poivron", "Aubergine"]
+        },
+        {
+            "name": "Straciatella",
+            "category": "Base sauce tomate",
+            "image": "/images/pizzas/straciatella.jpg",
+            "ingredients": ["S. tomate", "Fromage", "Roquette", "Straciatella"]
+        },
+        {
+            "name": "Chèvre Miel",
+            "category": "Base creme fraiche",
+            "image": "/images/pizzas/chevre-miel.jpg",
+            "ingredients": ["Crème fraîche", "Fromage", "Chèvre", "Miel"]
+        },
+        {
+            "name": "Norvégienne",
+            "category": "Base creme fraiche",
+            "image": "/images/pizzas/norvegienne.jpg",
+            "ingredients": ["Crème fraîche", "Fromage", "Camembert", "Saumon", "Origan"]
+        },
+        {
+            "name": "Levana",
+            "category": "Base creme fraiche",
+            "image": "/images/pizzas/levana.jpg",
+            "ingredients": ["Crème fraîche", "Fromage", "Oignons", "Champignon"]
+        },
+        {
+            "name": "Benyochem",
+            "category": "Spécialités du chef",
+            "image": "/images/pizzas/benyochem.jpg",
+            "ingredients": ["Patate douce", "Roquette", "Bouratta"]
+        },
+        {
+            "name": "Pesto du chef",
+            "category": "Spécialités du chef",
+            "image": "/images/pizzas/pesto-du-chef.jpg",
+            "ingredients": ["Pesto", "Tomate (2C)", "Bouratta"]
+        },
+        {
+            "name": "La Lulu",
+            "category": "Sans fromage",
+            "image": "/images/pizzas/la-lulu.jpg",
+            "ingredients": ["S. tomate", "Oignon", "Poivron", "Thon", "Olive noire", "Câpres", "Œufs"]
+        },
+        {
+            "name": "La Simone",
+            "category": "Sans fromage",
+            "image": "/images/pizzas/la-simone.jpg",
+            "ingredients": ["Base S. tomate + Impro Simone"]
+        },
+        {
+            "name": "Choco Classic",
+            "category": "Desserts",
+            "image": "/images/pizzas/choco-classic.jpg",
+            "ingredients": ["Chocolat", "Noisette"]
+        },
+        {
+            "name": "Choco Banane",
+            "category": "Desserts",
+            "image": "/images/pizzas/choco-banane.jpg",
+            "ingredients": ["Chocolat", "Banane", "Noisette"]
+        },
+        {
+            "name": "Pizza Dubai",
+            "category": "Desserts",
+            "image": "/images/pizzas/pizza-dubai.jpg",
+            "ingredients": ["Chocolat", "Fraise", "Qadaif", "Chantilly"]
+        }
+    ]
+}

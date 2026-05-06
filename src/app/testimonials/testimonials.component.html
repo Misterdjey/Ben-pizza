@@ -1,0 +1,48 @@
+<section class="py-20 bg-gradient-to-br from-gray-900 via-charcoal to-black">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-5xl md:text-6xl font-bebas text-white mb-4">{{ t().testimonials.title }}</h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">{{ t().testimonials.subtitle }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for (item of t().testimonials.items; track item.name; let i = $index) {
+        <div class="bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4 {{ avatarClasses[i] }}">
+              <span class="text-white font-bold">{{ initials(item.name) }}</span>
+            </div>
+            <div>
+              <h4 class="text-white font-semibold">{{ item.name }}</h4>
+              <div class="flex text-pizza-orange">
+                <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-300 italic">"{{ item.quote }}"</p>
+          <div class="mt-4 text-sm text-gray-400">{{ item.event }}</div>
+        </div>
+      }
+    </div>
+
+    <div class="text-center mt-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="bg-gray-800 rounded-xl p-6">
+          <div class="text-4xl mb-4">🎯</div>
+          <div class="text-3xl font-bebas text-pizza-orange mb-2">100+</div>
+          <div class="text-gray-300">{{ t().testimonials.eventsLabel }}</div>
+        </div>
+        <div class="bg-gray-800 rounded-xl p-6">
+          <div class="text-4xl mb-4">⭐</div>
+          <div class="text-3xl font-bebas text-pizza-orange mb-2">4.9/5</div>
+          <div class="text-gray-300">{{ t().testimonials.ratingLabel }}</div>
+        </div>
+        <div class="bg-gray-800 rounded-xl p-6">
+          <div class="text-4xl mb-4">👥</div>
+          <div class="text-3xl font-bebas text-pizza-orange mb-2">500+</div>
+          <div class="text-gray-300">{{ t().testimonials.guestsLabel }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
