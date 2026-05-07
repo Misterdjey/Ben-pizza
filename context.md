@@ -89,8 +89,9 @@ Système de traduction maison basé sur les signals Angular 21.
 | ---------- | ------- | --------------------------------------------------------------------- |
 | 2026-05-07 | Init    | Scaffold Angular 21, composants de base, pizzas.json, Tailwind        |
 | 2026-05-07 | Feature | i18n FR/EN : LanguageService (signal), translations.ts, switch nav    |
-| 2026-05-07 | Feature | Double thème CSS (Artisan par défaut / Classic) via CSS variables      |
+| 2026-05-07 | Feature | Double thème CSS (Artisan par défaut / Classic) via CSS variables     |
 | 2026-05-07 | Feature | FloatingToolbar : nav sections + switcher thème (responsive mob/desk) |
 | 2026-05-07 | Fix     | Menu pizzas : migration getter → computed signal (fix zoneless CD)    |
 | 2026-05-07 | Feature | Favicon SVG pizza + title page mis à jour                             |
 | 2026-05-07 | Fix     | Responsive hero (image, titre) + footer padding mobile toolbar        |
+| 2026-05-07 | Feature | Hero : vidéo benjamin-pizzaiolo-clip.mp4 (3.5s, autoplay, muted)      |
