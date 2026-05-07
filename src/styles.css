@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Themes ─────────────────────────────────────── */
+:root {
+  --pizza-orange: #FF6B35;
+  --pizza-red: #D72638;
+  --charcoal: #1a1a1a;
+}
+
+.theme-artisan {
+  --pizza-orange: #C1440E;
+  --pizza-red: #A01A2E;
+  --charcoal: #1a1a1a;
+}
+
 /* Global styles */
 body {
   font-family: 'Poppins', sans-serif;

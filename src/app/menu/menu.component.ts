@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { PizzaService, Pizza } from '../services/pizza.service';
 import { LanguageService } from '../services/language.service';
 
@@ -11,7 +11,11 @@ import { LanguageService } from '../services/language.service';
 })
 export class MenuComponent implements OnInit {
   protected t = inject(LanguageService).t;
-  pizzas: Pizza[] = [];
+  private pizzaService = inject(PizzaService);
+
+  pizzas = signal<Pizza[]>([]);
+  selectedCategory = signal('all');
+
   categories = [
     'Base sauce tomate',
     'Base creme fraiche',
@@ -19,23 +23,20 @@ export class MenuComponent implements OnInit {
     'Sans fromage',
     'Desserts',
   ];
-  selectedCategory = 'all';
 
-  constructor(private pizzaService: PizzaService) {}
+  filteredPizzas = computed(() => {
+    if (this.selectedCategory() === 'all') return this.pizzas();
+    return this.pizzas().filter(p => p.category === this.selectedCategory());
+  });
 
   ngOnInit() {
     this.pizzaService.getPizzas().subscribe({
-      next: (response) => { this.pizzas = response.pizzas; },
+      next: (response) => { this.pizzas.set(response.pizzas); },
       error: (error) => { console.error('Erreur lors du chargement des pizzas:', error); },
     });
   }
 
-  get filteredPizzas() {
-    if (this.selectedCategory === 'all') return this.pizzas;
-    return this.pizzas.filter(pizza => pizza.category === this.selectedCategory);
-  }
-
   selectCategory(category: string) {
-    this.selectedCategory = category;
+    this.selectedCategory.set(category);
   }
 }

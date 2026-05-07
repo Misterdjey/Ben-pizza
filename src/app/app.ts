@@ -6,6 +6,7 @@ import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { CtaComponent } from './cta/cta.component';
+import { FloatingToolbarComponent } from './floating-toolbar/floating-toolbar.component';
 import { LanguageService } from './services/language.service';
 
 @Component({
@@ -18,6 +19,7 @@ import { LanguageService } from './services/language.service';
     GalleryComponent,
     TestimonialsComponent,
     CtaComponent,
+    FloatingToolbarComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

@@ -10,9 +10,9 @@ module.exports = {
         'bebas': ['Bebas Neue', 'sans-serif'],
       },
       colors: {
-        'pizza-orange': '#FF6B35',
-        'pizza-red': '#D72638',
-        'charcoal': '#1a1a1a',
+        'pizza-orange': 'var(--pizza-orange)',
+        'pizza-red': 'var(--pizza-red)',
+        'charcoal': 'var(--charcoal)',
       },
     },
   },

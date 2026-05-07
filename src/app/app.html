@@ -18,17 +18,19 @@
 </header>
 
 <main>
-  <app-hero></app-hero>
-  <app-menu></app-menu>
-  <app-offers></app-offers>
-  <app-how-it-works></app-how-it-works>
-  <app-gallery></app-gallery>
-  <app-testimonials></app-testimonials>
-  <app-cta></app-cta>
+  <div id="section-hero"><app-hero></app-hero></div>
+  <div id="section-menu"><app-menu></app-menu></div>
+  <div id="section-offers"><app-offers></app-offers></div>
+  <div id="section-how-it-works"><app-how-it-works></app-how-it-works></div>
+  <div id="section-gallery"><app-gallery></app-gallery></div>
+  <div id="section-testimonials"><app-testimonials></app-testimonials></div>
+  <div id="section-contact"><app-cta></app-cta></div>
 </main>
 
-<footer class="bg-charcoal py-8">
+<footer class="bg-charcoal py-8 pb-24 md:pb-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <p class="text-gray-400">{{ langService.t().footer.copyright }}</p>
   </div>
 </footer>
+
+<app-floating-toolbar></app-floating-toolbar>
