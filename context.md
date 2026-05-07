@@ -95,3 +95,4 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-07 | Feature | Favicon SVG pizza + title page mis à jour                             |
 | 2026-05-07 | Fix     | Responsive hero (image, titre) + footer padding mobile toolbar        |
 | 2026-05-07 | Feature | Hero : vidéo benjamin-pizzaiolo-clip.mp4 (3.5s, autoplay, muted)      |
+| 2026-05-07 | Fix     | Hero vidéo : muted via ViewChild (attribut HTML ignoré par Angular)   |
