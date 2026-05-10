@@ -4,6 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ClientsService } from '../services/clients.service';
 import { CommandesService } from '../services/commandes.service';
 import { Client, Commande } from '../models';
+import { ToastService } from '../shared/toast.service';
 
 type ClientForm = Omit<Client, 'id' | 'created_at'>;
 
@@ -16,6 +17,7 @@ type ClientForm = Omit<Client, 'id' | 'created_at'>;
 export class ClientsComponent implements OnInit {
   private clientsService = inject(ClientsService);
   private commandesService = inject(CommandesService);
+  private toastService = inject(ToastService);
 
   clients = signal<Client[]>([]);
   commandesByClient = signal<Record<string, Commande[]>>({});
@@ -82,10 +84,12 @@ export class ClientsComponent implements OnInit {
       if (id) {
         const updated = await this.clientsService.update(id, this.form);
         this.clients.update((list) => list.map((c) => (c.id === id ? updated : c)));
+        this.toastService.success('Client mis à jour');
       } else {
         const created = await this.clientsService.create(this.form);
         this.clients.update((list) => [...list, created]);
         this.commandesByClient.update((m) => ({ ...m, [created.id]: [] }));
+        this.toastService.success('Client créé');
       }
       this.showModal.set(false);
     } catch (e: unknown) {
@@ -98,12 +102,15 @@ export class ClientsComponent implements OnInit {
   async deleteClient(c: Client) {
     const cmds = this.commandesByClient()[c.id] ?? [];
     if (cmds.length > 0) {
-      alert(`Impossible de supprimer ${c.nom} : ${cmds.length} commande(s) existante(s).`);
+      this.toastService.error(`Impossible de supprimer ${c.nom} : ${cmds.length} commande(s) existante(s).`);
       return;
     }
-    if (!confirm(`Supprimer ${c.nom} ?`)) return;
+    const nom = c.prenom ? `${c.prenom} ${c.nom}` : c.nom;
+    const ok = await this.toastService.confirm(`Supprimer le client ${nom} ?`);
+    if (!ok) return;
     await this.clientsService.delete(c.id);
     this.clients.update((list) => list.filter((x) => x.id !== c.id));
+    this.toastService.success(`${nom} supprimé`);
   }
 
   commandesOf(clientId: string): Commande[] {

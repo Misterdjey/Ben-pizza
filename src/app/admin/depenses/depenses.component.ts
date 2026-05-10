@@ -5,6 +5,7 @@ import { CurrencyPipe } from '@angular/common';
 import { DepensesService } from '../services/depenses.service';
 import { CommandesService } from '../services/commandes.service';
 import { Commande, Depense, Ingredient } from '../models';
+import { ToastService } from '../shared/toast.service';
 
 type DepenseForm = {
   mode: 'catalogue' | 'libre';
@@ -24,6 +25,7 @@ export class DepensesComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private depensesService = inject(DepensesService);
   private commandesService = inject(CommandesService);
+  private toastService = inject(ToastService);
 
   commandeId = '';
   commande = signal<Commande | null>(null);
@@ -91,6 +93,7 @@ export class DepensesComponent implements OnInit {
 
       const created = await this.depensesService.create(payload);
       this.depenses.update((list) => [...list, created]);
+      this.toastService.success('Dépense ajoutée');
       this.form = this.emptyForm();
       this.showForm.set(false);
     } catch (e: unknown) {
@@ -101,9 +104,11 @@ export class DepensesComponent implements OnInit {
   }
 
   async deleteDepense(d: Depense) {
-    if (!confirm('Supprimer cette dépense ?')) return;
+    const ok = await this.toastService.confirm('Supprimer cette dépense ?');
+    if (!ok) return;
     await this.depensesService.delete(d.id);
     this.depenses.update((list) => list.filter((x) => x.id !== d.id));
+    this.toastService.success('Dépense supprimée');
   }
 
   labelDepense(d: Depense): string {

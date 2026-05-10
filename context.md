@@ -110,3 +110,5 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-10 | Feature | Admin Ingrédients : page CRUD catalogue (nom, unité, prix référence)              |
 | 2026-05-10 | Feature | Vitrine : bouton Espace pro dans navbar (outline, hover orange)                   |
 | 2026-05-10 | Fix     | Locale fr-FR : symbole euro à droite, virgule décimale                            |
+| 2026-05-10 | Fix     | Suppression commande : ON DELETE CASCADE sur depenses (FK 23503)                  |
+| 2026-05-10 | Feature | ToastService + modal confirm custom (remplace alert/confirm natifs)               |

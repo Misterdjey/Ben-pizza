@@ -7,6 +7,7 @@ import { ClientsService } from '../services/clients.service';
 import { OffresService } from '../services/offres.service';
 import { Commande, Client, Offre, StatutCommande } from '../models';
 import { generateFacturePdf } from '../utils/facture-pdf';
+import { ToastService } from '../shared/toast.service';
 
 type CommandeForm = {
   client_id: string;
@@ -29,6 +30,7 @@ export class CommandesComponent implements OnInit {
   private commandesService = inject(CommandesService);
   private clientsService = inject(ClientsService);
   private offresService = inject(OffresService);
+  private toastService = inject(ToastService);
 
   commandes = signal<Commande[]>([]);
   clients = signal<Client[]>([]);
@@ -105,8 +107,10 @@ export class CommandesComponent implements OnInit {
       const id = this.editingId();
       if (id) {
         await this.commandesService.update(id, payload);
+        this.toastService.success('Commande mise à jour');
       } else {
         await this.commandesService.create(payload);
+        this.toastService.success('Commande créée');
       }
       this.showModal.set(false);
       await this.loadAll();
@@ -118,9 +122,12 @@ export class CommandesComponent implements OnInit {
   }
 
   async deleteCommande(c: Commande) {
-    if (!confirm(`Supprimer la commande de ${c.client?.nom} du ${c.date_presta} ?`)) return;
+    const nom = c.client?.prenom ? `${c.client.prenom} ${c.client.nom}` : (c.client?.nom ?? '');
+    const ok = await this.toastService.confirm(`Supprimer la commande de ${nom} du ${c.date_presta} ?`);
+    if (!ok) return;
     await this.commandesService.delete(c.id);
     this.commandes.update((list) => list.filter((x) => x.id !== c.id));
+    this.toastService.success(`Commande du ${c.date_presta} supprimée`);
   }
 
   downloadPdf(c: Commande) {
