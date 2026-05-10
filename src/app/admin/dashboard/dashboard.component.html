@@ -1,0 +1,70 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bebas text-charcoal">Dashboard</h1>
+
+  @if (loading()) {
+    <div class="text-gray-500">Chargement...</div>
+  } @else if (stats(); as s) {
+    <!-- KPI cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500 mb-1">CA total</div>
+        <div class="text-2xl font-bold text-charcoal">{{ s.caTotal | currency:'EUR':'symbol':'1.0-0' }}</div>
+        <div class="text-xs text-gray-400 mt-1">prestations terminées</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500 mb-1">CA ce mois</div>
+        <div class="text-2xl font-bold text-charcoal">{{ s.caMois | currency:'EUR':'symbol':'1.0-0' }}</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500 mb-1">Marge globale</div>
+        <div class="text-2xl font-bold" [class.text-green-600]="s.margeGlobale >= 0" [class.text-red-500]="s.margeGlobale < 0">
+          {{ s.margeGlobale | currency:'EUR':'symbol':'1.0-0' }}
+        </div>
+        <div class="text-xs text-gray-400 mt-1">CA − dépenses</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500 mb-2">Statuts</div>
+        <div class="space-y-1 text-sm">
+          <div class="flex justify-between"><span class="text-yellow-600">En cours</span><span class="font-semibold">{{ s.parStatut['en_cours'] }}</span></div>
+          <div class="flex justify-between"><span class="text-blue-600">Confirmée</span><span class="font-semibold">{{ s.parStatut['confirmee'] }}</span></div>
+          <div class="flex justify-between"><span class="text-green-600">Terminée</span><span class="font-semibold">{{ s.parStatut['terminee'] }}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marge par commande -->
+    @if (s.commandesAvecMarge.length > 0) {
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="px-5 py-4 border-b border-gray-100">
+          <h2 class="font-semibold text-charcoal">Marge par prestation</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+              <tr>
+                <th class="px-4 py-3 text-left">Date</th>
+                <th class="px-4 py-3 text-left">Client</th>
+                <th class="px-4 py-3 text-right">CA</th>
+                <th class="px-4 py-3 text-right">Dépenses</th>
+                <th class="px-4 py-3 text-right">Marge</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              @for (row of s.commandesAvecMarge; track row.commande.id) {
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-3 text-gray-600">{{ row.commande.date_presta }}</td>
+                  <td class="px-4 py-3 font-medium">{{ row.commande.client?.nom }}</td>
+                  <td class="px-4 py-3 text-right">{{ row.commande.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
+                  <td class="px-4 py-3 text-right text-red-500">{{ row.depensesTotal | currency:'EUR':'symbol':'1.0-0' }}</td>
+                  <td class="px-4 py-3 text-right font-semibold" [class.text-green-600]="row.marge >= 0" [class.text-red-500]="row.marge < 0">
+                    {{ row.marge | currency:'EUR':'symbol':'1.0-0' }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  }
+</div>

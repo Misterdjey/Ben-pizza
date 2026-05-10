@@ -1,0 +1,80 @@
+<div class="space-y-4">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-bebas text-charcoal">Catalogue ingrédients</h1>
+    <button (click)="openCreate()" class="bg-pizza-orange text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors">
+      + Nouvel ingrédient
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="text-gray-500">Chargement...</div>
+  } @else {
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+          <tr>
+            <th class="px-4 py-3 text-left">Nom</th>
+            <th class="px-4 py-3 text-right">Prix de référence</th>
+            <th class="px-4 py-3 text-left">Unité</th>
+            <th class="px-4 py-3 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50">
+          @for (ing of ingredients(); track ing.id) {
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-3 font-medium">{{ ing.nom }}</td>
+              <td class="px-4 py-3 text-right">{{ ing.prix_reference | currency:'EUR':'symbol':'1.2-2' }}</td>
+              <td class="px-4 py-3 text-gray-500">{{ ing.unite }}</td>
+              <td class="px-4 py-3">
+                <div class="flex justify-end gap-3">
+                  <button (click)="openEdit(ing)" class="text-xs text-gray-500 hover:text-charcoal">Éditer</button>
+                  <button (click)="deleteIngredient(ing)" class="text-xs text-red-400 hover:text-red-600">Suppr.</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">Aucun ingrédient</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+@if (showModal()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" (click)="closeModal()">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6" (click)="$event.stopPropagation()">
+      <h2 class="text-xl font-bebas text-charcoal mb-5">
+        {{ editingId() ? 'Modifier l\'ingrédient' : 'Nouvel ingrédient' }}
+      </h2>
+
+      @if (errorMsg()) {
+        <div class="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-4">{{ errorMsg() }}</div>
+      }
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Nom</label>
+          <input type="text" [(ngModel)]="form.nom" placeholder="ex: Farine" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange"/>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">Unité</label>
+            <input type="text" [(ngModel)]="form.unite" placeholder="kg, L, boîte…" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange"/>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-500 mb-1">Prix / unité (€)</label>
+            <input type="number" [(ngModel)]="form.prix_reference" min="0" step="0.01" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-6">
+        <button (click)="closeModal()" class="px-4 py-2 text-sm text-gray-600 hover:text-charcoal">Annuler</button>
+        <button (click)="save()" [disabled]="saving()" class="bg-pizza-orange text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors disabled:opacity-50">
+          {{ saving() ? 'Enregistrement...' : 'Enregistrer' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

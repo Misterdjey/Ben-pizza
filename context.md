@@ -85,14 +85,28 @@ Système de traduction maison basé sur les signals Angular 21.
 
 ## Historique des évolutions
 
-| Date       | Type    | Description                                                           |
-| ---------- | ------- | --------------------------------------------------------------------- |
-| 2026-05-07 | Init    | Scaffold Angular 21, composants de base, pizzas.json, Tailwind        |
-| 2026-05-07 | Feature | i18n FR/EN : LanguageService (signal), translations.ts, switch nav    |
-| 2026-05-07 | Feature | Double thème CSS (Artisan par défaut / Classic) via CSS variables     |
-| 2026-05-07 | Feature | FloatingToolbar : nav sections + switcher thème (responsive mob/desk) |
-| 2026-05-07 | Fix     | Menu pizzas : migration getter → computed signal (fix zoneless CD)    |
-| 2026-05-07 | Feature | Favicon SVG pizza + title page mis à jour                             |
-| 2026-05-07 | Fix     | Responsive hero (image, titre) + footer padding mobile toolbar        |
-| 2026-05-07 | Feature | Hero : vidéo benjamin-pizzaiolo-clip.mp4 (3.5s, autoplay, muted)      |
-| 2026-05-07 | Fix     | Hero vidéo : muted via ViewChild (attribut HTML ignoré par Angular)   |
+| Date       | Type    | Description                                                                       |
+| ---------- | ------- | --------------------------------------------------------------------------------- |
+| 2026-05-07 | Init    | Scaffold Angular 21, composants de base, pizzas.json, Tailwind                    |
+| 2026-05-07 | Feature | i18n FR/EN : LanguageService (signal), translations.ts, switch nav                |
+| 2026-05-07 | Feature | Double thème CSS (Artisan par défaut / Classic) via CSS variables                 |
+| 2026-05-07 | Feature | FloatingToolbar : nav sections + switcher thème (responsive mob/desk)             |
+| 2026-05-07 | Fix     | Menu pizzas : migration getter → computed signal (fix zoneless CD)                |
+| 2026-05-07 | Feature | Favicon SVG pizza + title page mis à jour                                         |
+| 2026-05-07 | Fix     | Responsive hero (image, titre) + footer padding mobile toolbar                    |
+| 2026-05-07 | Feature | Hero : vidéo benjamin-pizzaiolo-clip.mp4 (3.5s, autoplay, muted)                  |
+| 2026-05-07 | Fix     | Hero vidéo : muted via ViewChild (attribut HTML ignoré par Angular)               |
+| 2026-05-10 | Feature | Module admin : routing lazy-load, VitrinneComponent, AuthGuard, LoginGoogle       |
+| 2026-05-10 | Feature | Supabase : projet benjamin-pizza (eu-west-3), 5 tables, RLS, seed offres+ingreds  |
+| 2026-05-10 | Feature | Admin Dashboard : KPI CA, marge globale, marge par commande                       |
+| 2026-05-10 | Feature | Admin Commandes : liste, CRUD, calcul prix auto par tranche offre                 |
+| 2026-05-10 | Feature | Admin Dépenses : par commande, catalogue + hors catalogue, marge temps réel       |
+| 2026-05-10 | Feature | Admin Clients : liste, CRUD, historique commandes, CA par client                  |
+| 2026-05-10 | Feature | Admin Offres : CRUD barèmes avec tranches tarifaires                              |
+| 2026-05-10 | Feature | Facture PDF (jsPDF) : téléchargement direct sur commandes terminées               |
+| 2026-05-10 | Fix     | Auth guard : race condition OAuth + redirect URL localhost                        |
+| 2026-05-10 | Fix     | Admin : texte blanc sur fond blanc (body color override → text-gray-900)          |
+| 2026-05-10 | Feature | Clients : champs prénom + N° TVA (entreprise), format tél FR                      |
+| 2026-05-10 | Feature | Admin Ingrédients : page CRUD catalogue (nom, unité, prix référence)              |
+| 2026-05-10 | Feature | Vitrine : bouton Espace pro dans navbar (outline, hover orange)                   |
+| 2026-05-10 | Fix     | Locale fr-FR : symbole euro à droite, virgule décimale                            |

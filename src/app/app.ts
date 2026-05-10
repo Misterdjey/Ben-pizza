@@ -1,30 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { HeroComponent } from './hero/hero.component';
-import { MenuComponent } from './menu/menu.component';
-import { OffersComponent } from './offers/offers.component';
-import { HowItWorksComponent } from './how-it-works/how-it-works.component';
-import { GalleryComponent } from './gallery/gallery.component';
-import { TestimonialsComponent } from './testimonials/testimonials.component';
-import { CtaComponent } from './cta/cta.component';
-import { FloatingToolbarComponent } from './floating-toolbar/floating-toolbar.component';
-import { LanguageService } from './services/language.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    HeroComponent,
-    MenuComponent,
-    OffersComponent,
-    HowItWorksComponent,
-    GalleryComponent,
-    TestimonialsComponent,
-    CtaComponent,
-    FloatingToolbarComponent,
-  ],
-  templateUrl: './app.html',
-  styleUrl: './app.css',
+  imports: [RouterOutlet],
+  template: '<router-outlet />',
 })
-export class App {
-  title = 'Benjamin Pizza Experience';
-  protected langService = inject(LanguageService);
-}
+export class App {}

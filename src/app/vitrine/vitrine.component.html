@@ -1,0 +1,39 @@
+<header class="sticky top-0 z-50 bg-charcoal/90 backdrop-blur-sm border-b border-gray-700">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-4">
+      <div class="text-2xl font-bebas text-pizza-orange">Benjamin Pizza</div>
+      <div class="flex items-center gap-3">
+        <button
+          (click)="langService.toggle()"
+          class="text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 px-3 py-1.5 rounded-full text-sm font-semibold transition-colors"
+        >
+          {{ langService.lang() === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR' }}
+        </button>
+        <button class="bg-pizza-orange text-white px-6 py-2 rounded-full font-semibold hover:bg-pizza-red transition-colors">
+          {{ langService.t().nav.bookNow }}
+        </button>
+        <a routerLink="/login" class="text-white border border-white/40 hover:border-pizza-orange hover:text-pizza-orange px-6 py-2 rounded-full font-semibold transition-colors">
+          Espace pro
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div id="section-hero"><app-hero></app-hero></div>
+  <div id="section-menu"><app-menu></app-menu></div>
+  <div id="section-offers"><app-offers></app-offers></div>
+  <div id="section-how-it-works"><app-how-it-works></app-how-it-works></div>
+  <div id="section-gallery"><app-gallery></app-gallery></div>
+  <div id="section-testimonials"><app-testimonials></app-testimonials></div>
+  <div id="section-contact"><app-cta></app-cta></div>
+</main>
+
+<footer class="bg-charcoal py-8 pb-24 md:pb-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-gray-400">{{ langService.t().footer.copyright }}</p>
+  </div>
+</footer>
+
+<app-floating-toolbar></app-floating-toolbar>
