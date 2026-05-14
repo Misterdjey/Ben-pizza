@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-stone flex text-gray-900">
+<div class="h-screen bg-stone flex text-gray-900 overflow-hidden">
   <!-- Sidebar desktop -->
   <aside class="hidden md:flex flex-col w-60 bg-slate-dark flex-shrink-0">
     <div class="px-6 py-5 border-b border-white/10">
@@ -86,7 +86,7 @@
       </a>
     </header>
 
-    <main class="flex-1 p-5 md:p-8 overflow-auto">
+    <main class="flex-1 min-h-0 overflow-hidden p-5 md:p-8">
       <router-outlet />
     </main>
   </div>

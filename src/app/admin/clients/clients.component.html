@@ -1,5 +1,5 @@
-<div class="space-y-5">
-  <div class="flex items-center justify-between">
+<div class="flex flex-col h-full gap-5">
+  <div class="flex items-center justify-between flex-shrink-0">
     <h1 class="font-playfair font-semibold text-[24px] text-ink">Clients</h1>
     <button (click)="openCreate()" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-4 py-2 rounded-sm hover:bg-ink transition-colors">
       + Nouveau client
@@ -9,7 +9,7 @@
   @if (loading()) {
     <div class="font-dm text-gray-400">Chargement…</div>
   } @else {
-    <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
+    <div class="flex-1 min-h-0 overflow-auto bg-white rounded-sm shadow-sm border border-gray-100">
       <table class="w-full">
         <thead class="bg-gray-50 border-b border-gray-100">
           <tr>

@@ -10,6 +10,7 @@ type IngredientForm = Omit<Ingredient, 'id' | 'created_at'>;
 @Component({
   selector: 'app-ingredients',
   standalone: true,
+  host: { class: 'flex flex-col overflow-hidden' },
   imports: [FormsModule, CurrencyPipe],
   templateUrl: './ingredients.component.html',
 })

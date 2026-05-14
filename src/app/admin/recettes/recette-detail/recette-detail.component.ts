@@ -5,7 +5,7 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { RecettesService } from '../../services/recettes.service';
 import { DepensesService } from '../../services/depenses.service';
 import { Ingredient } from '../../models';
-import { RecetteIngredientView, RecetteType } from '../../models/recette.model';
+import { RecetteIngredientView, RecetteType, RecetteWithStats } from '../../models/recette.model';
 import { ToastService } from '../../shared/toast.service';
 import { HasUnsavedChanges } from '../../guards/unsaved-changes.guard';
 
@@ -31,7 +31,7 @@ export class RecetteDetailComponent implements OnInit, HasUnsavedChanges {
   readonly typeOptions: { value: RecetteType; label: string }[] = [
     { value: 'pizza', label: 'Pizza' },
     { value: 'pate', label: 'Pâte' },
-    { value: 'sauce', label: 'Sauce' },
+    { value: 'sauce_base', label: 'Sauce de base' },
     { value: 'autre', label: 'Autre' },
   ];
 
@@ -49,16 +49,61 @@ export class RecetteDetailComponent implements OnInit, HasUnsavedChanges {
   lines = signal<RecetteIngredientView[]>([]);
   private originalLines: RecetteIngredientView[] = [];
 
-  coutTotal = computed(() => this.lines().reduce((s, l) => s + l.cout, 0));
-  poidsTotal = computed(() => this.lines().reduce((s, l) => s + l.poids, 0));
+  // Pâte
+  pateRecettes = signal<RecetteWithStats[]>([]);
+  pateId = signal<string | null>(null);
+  patePoids = signal<number>(0);
+  pateRecette = signal<RecetteWithStats | null>(null);
+  private originalPateId: string | null = null;
+  private originalPatePoids: number = 0;
+
+  // Sauce de base
+  baseRecettes = signal<RecetteWithStats[]>([]);
+  baseId = signal<string | null>(null);
+  basePoids = signal<number>(0);
+  baseRecette = signal<RecetteWithStats | null>(null);
+  private originalBaseId: string | null = null;
+  private originalBasePoids: number = 0;
+
+  // Sous-total ingrédients
+  coutIngredients = computed(() => this.lines().reduce((s, l) => s + l.cout, 0));
+  poidsIngredients = computed(() => this.lines().reduce((s, l) => s + l.poids, 0));
+
+  // Prorata pâte
+  coutPate = computed(() => {
+    const pr = this.pateRecette();
+    const poids = this.patePoids();
+    if (!this.pateId() || !pr || !poids || !pr.poids_total) return 0;
+    return (poids / pr.poids_total) * pr.cout_total;
+  });
+  poidsPate = computed(() => (this.pateId() ? this.patePoids() : 0));
+
+  // Prorata sauce de base
+  coutBase = computed(() => {
+    const br = this.baseRecette();
+    const poids = this.basePoids();
+    if (!this.baseId() || !br || !poids || !br.poids_total) return 0;
+    return (poids / br.poids_total) * br.cout_total;
+  });
+  poidsBase = computed(() => (this.baseId() ? this.basePoids() : 0));
+
+  // Totaux globaux (ingrédients + pâte + base)
+  coutTotal = computed(() => this.coutIngredients() + this.coutPate() + this.coutBase());
+  poidsTotal = computed(() => this.poidsIngredients() + this.poidsPate() + this.poidsBase());
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.isNew.set(!id);
     this.recetteId.set(id);
 
-    const catalogue = await this.depensesService.getIngredients();
+    const [catalogue, pateRecettes, baseRecettes] = await Promise.all([
+      this.depensesService.getIngredients(),
+      this.service.getByType('pate'),
+      this.service.getByType('sauce_base'),
+    ]);
     this.catalogue.set(catalogue);
+    this.pateRecettes.set(pateRecettes);
+    this.baseRecettes.set(baseRecettes);
 
     if (id) {
       const recette = await this.service.getById(id);
@@ -66,6 +111,23 @@ export class RecetteDetailComponent implements OnInit, HasUnsavedChanges {
       const views = recette.recette_ingredients ?? [];
       this.lines.set([...views]);
       this.originalLines = [...views];
+
+      this.pateId.set(recette.pate_id ?? null);
+      this.patePoids.set(recette.pate_poids ?? 0);
+      this.originalPateId = recette.pate_id ?? null;
+      this.originalPatePoids = recette.pate_poids ?? 0;
+
+      this.baseId.set(recette.base_id ?? null);
+      this.basePoids.set(recette.base_poids ?? 0);
+      this.originalBaseId = recette.base_id ?? null;
+      this.originalBasePoids = recette.base_poids ?? 0;
+
+      const [pate, base] = await Promise.all([
+        recette.pate_id ? this.service.getById(recette.pate_id) : Promise.resolve(null),
+        recette.base_id ? this.service.getById(recette.base_id) : Promise.resolve(null),
+      ]);
+      if (pate) this.pateRecette.set(pate);
+      if (base) this.baseRecette.set(base);
     }
 
     this.originalForm = { ...this.form };
@@ -122,6 +184,38 @@ export class RecetteDetailComponent implements OnInit, HasUnsavedChanges {
     }));
   }
 
+  async onPateChange(id: string) {
+    const pateId = id || null;
+    this.pateId.set(pateId);
+    if (pateId) {
+      const pate = await this.service.getById(pateId);
+      this.pateRecette.set(pate);
+    } else {
+      this.pateRecette.set(null);
+      this.patePoids.set(0);
+    }
+  }
+
+  onPatePoidsChange(val: number) {
+    this.patePoids.set(val);
+  }
+
+  async onBaseChange(id: string) {
+    const baseId = id || null;
+    this.baseId.set(baseId);
+    if (baseId) {
+      const base = await this.service.getById(baseId);
+      this.baseRecette.set(base);
+    } else {
+      this.baseRecette.set(null);
+      this.basePoids.set(0);
+    }
+  }
+
+  onBasePoidsChange(val: number) {
+    this.basePoids.set(val);
+  }
+
   async save() {
     if (!this.form.nom.trim()) {
       this.errorMsg.set('Le nom est obligatoire.');
@@ -130,10 +224,15 @@ export class RecetteDetailComponent implements OnInit, HasUnsavedChanges {
     this.saving.set(true);
     this.errorMsg.set(null);
     try {
+      const isPizza = this.form.type === 'pizza';
       const payload = {
         nom: this.form.nom.trim(),
         type: this.form.type,
         notes: this.form.notes.trim() || null,
+        pate_id: isPizza ? this.pateId() : null,
+        pate_poids: isPizza && this.pateId() ? (this.patePoids() || null) : null,
+        base_id: isPizza ? this.baseId() : null,
+        base_poids: isPizza && this.baseId() ? (this.basePoids() || null) : null,
       };
       let id = this.recetteId();
       if (this.isNew()) {
@@ -155,11 +254,15 @@ export class RecetteDetailComponent implements OnInit, HasUnsavedChanges {
 
   hasUnsavedChanges(): boolean {
     if (this.saved || this.loading()) return false;
-    const formChanged =
+    if (
       this.form.nom !== this.originalForm.nom ||
       this.form.type !== this.originalForm.type ||
-      this.form.notes !== this.originalForm.notes;
-    if (formChanged) return true;
+      this.form.notes !== this.originalForm.notes
+    ) return true;
+    if (this.pateId() !== this.originalPateId) return true;
+    if (this.patePoids() !== this.originalPatePoids) return true;
+    if (this.baseId() !== this.originalBaseId) return true;
+    if (this.basePoids() !== this.originalBasePoids) return true;
     const current = this.lines();
     if (current.length !== this.originalLines.length) return true;
     return current.some((l, i) => {

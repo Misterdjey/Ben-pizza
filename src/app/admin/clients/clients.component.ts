@@ -11,6 +11,7 @@ type ClientForm = Omit<Client, 'id' | 'created_at'>;
 @Component({
   selector: 'app-clients',
   standalone: true,
+  host: { class: 'flex flex-col overflow-hidden' },
   imports: [FormsModule, CurrencyPipe],
   templateUrl: './clients.component.html',
 })

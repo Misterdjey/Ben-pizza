@@ -139,3 +139,7 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-14 | Feature | Admin Ingredients : colonne poids_unitaire (g), migration BDD + modele + UI       |
 | 2026-05-14 | Feature | Admin Recettes : liste + detail, tables Supabase, calculs couts/poids signals     |
 | 2026-05-14 | Feature | Guard CanDeactivate recette-detail : modale confirm si modifs non enregistrées    |
+| 2026-05-14 | Feature | Recettes : sauce_base (renomme sauce), base_id/base_poids, Bloc 4 + Bloc 5 totaux |
+| 2026-05-14 | Fix     | Fix build : imports inutilises (6 composants), allowedCommonJsDependencies        |
+| 2026-05-14 | Fix     | Recettes : blocs Pate/Sauce fond bg-cream visible (vs stone page)                 |
+| 2026-05-14 | Feature | Admin layout : h-screen, scroll isole sur listes, sidebar fixe recette-detail     |

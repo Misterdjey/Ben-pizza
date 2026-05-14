@@ -1,6 +1,5 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
 import { CommandesService } from '../services/commandes.service';
 import { DepensesService } from '../services/depenses.service';
 import { Commande, Depense } from '../models';
@@ -16,7 +15,7 @@ interface Stats {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CurrencyPipe, DecimalPipe, RouterLink],
+  imports: [CurrencyPipe],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {

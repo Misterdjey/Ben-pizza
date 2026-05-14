@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { CommandesService } from '../services/commandes.service';
 import { ClientsService } from '../services/clients.service';
 import { OffresService } from '../services/offres.service';
@@ -23,7 +23,8 @@ type CommandeForm = {
 @Component({
   selector: 'app-commandes',
   standalone: true,
-  imports: [FormsModule, RouterLink, CurrencyPipe, DatePipe],
+  host: { class: 'flex flex-col overflow-hidden' },
+  imports: [FormsModule, RouterLink, CurrencyPipe],
   templateUrl: './commandes.component.html',
 })
 export class CommandesComponent implements OnInit {

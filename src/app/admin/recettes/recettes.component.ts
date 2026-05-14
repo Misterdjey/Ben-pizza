@@ -8,13 +8,14 @@ import { ToastService } from '../shared/toast.service';
 const TYPE_LABELS: Record<RecetteType, string> = {
   pizza: 'Pizza',
   pate: 'Pâte',
-  sauce: 'Sauce',
+  sauce_base: 'Sauce de base',
   autre: 'Autre',
 };
 
 @Component({
   selector: 'app-recettes',
   standalone: true,
+  host: { class: 'flex flex-col overflow-hidden' },
   imports: [RouterLink, CurrencyPipe, DecimalPipe],
   templateUrl: './recettes.component.html',
 })

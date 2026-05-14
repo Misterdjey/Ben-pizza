@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from './supabase.service';
-import { Recette, RecetteIngredientView, RecetteWithStats } from '../models/recette.model';
+import { Recette, RecetteIngredientView, RecetteType, RecetteWithStats } from '../models/recette.model';
 
 @Injectable({ providedIn: 'root' })
 export class RecettesService {
@@ -12,7 +12,17 @@ export class RecettesService {
       .select('*, recette_ingredients(*, ingredient:ingredients_catalogue(*))')
       .order('nom');
     if (error) throw error;
-    return (data as any[]).map(r => this.toStats(r));
+
+    // Premier passage : stats de base
+    const list = (data as any[]).map(r => this.toStats(r));
+    const statsMap = new Map(list.map(r => [r.id!, r]));
+
+    // Deuxième passage : grand totals pour les pizzas (pâte + base dans le même lot)
+    for (const recette of list) {
+      this.computeGrandTotals(recette, statsMap);
+    }
+
+    return list;
   }
 
   async getById(id: string): Promise<RecetteWithStats> {
@@ -25,7 +35,17 @@ export class RecettesService {
     return this.toStats(data as any);
   }
 
-  async create(payload: Pick<Recette, 'nom' | 'type' | 'notes'>): Promise<Recette> {
+  async getByType(type: RecetteType): Promise<RecetteWithStats[]> {
+    const { data, error } = await this.db
+      .from('recettes')
+      .select('*, recette_ingredients(*, ingredient:ingredients_catalogue(*))')
+      .eq('type', type)
+      .order('nom');
+    if (error) throw error;
+    return (data as any[]).map(r => this.toStats(r));
+  }
+
+  async create(payload: Pick<Recette, 'nom' | 'type' | 'notes' | 'pate_id' | 'pate_poids' | 'base_id' | 'base_poids'>): Promise<Recette> {
     const { data, error } = await this.db
       .from('recettes')
       .insert(payload)
@@ -35,7 +55,7 @@ export class RecettesService {
     return data as Recette;
   }
 
-  async update(id: string, payload: Partial<Pick<Recette, 'nom' | 'type' | 'notes'>>): Promise<Recette> {
+  async update(id: string, payload: Partial<Pick<Recette, 'nom' | 'type' | 'notes' | 'pate_id' | 'pate_poids' | 'base_id' | 'base_poids'>>): Promise<Recette> {
     const { data, error } = await this.db
       .from('recettes')
       .update({ ...payload, updated_at: new Date().toISOString() })
@@ -76,7 +96,7 @@ export class RecettesService {
       if (error) throw error;
     }
 
-    // Mettre à jour les lignes modifiées (ingredient ou quantite changés)
+    // Mettre à jour les lignes modifiées
     for (const curr of current) {
       if (!curr.id) continue;
       const orig = originalById.get(curr.id);
@@ -108,17 +128,53 @@ export class RecettesService {
         poids,
       };
     });
+    const cout_total = views.reduce((s, v) => s + v.cout, 0);
+    const poids_total = views.reduce((s, v) => s + v.poids, 0);
     return {
       id: r.id,
       nom: r.nom,
       type: r.type,
       notes: r.notes,
+      pate_id: r.pate_id ?? null,
+      pate_poids: r.pate_poids != null ? Number(r.pate_poids) : null,
+      base_id: r.base_id ?? null,
+      base_poids: r.base_poids != null ? Number(r.base_poids) : null,
       created_at: r.created_at,
       updated_at: r.updated_at,
       recette_ingredients: views,
-      cout_total: views.reduce((s, v) => s + v.cout, 0),
-      poids_total: views.reduce((s, v) => s + v.poids, 0),
+      cout_total,
+      poids_total,
       nb_ingredients: views.length,
+      cout_grand_total: cout_total,
+      poids_grand_total: poids_total,
     };
+  }
+
+  private computeGrandTotals(recette: RecetteWithStats, map: Map<string, RecetteWithStats>) {
+    let coutExtra = 0;
+    let poidsExtra = 0;
+
+    if (recette.pate_id && recette.pate_poids) {
+      const pate = map.get(recette.pate_id);
+      if (pate && pate.poids_total > 0) {
+        recette.cout_pate = (recette.pate_poids / pate.poids_total) * pate.cout_total;
+        recette.poids_pate = recette.pate_poids;
+        coutExtra += recette.cout_pate;
+        poidsExtra += recette.poids_pate;
+      }
+    }
+
+    if (recette.base_id && recette.base_poids) {
+      const base = map.get(recette.base_id);
+      if (base && base.poids_total > 0) {
+        recette.cout_base = (recette.base_poids / base.poids_total) * base.cout_total;
+        recette.poids_base = recette.base_poids;
+        coutExtra += recette.cout_base;
+        poidsExtra += recette.poids_base;
+      }
+    }
+
+    recette.cout_grand_total = recette.cout_total + coutExtra;
+    recette.poids_grand_total = recette.poids_total + poidsExtra;
   }
 }
