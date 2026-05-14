@@ -132,4 +132,6 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-14 | Refonte | Suppression double thème CSS (Artisan/Classic) et FloatingToolbar switcher thème  |
 | 2026-05-14 | Refonte | Refonte templates vitrine sur mockup by_ben_v2 : hero, concept, offres, avis, CTA |
 | 2026-05-14 | Refonte | Suppression section Menu (pizzas) de la vitrine — admin inchangé                  |
-| 2026-05-14 | Feature | Gallery : carrousel auto 3.5s + pause hover + navigation + lightbox + Escape key  |
+| 2026-05-14 | Feature | Gallery : grille 5 photos/page, pagination fleches+dots, hover overlay, lightbox  |
+| 2026-05-14 | Feature | Gallery : animations slide CSS (220ms grille, 180ms lightbox) entre pages/photos  |
+| 2026-05-14 | Refonte | Admin : redesign complet — palette slate-dark/cream/stone, Playfair/DM Sans       |

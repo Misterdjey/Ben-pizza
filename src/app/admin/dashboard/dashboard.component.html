@@ -1,62 +1,71 @@
 <div class="space-y-6">
-  <h1 class="text-2xl font-bebas text-charcoal">Dashboard</h1>
+  <h1 class="font-playfair font-semibold text-[24px] text-ink">Dashboard</h1>
 
   @if (loading()) {
-    <div class="text-gray-500">Chargement...</div>
+    <div class="font-dm text-gray-400">Chargement…</div>
   } @else if (stats(); as s) {
     <!-- KPI cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-        <div class="text-xs text-gray-500 mb-1">CA total</div>
-        <div class="text-2xl font-bold text-charcoal">{{ s.caTotal | currency:'EUR':'symbol':'1.0-0' }}</div>
-        <div class="text-xs text-gray-400 mt-1">prestations terminées</div>
+      <div class="bg-white rounded-sm p-5 shadow-sm border border-gray-100">
+        <div class="font-dm text-[11px] tracking-wide uppercase text-gray-400 mb-1.5">CA total</div>
+        <div class="font-playfair font-semibold text-[26px] text-ink leading-none">{{ s.caTotal | currency:'EUR':'symbol':'1.0-0' }}</div>
+        <div class="font-dm text-[11px] text-gray-400 mt-2">prestations terminées</div>
       </div>
-      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-        <div class="text-xs text-gray-500 mb-1">CA ce mois</div>
-        <div class="text-2xl font-bold text-charcoal">{{ s.caMois | currency:'EUR':'symbol':'1.0-0' }}</div>
+      <div class="bg-white rounded-sm p-5 shadow-sm border border-gray-100">
+        <div class="font-dm text-[11px] tracking-wide uppercase text-gray-400 mb-1.5">CA ce mois</div>
+        <div class="font-playfair font-semibold text-[26px] text-ink leading-none">{{ s.caMois | currency:'EUR':'symbol':'1.0-0' }}</div>
       </div>
-      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-        <div class="text-xs text-gray-500 mb-1">Marge globale</div>
-        <div class="text-2xl font-bold" [class.text-green-600]="s.margeGlobale >= 0" [class.text-red-500]="s.margeGlobale < 0">
+      <div class="bg-white rounded-sm p-5 shadow-sm border border-gray-100">
+        <div class="font-dm text-[11px] tracking-wide uppercase text-gray-400 mb-1.5">Marge globale</div>
+        <div class="font-playfair font-semibold text-[26px] leading-none" [class.text-green-600]="s.margeGlobale >= 0" [class.text-red-500]="s.margeGlobale < 0">
           {{ s.margeGlobale | currency:'EUR':'symbol':'1.0-0' }}
         </div>
-        <div class="text-xs text-gray-400 mt-1">CA − dépenses</div>
+        <div class="font-dm text-[11px] text-gray-400 mt-2">CA − dépenses</div>
       </div>
-      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-        <div class="text-xs text-gray-500 mb-2">Statuts</div>
-        <div class="space-y-1 text-sm">
-          <div class="flex justify-between"><span class="text-yellow-600">En cours</span><span class="font-semibold">{{ s.parStatut['en_cours'] }}</span></div>
-          <div class="flex justify-between"><span class="text-blue-600">Confirmée</span><span class="font-semibold">{{ s.parStatut['confirmee'] }}</span></div>
-          <div class="flex justify-between"><span class="text-green-600">Terminée</span><span class="font-semibold">{{ s.parStatut['terminee'] }}</span></div>
+      <div class="bg-white rounded-sm p-5 shadow-sm border border-gray-100">
+        <div class="font-dm text-[11px] tracking-wide uppercase text-gray-400 mb-2">Statuts</div>
+        <div class="space-y-1.5">
+          <div class="flex justify-between items-center">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-dm bg-yellow-100 text-yellow-700">En cours</span>
+            <span class="font-dm font-semibold text-[13px] text-ink">{{ s.parStatut['en_cours'] }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-dm bg-blue-100 text-blue-700">Confirmée</span>
+            <span class="font-dm font-semibold text-[13px] text-ink">{{ s.parStatut['confirmee'] }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-dm bg-green-100 text-green-700">Terminée</span>
+            <span class="font-dm font-semibold text-[13px] text-ink">{{ s.parStatut['terminee'] }}</span>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Marge par commande -->
     @if (s.commandesAvecMarge.length > 0) {
-      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
         <div class="px-5 py-4 border-b border-gray-100">
-          <h2 class="font-semibold text-charcoal">Marge par prestation</h2>
+          <h2 class="font-dm font-semibold text-[14px] text-ink">Marge par prestation</h2>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+            <thead class="bg-gray-50 border-b border-gray-100">
               <tr>
-                <th class="px-4 py-3 text-left">Date</th>
-                <th class="px-4 py-3 text-left">Client</th>
-                <th class="px-4 py-3 text-right">CA</th>
-                <th class="px-4 py-3 text-right">Dépenses</th>
-                <th class="px-4 py-3 text-right">Marge</th>
+                <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Date</th>
+                <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Client</th>
+                <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">CA</th>
+                <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Dépenses</th>
+                <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Marge</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-50">
               @for (row of s.commandesAvecMarge; track row.commande.id) {
-                <tr class="hover:bg-gray-50">
-                  <td class="px-4 py-3 text-gray-600">{{ row.commande.date_presta }}</td>
-                  <td class="px-4 py-3 font-medium">{{ row.commande.client?.nom }}</td>
-                  <td class="px-4 py-3 text-right">{{ row.commande.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
-                  <td class="px-4 py-3 text-right text-red-500">{{ row.depensesTotal | currency:'EUR':'symbol':'1.0-0' }}</td>
-                  <td class="px-4 py-3 text-right font-semibold" [class.text-green-600]="row.marge >= 0" [class.text-red-500]="row.marge < 0">
+                <tr class="hover:bg-stone/40 transition-colors">
+                  <td class="px-5 py-3 font-dm text-[13px] text-gray-500">{{ row.commande.date_presta }}</td>
+                  <td class="px-5 py-3 font-dm text-[13px] font-medium text-ink">{{ row.commande.client?.nom }}</td>
+                  <td class="px-5 py-3 text-right font-dm text-[13px] text-ink">{{ row.commande.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
+                  <td class="px-5 py-3 text-right font-dm text-[13px] text-red-500">{{ row.depensesTotal | currency:'EUR':'symbol':'1.0-0' }}</td>
+                  <td class="px-5 py-3 text-right font-dm text-[13px] font-semibold" [class.text-green-600]="row.marge >= 0" [class.text-red-500]="row.marge < 0">
                     {{ row.marge | currency:'EUR':'symbol':'1.0-0' }}
                   </td>
                 </tr>

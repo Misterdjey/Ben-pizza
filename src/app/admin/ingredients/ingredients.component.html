@@ -1,39 +1,39 @@
-<div class="space-y-4">
+<div class="space-y-5">
   <div class="flex items-center justify-between">
-    <h1 class="text-2xl font-bebas text-charcoal">Catalogue ingrédients</h1>
-    <button (click)="openCreate()" class="bg-pizza-orange text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors">
+    <h1 class="font-playfair font-semibold text-[24px] text-ink">Catalogue ingrédients</h1>
+    <button (click)="openCreate()" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-4 py-2 rounded-sm hover:bg-ink transition-colors">
       + Nouvel ingrédient
     </button>
   </div>
 
   @if (loading()) {
-    <div class="text-gray-500">Chargement...</div>
+    <div class="font-dm text-gray-400">Chargement…</div>
   } @else {
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <table class="w-full text-sm">
-        <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+    <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-gray-50 border-b border-gray-100">
           <tr>
-            <th class="px-4 py-3 text-left">Nom</th>
-            <th class="px-4 py-3 text-right">Prix de référence</th>
-            <th class="px-4 py-3 text-left">Unité</th>
-            <th class="px-4 py-3 text-right">Actions</th>
+            <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Nom</th>
+            <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Prix de référence</th>
+            <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Unité</th>
+            <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
           @for (ing of ingredients(); track ing.id) {
-            <tr class="hover:bg-gray-50">
-              <td class="px-4 py-3 font-medium">{{ ing.nom }}</td>
-              <td class="px-4 py-3 text-right">{{ ing.prix_reference | currency:'EUR':'symbol':'1.2-2' }}</td>
-              <td class="px-4 py-3 text-gray-500">{{ ing.unite }}</td>
-              <td class="px-4 py-3">
+            <tr class="hover:bg-stone/40 transition-colors">
+              <td class="px-5 py-3 font-dm text-[13px] font-medium text-ink">{{ ing.nom }}</td>
+              <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-600">{{ ing.prix_reference | currency:'EUR':'symbol':'1.2-2' }}</td>
+              <td class="px-5 py-3 font-dm text-[13px] text-gray-400">{{ ing.unite }}</td>
+              <td class="px-5 py-3">
                 <div class="flex justify-end gap-3">
-                  <button (click)="openEdit(ing)" class="text-xs text-gray-500 hover:text-charcoal">Éditer</button>
-                  <button (click)="deleteIngredient(ing)" class="text-xs text-red-400 hover:text-red-600">Suppr.</button>
+                  <button (click)="openEdit(ing)" class="font-dm text-[12px] text-gray-400 hover:text-ink transition-colors">Éditer</button>
+                  <button (click)="deleteIngredient(ing)" class="font-dm text-[12px] text-red-400 hover:text-red-600 transition-colors">Suppr.</button>
                 </div>
               </td>
             </tr>
           } @empty {
-            <tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">Aucun ingrédient</td></tr>
+            <tr><td colspan="4" class="px-5 py-10 text-center font-dm text-[13px] text-gray-400">Aucun ingrédient</td></tr>
           }
         </tbody>
       </table>
@@ -43,36 +43,36 @@
 
 @if (showModal()) {
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" (click)="closeModal()">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6" (click)="$event.stopPropagation()">
-      <h2 class="text-xl font-bebas text-charcoal mb-5">
-        {{ editingId() ? 'Modifier l\'ingrédient' : 'Nouvel ingrédient' }}
+    <div class="bg-white rounded-sm shadow-2xl w-full max-w-sm p-7" (click)="$event.stopPropagation()">
+      <h2 class="font-playfair font-semibold text-[20px] text-ink mb-6">
+        {{ editingId() ? "Modifier l'ingrédient" : 'Nouvel ingrédient' }}
       </h2>
 
       @if (errorMsg()) {
-        <div class="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-4">{{ errorMsg() }}</div>
+        <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[13px] rounded-sm px-4 py-3 mb-4">{{ errorMsg() }}</div>
       }
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Nom</label>
-          <input type="text" [(ngModel)]="form.nom" placeholder="ex: Farine" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange"/>
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Nom</label>
+          <input type="text" [(ngModel)]="form.nom" placeholder="ex: Farine" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs text-gray-500 mb-1">Unité</label>
-            <input type="text" [(ngModel)]="form.unite" placeholder="kg, L, boîte…" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange"/>
+            <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Unité</label>
+            <input type="text" [(ngModel)]="form.unite" placeholder="kg, L, boîte…" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
           </div>
           <div>
-            <label class="block text-xs text-gray-500 mb-1">Prix / unité (€)</label>
-            <input type="number" [(ngModel)]="form.prix_reference" min="0" step="0.01" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange"/>
+            <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Prix / unité (€)</label>
+            <input type="number" [(ngModel)]="form.prix_reference" min="0" step="0.01" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
           </div>
         </div>
       </div>
 
-      <div class="flex justify-end gap-3 mt-6">
-        <button (click)="closeModal()" class="px-4 py-2 text-sm text-gray-600 hover:text-charcoal">Annuler</button>
-        <button (click)="save()" [disabled]="saving()" class="bg-pizza-orange text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors disabled:opacity-50">
-          {{ saving() ? 'Enregistrement...' : 'Enregistrer' }}
+      <div class="flex justify-end gap-3 mt-7">
+        <button (click)="closeModal()" class="px-4 py-2 font-dm text-[13px] text-gray-500 hover:text-ink transition-colors">Annuler</button>
+        <button (click)="save()" [disabled]="saving()" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
+          {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}
         </button>
       </div>
     </div>

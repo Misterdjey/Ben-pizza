@@ -1,35 +1,35 @@
-<div class="space-y-4">
+<div class="space-y-5">
   <div class="flex items-center justify-between">
-    <h1 class="text-2xl font-bebas text-charcoal">Offres & barèmes</h1>
-    <button (click)="openCreate()" class="bg-pizza-orange text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors">
+    <h1 class="font-playfair font-semibold text-[24px] text-ink">Offres & barèmes</h1>
+    <button (click)="openCreate()" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-4 py-2 rounded-sm hover:bg-ink transition-colors">
       + Nouvelle offre
     </button>
   </div>
 
   @if (loading()) {
-    <div class="text-gray-500">Chargement...</div>
+    <div class="font-dm text-gray-400">Chargement…</div>
   } @else {
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       @for (o of offres(); track o.id) {
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+        <div class="bg-white rounded-sm shadow-sm border border-gray-100 p-5">
           <div class="flex justify-between items-start mb-4">
-            <h2 class="text-lg font-bebas text-charcoal">{{ o.nom }}</h2>
-            <div class="flex gap-2">
-              <button (click)="openEdit(o)" class="text-xs text-gray-500 hover:text-charcoal">Éditer</button>
-              <button (click)="deleteOffre(o)" class="text-xs text-red-400 hover:text-red-600">Suppr.</button>
+            <h2 class="font-playfair font-semibold text-[18px] text-ink">{{ o.nom }}</h2>
+            <div class="flex gap-3">
+              <button (click)="openEdit(o)" class="font-dm text-[12px] text-gray-400 hover:text-ink transition-colors">Éditer</button>
+              <button (click)="deleteOffre(o)" class="font-dm text-[12px] text-red-400 hover:text-red-600 transition-colors">Suppr.</button>
             </div>
           </div>
           <div class="space-y-2">
             @for (t of o.tranches; track $index) {
-              <div class="flex justify-between text-sm">
-                <span class="text-gray-600">{{ trancheLabel(t) }}</span>
-                <span class="font-semibold text-pizza-orange">{{ t.prix }}€/pers.</span>
+              <div class="flex justify-between items-center font-dm text-[13px]">
+                <span class="text-gray-500">{{ trancheLabel(t) }}</span>
+                <span class="font-semibold text-slate">{{ t.prix }}€/pers.</span>
               </div>
             }
           </div>
         </div>
       } @empty {
-        <div class="col-span-3 text-center text-gray-400 py-8">Aucune offre</div>
+        <div class="col-span-3 text-center font-dm text-[13px] text-gray-400 py-10">Aucune offre</div>
       }
     </div>
   }
@@ -37,37 +37,37 @@
 
 @if (showModal()) {
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" (click)="closeModal()">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6" (click)="$event.stopPropagation()">
-      <h2 class="text-xl font-bebas text-charcoal mb-5">
-        {{ editingId() ? 'Modifier l\'offre' : 'Nouvelle offre' }}
+    <div class="bg-white rounded-sm shadow-2xl w-full max-w-md p-7" (click)="$event.stopPropagation()">
+      <h2 class="font-playfair font-semibold text-[20px] text-ink mb-6">
+        {{ editingId() ? "Modifier l'offre" : 'Nouvelle offre' }}
       </h2>
 
       @if (errorMsg()) {
-        <div class="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-4">{{ errorMsg() }}</div>
+        <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[13px] rounded-sm px-4 py-3 mb-4">{{ errorMsg() }}</div>
       }
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Nom de l'offre</label>
-          <input type="text" [(ngModel)]="form.nom" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange"/>
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Nom de l'offre</label>
+          <input type="text" [(ngModel)]="form.nom" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
         </div>
 
         <div>
           <div class="flex justify-between items-center mb-2">
-            <label class="text-xs text-gray-500">Tranches tarifaires</label>
-            <button (click)="addTranche()" class="text-xs text-pizza-orange hover:underline">+ Ajouter</button>
+            <label class="font-dm text-[11px] tracking-wide uppercase text-stone-deep">Tranches tarifaires</label>
+            <button (click)="addTranche()" class="font-dm text-[12px] text-slate hover:text-slate-dark transition-colors">+ Ajouter</button>
           </div>
           <div class="space-y-2">
             @for (t of form.tranches; track $index; let i = $index) {
               <div class="flex items-center gap-2">
-                <input type="number" [(ngModel)]="t.min" placeholder="Min" class="w-16 border border-gray-200 rounded px-2 py-1 text-xs"/>
-                <span class="text-gray-400 text-xs">–</span>
-                <input type="number" [(ngModel)]="t.max" placeholder="Max (vide=∞)" class="w-20 border border-gray-200 rounded px-2 py-1 text-xs"/>
-                <span class="text-gray-400 text-xs">pers.</span>
-                <input type="number" [(ngModel)]="t.prix" placeholder="€/pers" class="w-20 border border-gray-200 rounded px-2 py-1 text-xs"/>
-                <span class="text-gray-400 text-xs">€</span>
+                <input type="number" [(ngModel)]="t.min" placeholder="Min" class="w-16 border border-gray-200 rounded-sm px-2 py-1.5 font-dm text-[12px] text-ink focus:outline-none focus:border-slate"/>
+                <span class="text-gray-300 text-sm">–</span>
+                <input type="number" [(ngModel)]="t.max" placeholder="Max" class="w-20 border border-gray-200 rounded-sm px-2 py-1.5 font-dm text-[12px] text-ink focus:outline-none focus:border-slate"/>
+                <span class="font-dm text-[12px] text-gray-400">pers.</span>
+                <input type="number" [(ngModel)]="t.prix" placeholder="€/pers" class="w-20 border border-gray-200 rounded-sm px-2 py-1.5 font-dm text-[12px] text-ink focus:outline-none focus:border-slate"/>
+                <span class="font-dm text-[12px] text-gray-400">€</span>
                 @if (form.tranches.length > 1) {
-                  <button (click)="removeTranche(i)" class="text-red-400 hover:text-red-600 text-xs">✕</button>
+                  <button (click)="removeTranche(i)" class="text-red-400 hover:text-red-600 transition-colors text-sm leading-none">✕</button>
                 }
               </div>
             }
@@ -75,10 +75,10 @@
         </div>
       </div>
 
-      <div class="flex justify-end gap-3 mt-6">
-        <button (click)="closeModal()" class="px-4 py-2 text-sm text-gray-600 hover:text-charcoal">Annuler</button>
-        <button (click)="save()" [disabled]="saving()" class="bg-pizza-orange text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors disabled:opacity-50">
-          {{ saving() ? 'Enregistrement...' : 'Enregistrer' }}
+      <div class="flex justify-end gap-3 mt-7">
+        <button (click)="closeModal()" class="px-4 py-2 font-dm text-[13px] text-gray-500 hover:text-ink transition-colors">Annuler</button>
+        <button (click)="save()" [disabled]="saving()" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
+          {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}
         </button>
       </div>
     </div>

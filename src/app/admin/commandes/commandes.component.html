@@ -1,55 +1,55 @@
-<div class="space-y-4">
+<div class="space-y-5">
   <div class="flex items-center justify-between">
-    <h1 class="text-2xl font-bebas text-charcoal">Commandes</h1>
-    <button (click)="openCreate()" class="bg-pizza-orange text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors">
+    <h1 class="font-playfair font-semibold text-[24px] text-ink">Commandes</h1>
+    <button (click)="openCreate()" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-4 py-2 rounded-sm hover:bg-ink transition-colors">
       + Nouvelle commande
     </button>
   </div>
 
   @if (loading()) {
-    <div class="text-gray-500">Chargement...</div>
+    <div class="font-dm text-gray-400">Chargement…</div>
   } @else {
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
       <div class="overflow-x-auto">
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b border-gray-100">
             <tr>
-              <th class="px-4 py-3 text-left">Date</th>
-              <th class="px-4 py-3 text-left">Client</th>
-              <th class="px-4 py-3 text-left">Pers.</th>
-              <th class="px-4 py-3 text-left">Offre</th>
-              <th class="px-4 py-3 text-right">Prix</th>
-              <th class="px-4 py-3 text-left">Statut</th>
-              <th class="px-4 py-3 text-right">Actions</th>
+              <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Date</th>
+              <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Client</th>
+              <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Pers.</th>
+              <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Offre</th>
+              <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Prix</th>
+              <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Statut</th>
+              <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
             @for (c of commandes(); track c.id) {
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 text-gray-600">{{ c.date_presta }}</td>
-                <td class="px-4 py-3 font-medium">{{ c.client?.nom }}</td>
-                <td class="px-4 py-3">{{ c.nb_personnes }}</td>
-                <td class="px-4 py-3 text-gray-600">{{ c.offre?.nom }}</td>
-                <td class="px-4 py-3 text-right font-semibold">{{ c.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
-                <td class="px-4 py-3">
-                  <span class="px-2 py-1 rounded-full text-xs font-medium" [class]="statutClass(c.statut)">
+              <tr class="hover:bg-stone/40 transition-colors">
+                <td class="px-5 py-3 font-dm text-[13px] text-gray-500">{{ c.date_presta }}</td>
+                <td class="px-5 py-3 font-dm text-[13px] font-medium text-ink">{{ c.client?.nom }}</td>
+                <td class="px-5 py-3 font-dm text-[13px] text-gray-600">{{ c.nb_personnes }}</td>
+                <td class="px-5 py-3 font-dm text-[13px] text-gray-500">{{ c.offre?.nom }}</td>
+                <td class="px-5 py-3 text-right font-dm text-[13px] font-semibold text-ink">{{ c.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
+                <td class="px-5 py-3">
+                  <span class="px-2 py-0.5 rounded-full font-dm text-[11px] font-medium" [class]="statutClass(c.statut)">
                     {{ statutLabel(c.statut) }}
                   </span>
                 </td>
-                <td class="px-4 py-3">
-                  <div class="flex justify-end gap-2">
+                <td class="px-5 py-3">
+                  <div class="flex justify-end gap-3">
                     <a [routerLink]="['/admin/commandes', c.id, 'depenses']"
-                       class="text-xs text-blue-600 hover:underline">Dépenses</a>
-                    <button (click)="openEdit(c)" class="text-xs text-gray-500 hover:text-charcoal">Éditer</button>
+                       class="font-dm text-[12px] text-slate hover:text-slate-dark transition-colors">Dépenses</a>
+                    <button (click)="openEdit(c)" class="font-dm text-[12px] text-gray-400 hover:text-ink transition-colors">Éditer</button>
                     @if (c.statut === 'terminee') {
-                      <button (click)="downloadPdf(c)" class="text-xs text-pizza-orange hover:underline">PDF</button>
+                      <button (click)="downloadPdf(c)" class="font-dm text-[12px] text-slate hover:text-slate-dark transition-colors">PDF</button>
                     }
-                    <button (click)="deleteCommande(c)" class="text-xs text-red-400 hover:text-red-600">Suppr.</button>
+                    <button (click)="deleteCommande(c)" class="font-dm text-[12px] text-red-400 hover:text-red-600 transition-colors">Suppr.</button>
                   </div>
                 </td>
               </tr>
             } @empty {
-              <tr><td colspan="7" class="px-4 py-8 text-center text-gray-400">Aucune commande</td></tr>
+              <tr><td colspan="7" class="px-5 py-10 text-center font-dm text-[13px] text-gray-400">Aucune commande</td></tr>
             }
           </tbody>
         </table>
@@ -61,19 +61,19 @@
 <!-- Modal création / édition -->
 @if (showModal()) {
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" (click)="closeModal()">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6" (click)="$event.stopPropagation()">
-      <h2 class="text-xl font-bebas text-charcoal mb-5">
+    <div class="bg-white rounded-sm shadow-2xl w-full max-w-lg p-7" (click)="$event.stopPropagation()">
+      <h2 class="font-playfair font-semibold text-[20px] text-ink mb-6">
         {{ editingId() ? 'Modifier la commande' : 'Nouvelle commande' }}
       </h2>
 
       @if (errorMsg()) {
-        <div class="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-4">{{ errorMsg() }}</div>
+        <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[13px] rounded-sm px-4 py-3 mb-4">{{ errorMsg() }}</div>
       }
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Client</label>
-          <select [(ngModel)]="form.client_id" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:border-pizza-orange">
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Client</label>
+          <select [(ngModel)]="form.client_id" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
             <option value="">— Sélectionner —</option>
             @for (cl of clients(); track cl.id) {
               <option [value]="cl.id">{{ cl.prenom ? cl.prenom + ' ' + cl.nom : cl.nom }}</option>
@@ -83,18 +83,18 @@
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs text-gray-500 mb-1">Date de prestation</label>
-            <input type="date" [(ngModel)]="form.date_presta" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:border-pizza-orange"/>
+            <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Date de prestation</label>
+            <input type="date" [(ngModel)]="form.date_presta" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
           </div>
           <div>
-            <label class="block text-xs text-gray-500 mb-1">Nb personnes</label>
-            <input type="number" [(ngModel)]="form.nb_personnes" min="1" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:border-pizza-orange"/>
+            <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Nb personnes</label>
+            <input type="number" [(ngModel)]="form.nb_personnes" min="1" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Offre</label>
-          <select [(ngModel)]="form.offre_id" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:border-pizza-orange">
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Offre</label>
+          <select [(ngModel)]="form.offre_id" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
             <option value="">— Sélectionner —</option>
             @for (o of offres(); track o.id) {
               <option [value]="o.id">{{ o.nom }}</option>
@@ -103,25 +103,25 @@
         </div>
 
         @if (prixCalcule > 0) {
-          <div class="bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 text-sm">
-            Prix calculé : <strong class="text-pizza-orange">{{ prixCalcule | currency:'EUR' }}</strong>
+          <div class="bg-stone border border-stone-mid rounded-sm px-4 py-2.5 font-dm text-[13px]">
+            Prix calculé : <strong class="text-slate font-semibold">{{ prixCalcule | currency:'EUR' }}</strong>
           </div>
         }
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs text-gray-500 mb-1">Pizzas prévues</label>
-            <input type="number" [(ngModel)]="form.pizzas_prevues" min="0" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:border-pizza-orange"/>
+            <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Pizzas prévues</label>
+            <input type="number" [(ngModel)]="form.pizzas_prevues" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
           </div>
           <div>
-            <label class="block text-xs text-gray-500 mb-1">Pizzas réalisées</label>
-            <input type="number" [(ngModel)]="form.pizzas_realisees" min="0" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:border-pizza-orange"/>
+            <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Pizzas réalisées</label>
+            <input type="number" [(ngModel)]="form.pizzas_realisees" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Statut</label>
-          <select [(ngModel)]="form.statut" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:border-pizza-orange">
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Statut</label>
+          <select [(ngModel)]="form.statut" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
             <option value="en_cours">En cours</option>
             <option value="confirmee">Confirmée</option>
             <option value="terminee">Terminée</option>
@@ -129,15 +129,15 @@
         </div>
 
         <div>
-          <label class="block text-xs text-gray-500 mb-1">Notes</label>
-          <textarea [(ngModel)]="form.notes" rows="2" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pizza-orange resize-none"></textarea>
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Notes</label>
+          <textarea [(ngModel)]="form.notes" rows="2" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors resize-none"></textarea>
         </div>
       </div>
 
-      <div class="flex justify-end gap-3 mt-6">
-        <button (click)="closeModal()" class="px-4 py-2 text-sm text-gray-600 hover:text-charcoal">Annuler</button>
-        <button (click)="save()" [disabled]="saving()" class="bg-pizza-orange text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-pizza-red transition-colors disabled:opacity-50">
-          {{ saving() ? 'Enregistrement...' : 'Enregistrer' }}
+      <div class="flex justify-end gap-3 mt-7">
+        <button (click)="closeModal()" class="px-4 py-2 font-dm text-[13px] text-gray-500 hover:text-ink transition-colors">Annuler</button>
+        <button (click)="save()" [disabled]="saving()" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
+          {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}
         </button>
       </div>
     </div>

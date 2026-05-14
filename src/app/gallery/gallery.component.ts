@@ -21,7 +21,6 @@ export class GalleryComponent {
 
   private readonly perPage = 5;
   protected pageIndex = signal(0);
-
   protected totalPages = computed(() => Math.ceil(this.imageSrcs.length / this.perPage));
   protected pages = computed(() => Array.from({ length: this.totalPages() }, (_, i) => i));
 
@@ -35,9 +34,37 @@ export class GalleryComponent {
     }));
   });
 
-  protected prevPage() { this.pageIndex.update(p => Math.max(0, p - 1)); }
-  protected nextPage() { this.pageIndex.update(p => Math.min(this.totalPages() - 1, p + 1)); }
-  protected goToPage(p: number) { this.pageIndex.set(p); }
+  // Animation state
+  protected gridAnim = signal('');
+  protected lbAnim = signal('');
+  private animating = false;
+
+  private delay(ms: number) { return new Promise<void>(r => setTimeout(r, ms)); }
+
+  private async animatePage(newIndex: number, dir: 'left' | 'right') {
+    if (this.animating) return;
+    this.animating = true;
+    this.gridAnim.set(dir === 'left' ? 'out-left' : 'out-right');
+    await this.delay(220);
+    this.pageIndex.set(newIndex);
+    this.gridAnim.set(dir === 'left' ? 'in-from-right' : 'in-from-left');
+    await this.delay(220);
+    this.gridAnim.set('');
+    this.animating = false;
+  }
+
+  protected prevPage() {
+    if (this.pageIndex() > 0) this.animatePage(this.pageIndex() - 1, 'right');
+  }
+
+  protected nextPage() {
+    if (this.pageIndex() < this.totalPages() - 1) this.animatePage(this.pageIndex() + 1, 'left');
+  }
+
+  protected goToPage(p: number) {
+    if (p === this.pageIndex()) return;
+    this.animatePage(p, p > this.pageIndex() ? 'left' : 'right');
+  }
 
   // Lightbox
   protected lightboxOpen = signal(false);
@@ -50,12 +77,27 @@ export class GalleryComponent {
 
   protected closeLightbox() { this.lightboxOpen.set(false); }
 
+  private async animateLb(updateFn: () => void, dir: 'left' | 'right') {
+    this.lbAnim.set(dir === 'left' ? 'out-left' : 'out-right');
+    await this.delay(180);
+    updateFn();
+    this.lbAnim.set(dir === 'left' ? 'in-from-right' : 'in-from-left');
+    await this.delay(180);
+    this.lbAnim.set('');
+  }
+
   protected lightboxPrev() {
-    this.lightboxIndex.update(i => (i - 1 + this.imageSrcs.length) % this.imageSrcs.length);
+    this.animateLb(
+      () => this.lightboxIndex.update(i => (i - 1 + this.imageSrcs.length) % this.imageSrcs.length),
+      'right'
+    );
   }
 
   protected lightboxNext() {
-    this.lightboxIndex.update(i => (i + 1) % this.imageSrcs.length);
+    this.animateLb(
+      () => this.lightboxIndex.update(i => (i + 1) % this.imageSrcs.length),
+      'left'
+    );
   }
 
   @HostListener('document:keydown', ['$event'])
