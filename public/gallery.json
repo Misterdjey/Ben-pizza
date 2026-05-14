@@ -1,0 +1,23 @@
+[
+  { "src": "/images/gallery/live-cooking-demonstration.png", "alt": "Live cooking demonstration" },
+  { "src": "/images/gallery/freshly-baked-pizzas.png",       "alt": "Pizzas fraîches sorties du four" },
+  { "src": "/images/gallery/happy-guests-enjoying-pizza.png","alt": "Convives heureux" },
+  { "src": "/images/gallery/pizza-dough-preparation.png",    "alt": "Préparation de la pâte" },
+  { "src": "/images/gallery/family-enjoying-pizza-night.png","alt": "Soirée pizza en famille" },
+  { "src": "/images/gallery/sweet-pizza-desserts.png",       "alt": "Pizzas desserts sucrées" },
+  { "src": "/images/pizzas/4-fromages.jpg",                  "alt": "4 fromages" },
+  { "src": "/images/pizzas/4-saisons.jpg",                   "alt": "4 saisons" },
+  { "src": "/images/pizzas/benyochem.jpg",                   "alt": "Benyochem" },
+  { "src": "/images/pizzas/chevre-miel.jpg",                 "alt": "Chèvre miel" },
+  { "src": "/images/pizzas/choco-banane.jpg",                "alt": "Choco banane" },
+  { "src": "/images/pizzas/choco-classic.jpg",               "alt": "Choco classic" },
+  { "src": "/images/pizzas/la-lulu.jpg",                     "alt": "La Lulu" },
+  { "src": "/images/pizzas/la-simone.jpg",                   "alt": "La Simone" },
+  { "src": "/images/pizzas/levana.jpg",                      "alt": "Levana" },
+  { "src": "/images/pizzas/marguerita.png",                  "alt": "Marguerita" },
+  { "src": "/images/pizzas/norvegienne.jpg",                 "alt": "Norvégienne" },
+  { "src": "/images/pizzas/pesto-du-chef.jpg",               "alt": "Pesto du chef" },
+  { "src": "/images/pizzas/pesto.jpg",                       "alt": "Pesto" },
+  { "src": "/images/pizzas/pizza-dubai.jpg",                 "alt": "Pizza Dubaï" },
+  { "src": "/images/pizzas/straciatella.jpg",                "alt": "Straciatella" }
+]

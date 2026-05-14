@@ -108,8 +108,8 @@
     </button>
 
     <img
-      [src]="imageSrcs[lightboxIndex()]"
-      [alt]="t().gallery.alts[lightboxIndex()]"
+      [src]="images()[lightboxIndex()]?.src"
+      [alt]="images()[lightboxIndex()]?.alt ?? ''"
       class="lb-img max-w-[90vw] max-h-[90vh] object-contain rounded-sm"
       [class]="lbAnim()"
       (click)="$event.stopPropagation()"

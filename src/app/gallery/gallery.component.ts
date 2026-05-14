@@ -1,5 +1,7 @@
 import { Component, inject, signal, computed, HostListener } from '@angular/core';
-import { LanguageService } from '../services/language.service';
+import { HttpClient } from '@angular/common/http';
+
+interface GalleryImage { src: string; alt: string; }
 
 @Component({
   selector: 'app-gallery',
@@ -8,28 +10,22 @@ import { LanguageService } from '../services/language.service';
   styleUrl: './gallery.component.css',
 })
 export class GalleryComponent {
-  protected t = inject(LanguageService).t;
+  private http = inject(HttpClient);
+  protected images = signal<GalleryImage[]>([]);
 
-  protected imageSrcs = [
-    '/images/gallery/live-cooking-demonstration.png',
-    '/images/gallery/freshly-baked-pizzas.png',
-    '/images/gallery/happy-guests-enjoying-pizza.png',
-    '/images/gallery/pizza-dough-preparation.png',
-    '/images/gallery/family-enjoying-pizza-night.png',
-    '/images/gallery/sweet-pizza-desserts.png',
-  ];
+  constructor() {
+    this.http.get<GalleryImage[]>('/gallery.json').subscribe(data => this.images.set(data));
+  }
 
   private readonly perPage = 5;
   protected pageIndex = signal(0);
-  protected totalPages = computed(() => Math.ceil(this.imageSrcs.length / this.perPage));
+  protected totalPages = computed(() => Math.ceil(this.images().length / this.perPage));
   protected pages = computed(() => Array.from({ length: this.totalPages() }, (_, i) => i));
 
   protected pageImages = computed(() => {
     const start = this.pageIndex() * this.perPage;
-    const alts = this.t().gallery.alts;
-    return this.imageSrcs.slice(start, start + this.perPage).map((src, i) => ({
-      src,
-      alt: alts[start + i] ?? '',
+    return this.images().slice(start, start + this.perPage).map((img, i) => ({
+      ...img,
       globalIndex: start + i,
     }));
   });
@@ -88,14 +84,14 @@ export class GalleryComponent {
 
   protected lightboxPrev() {
     this.animateLb(
-      () => this.lightboxIndex.update(i => (i - 1 + this.imageSrcs.length) % this.imageSrcs.length),
+      () => this.lightboxIndex.update(i => (i - 1 + this.images().length) % this.images().length),
       'right'
     );
   }
 
   protected lightboxNext() {
     this.animateLb(
-      () => this.lightboxIndex.update(i => (i + 1) % this.imageSrcs.length),
+      () => this.lightboxIndex.update(i => (i + 1) % this.images().length),
       'left'
     );
   }
