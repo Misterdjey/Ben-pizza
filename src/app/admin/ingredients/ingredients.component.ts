@@ -40,7 +40,7 @@ export class IngredientsComponent implements OnInit {
   }
 
   openEdit(ing: Ingredient) {
-    this.form = { nom: ing.nom, unite: ing.unite, prix_reference: ing.prix_reference };
+    this.form = { nom: ing.nom, unite: ing.unite, poids_unitaire: ing.poids_unitaire, prix_reference: ing.prix_reference };
     this.editingId.set(ing.id);
     this.errorMsg.set(null);
     this.showModal.set(true);
@@ -85,6 +85,6 @@ export class IngredientsComponent implements OnInit {
   }
 
   private emptyForm(): IngredientForm {
-    return { nom: '', unite: '', prix_reference: 0 };
+    return { nom: '', unite: '', poids_unitaire: null, prix_reference: 0 };
   }
 }

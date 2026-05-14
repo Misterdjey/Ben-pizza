@@ -14,6 +14,7 @@
         <thead class="bg-gray-50 border-b border-gray-100">
           <tr>
             <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Nom</th>
+            <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Poids / unité</th>
             <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Prix de référence</th>
             <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Unité</th>
             <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Actions</th>
@@ -23,6 +24,7 @@
           @for (ing of ingredients(); track ing.id) {
             <tr class="hover:bg-stone/40 transition-colors">
               <td class="px-5 py-3 font-dm text-[13px] font-medium text-ink">{{ ing.nom }}</td>
+              <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-500">{{ ing.poids_unitaire != null ? (ing.poids_unitaire + ' g') : '—' }}</td>
               <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-600">{{ ing.prix_reference | currency:'EUR':'symbol':'1.2-2' }}</td>
               <td class="px-5 py-3 font-dm text-[13px] text-gray-400">{{ ing.unite }}</td>
               <td class="px-5 py-3">
@@ -57,10 +59,14 @@
           <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Nom</label>
           <input type="text" [(ngModel)]="form.nom" placeholder="ex: Farine" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
         </div>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-3 gap-4">
           <div>
             <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Unité</label>
             <input type="text" [(ngModel)]="form.unite" placeholder="kg, L, boîte…" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+          </div>
+          <div>
+            <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Poids / unité (g)</label>
+            <input type="number" [(ngModel)]="form.poids_unitaire" min="0" step="1" placeholder="ex: 250" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
           </div>
           <div>
             <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Prix / unité (€)</label>

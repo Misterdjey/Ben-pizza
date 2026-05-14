@@ -46,6 +46,7 @@ export interface Ingredient {
   id: string;
   nom: string;
   unite: string;
+  poids_unitaire: number | null;
   prix_reference: number;
   created_at: string;
 }
