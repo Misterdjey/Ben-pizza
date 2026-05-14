@@ -8,7 +8,21 @@
       "Read(//Users/wam/.config/**)",
       "Read(//Users/wam/.config/gh/**)",
       "Bash(git init *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(gh repo *)",
+      "Bash(node -e \"require\\('sharp'\\)\")",
+      "Bash(node -e \"const {execSync}=require\\('child_process'\\);execSync\\('npm list sharp --prefix /Users/wam/Documents/_Projets/ben-pizza 2>/dev/null'\\);console.log\\('ok'\\)\")",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git checkout *)",
+      "Bash(ffprobe -v quiet -print_format json -show_format /Users/wam/Documents/_Projets/ben-pizza/public/images/benjamin-pizzaiolo.mp4)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('duration:', d['format']['duration'], 's', '| size:', round\\(int\\(d['format']['size']\\)/1024/1024, 1\\), 'MB'\\)\")",
+      "Bash(ffprobe -v quiet -show_entries format=duration,size -of default /Users/wam/Documents/_Projets/ben-pizza/public/images/benjamin-pizzaiolo.mp4)",
+      "Bash(ffmpeg -ss 4.5 -i /Users/wam/Documents/_Projets/ben-pizza/public/images/benjamin-pizzaiolo.mp4 -t 3.5 -c:v libx264 -crf 22 -an -movflags +faststart /Users/wam/Documents/_Projets/ben-pizza/public/images/benjamin-pizzaiolo-clip.mp4 -y)",
+      "Bash(ffprobe -v quiet -show_entries format=duration,size -of default /Users/wam/Documents/_Projets/ben-pizza/public/images/benjamin-pizzaiolo-clip.mp4)",
+      "Bash(python3 -c ' *)",
+      "mcp__claude_ai_Supabase__list_organizations",
+      "mcp__claude_ai_Supabase__list_projects"
     ]
   }
 }
