@@ -44,6 +44,27 @@ export const adminRoutes: Routes = [
             (m) => m.IngredientsComponent,
           ),
       },
+      {
+        path: 'recettes',
+        loadComponent: () =>
+          import('./recettes/recettes.component').then(
+            (m) => m.RecettesComponent,
+          ),
+      },
+      {
+        path: 'recettes/new',
+        loadComponent: () =>
+          import('./recettes/recette-detail/recette-detail.component').then(
+            (m) => m.RecetteDetailComponent,
+          ),
+      },
+      {
+        path: 'recettes/:id',
+        loadComponent: () =>
+          import('./recettes/recette-detail/recette-detail.component').then(
+            (m) => m.RecetteDetailComponent,
+          ),
+      },
     ],
   },
 ];

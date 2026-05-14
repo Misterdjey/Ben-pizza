@@ -19,6 +19,7 @@ export class AdminLayoutComponent {
     { path: '/admin/clients', label: 'Clients', icon: '👥', exact: false },
     { path: '/admin/offres', label: 'Offres', icon: '💶', exact: false },
     { path: '/admin/ingredients', label: 'Ingrédients', icon: '🧄', exact: false },
+    { path: '/admin/recettes', label: 'Recettes', icon: '📖', exact: false },
   ];
 
   toggleSidebar() {

@@ -1,0 +1,150 @@
+<div class="space-y-6">
+
+  <!-- Breadcrumb -->
+  <div class="flex items-center gap-2.5">
+    <a routerLink="/admin/recettes" class="font-dm text-[13px] text-gray-400 hover:text-slate transition-colors">← Recettes</a>
+    <span class="text-gray-300">/</span>
+    <span class="font-playfair font-semibold text-[20px] text-ink">{{ isNew() ? 'Nouvelle recette' : form.nom }}</span>
+  </div>
+
+  @if (loading()) {
+    <div class="font-dm text-gray-400">Chargement…</div>
+  } @else {
+
+    @if (errorMsg()) {
+      <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[13px] rounded-sm px-4 py-3">{{ errorMsg() }}</div>
+    }
+
+    <!-- Bloc 1 : Infos recette -->
+    <div class="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
+      <h2 class="font-dm font-semibold text-[13px] tracking-wide uppercase text-stone-deep mb-5">Informations</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="md:col-span-2">
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Nom</label>
+          <input type="text" [(ngModel)]="form.nom" placeholder="ex: Margherita classique"
+            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+        </div>
+        <div>
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Type</label>
+          <select [(ngModel)]="form.type"
+            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
+            @for (opt of typeOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.label }}</option>
+            }
+          </select>
+        </div>
+        <div class="md:col-span-3">
+          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">
+            Notes <span class="normal-case tracking-normal font-normal text-gray-400">(optionnel)</span>
+          </label>
+          <textarea [(ngModel)]="form.notes" rows="2"
+            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors resize-none"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bloc 2 : Ingrédients -->
+    <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-5 py-4 border-b border-gray-100">
+        <h2 class="font-dm font-semibold text-[13px] tracking-wide uppercase text-stone-deep">Ingrédients</h2>
+      </div>
+
+      <table class="w-full">
+        <thead class="bg-gray-50 border-b border-gray-100">
+          <tr>
+            <th class="px-4 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Ingrédient</th>
+            <th class="px-4 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Unité</th>
+            <th class="px-4 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Quantité</th>
+            <th class="px-4 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-slate">Coût</th>
+            <th class="px-4 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-slate">Poids</th>
+            <th class="px-3 py-3"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50">
+          @for (line of lines(); track $index; let i = $index) {
+            <tr>
+              <td class="px-3 py-2">
+                <select
+                  [ngModel]="line.ingredient_id"
+                  (ngModelChange)="onIngredientChange(i, $event)"
+                  class="w-full border border-gray-200 rounded-sm px-2 py-2 font-dm text-[12px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"
+                >
+                  @for (ing of catalogue(); track ing.id) {
+                    <option [value]="ing.id">{{ ing.nom }} ({{ ing.unite }})</option>
+                  }
+                </select>
+              </td>
+              <td class="px-4 py-2 font-dm text-[12px] text-gray-400 whitespace-nowrap">{{ line.unite }}</td>
+              <td class="px-3 py-2">
+                <input
+                  type="number"
+                  [ngModel]="line.quantite"
+                  (ngModelChange)="onQuantiteChange(i, +$event)"
+                  min="0"
+                  step="0.001"
+                  class="w-24 border border-gray-200 rounded-sm px-2 py-2 font-dm text-[12px] text-ink text-right focus:outline-none focus:border-slate transition-colors"
+                />
+              </td>
+              <td class="px-4 py-2 text-right font-dm text-[12px] font-medium text-slate whitespace-nowrap">
+                {{ line.cout | currency:'EUR':'symbol':'1.2-2' }}
+              </td>
+              <td class="px-4 py-2 text-right font-dm text-[12px] font-medium text-slate whitespace-nowrap">
+                {{ line.poids | number:'1.0-1' }} g
+              </td>
+              <td class="px-3 py-2 text-center">
+                <button (click)="removeLine(i)" class="text-gray-300 hover:text-red-400 transition-colors text-[16px] leading-none">✕</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="px-5 py-8 text-center font-dm text-[13px] text-gray-400">
+                Aucun ingrédient — cliquez sur "+ Ajouter un ingrédient" pour commencer.
+              </td>
+            </tr>
+          }
+        </tbody>
+        @if (lines().length > 0) {
+          <tfoot class="border-t-2 border-gray-200 bg-stone/40">
+            <tr>
+              <td colspan="3" class="px-5 py-3 font-dm text-[10px] tracking-[0.15em] uppercase text-stone-deep">Totaux</td>
+              <td class="px-4 py-3 text-right font-playfair font-semibold text-[16px] text-slate whitespace-nowrap">
+                {{ coutTotal() | currency:'EUR':'symbol':'1.2-2' }}
+              </td>
+              <td class="px-4 py-3 text-right font-playfair font-semibold text-[16px] text-slate whitespace-nowrap">
+                {{ poidsTotal() | number:'1.0-0' }} g
+              </td>
+              <td></td>
+            </tr>
+          </tfoot>
+        }
+      </table>
+
+      <div class="px-5 py-4 border-t border-gray-100">
+        <button (click)="addLine()"
+          class="border border-slate/40 text-slate font-dm text-[11px] tracking-[0.12em] uppercase rounded-sm px-4 py-2 hover:bg-slate/5 transition-colors">
+          + Ajouter un ingrédient
+        </button>
+      </div>
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="flex items-center justify-between pb-4">
+      <div class="flex gap-3">
+        <button (click)="save()" [disabled]="saving()"
+          class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
+          {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}
+        </button>
+        <a routerLink="/admin/recettes"
+          class="border border-gray-200 text-gray-500 font-dm text-[12px] px-6 py-2.5 rounded-sm hover:text-ink hover:border-gray-300 transition-colors inline-flex items-center">
+          Annuler
+        </a>
+      </div>
+      @if (!isNew()) {
+        <button (click)="deleteRecette()" class="font-dm text-[12px] text-red-400 hover:text-red-600 transition-colors">
+          Supprimer la recette
+        </button>
+      }
+    </div>
+
+  }
+</div>

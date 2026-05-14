@@ -135,5 +135,6 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-14 | Feature | Gallery : grille 5 photos/page, pagination fleches+dots, hover overlay, lightbox  |
 | 2026-05-14 | Feature | Gallery : animations slide CSS (220ms grille, 180ms lightbox) entre pages/photos  |
 | 2026-05-14 | Refonte | Admin : redesign complet — palette slate-dark/cream/stone, Playfair/DM Sans       |
-| 2026-05-14 | Feature | Gallery : chargement dynamique via gallery.json (+ pizzas, 21 images total)        |
-| 2026-05-14 | Feature | Admin Ingrédients : colonne poids_unitaire (g) — migration BDD + modele + UI      |
+| 2026-05-14 | Feature | Gallery : chargement dynamique via gallery.json (pizzas inclus, 21 images)        |
+| 2026-05-14 | Feature | Admin Ingredients : colonne poids_unitaire (g), migration BDD + modele + UI       |
+| 2026-05-14 | Feature | Admin Recettes : liste + detail, tables Supabase, calculs couts/poids signals     |
