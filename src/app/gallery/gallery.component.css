@@ -1,0 +1,21 @@
+.gallery-cell {
+  position: relative;
+}
+
+.gallery-overlay {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.gallery-cell:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.lightbox-backdrop {
+  animation: lbFadeIn 150ms ease;
+}
+
+@keyframes lbFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

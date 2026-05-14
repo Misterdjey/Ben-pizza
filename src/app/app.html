@@ -1,15 +1,15 @@
-<header class="sticky top-0 z-50 bg-charcoal/90 backdrop-blur-sm border-b border-gray-700">
-  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center py-4">
-      <div class="text-2xl font-bebas text-pizza-orange">Benjamin Pizza</div>
-      <div class="flex items-center gap-3">
+<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-stone-mid">
+  <nav class="max-w-7xl mx-auto px-8 md:px-16">
+    <div class="flex justify-between items-center py-5">
+      <div class="font-playfair font-semibold text-xl text-ink">Benjamin Pizza</div>
+      <div class="flex items-center gap-5">
         <button
           (click)="langService.toggle()"
-          class="text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 px-3 py-1.5 rounded-full text-sm font-semibold transition-colors"
+          class="font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep hover:text-ink transition-colors"
         >
-          {{ langService.lang() === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR' }}
+          {{ langService.lang() === 'fr' ? 'EN' : 'FR' }}
         </button>
-        <button class="bg-pizza-orange text-white px-6 py-2 rounded-full font-semibold hover:bg-pizza-red transition-colors">
+        <button class="bg-slate text-cream font-dm font-medium text-[11px] tracking-[0.12em] uppercase rounded-sm px-6 py-2.5 hover:bg-slate-dark transition-colors">
           {{ langService.t().nav.bookNow }}
         </button>
       </div>
@@ -27,9 +27,9 @@
   <div id="section-contact"><app-cta></app-cta></div>
 </main>
 
-<footer class="bg-charcoal py-8 pb-24 md:pb-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <p class="text-gray-400">{{ langService.t().footer.copyright }}</p>
+<footer class="bg-slate-dark py-10 pb-24 md:pb-10">
+  <div class="max-w-7xl mx-auto px-8 md:px-16 text-center">
+    <p class="font-dm text-[13px] text-white/40">{{ langService.t().footer.copyright }}</p>
   </div>
 </footer>
 

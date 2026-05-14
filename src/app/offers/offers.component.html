@@ -1,76 +1,35 @@
-<section class="py-20 bg-gradient-to-br from-gray-900 via-charcoal to-black">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-5xl md:text-6xl font-bebas text-white mb-4">{{ t().offers.title }}</h2>
-      <p class="text-xl text-gray-300 max-w-2xl mx-auto">{{ t().offers.subtitle }}</p>
-    </div>
+<section class="bg-slate-dark py-24 md:py-28 px-8 md:px-16">
+  <div class="max-w-7xl mx-auto">
+    <p class="font-dm text-[9px] tracking-[0.28em] uppercase text-slate-light mb-3 opacity-70">Nos offres</p>
+    <h2 class="font-playfair font-semibold text-[50px] leading-[1.05] text-cream mb-12 md:mb-14">Pour chaque moment.</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-      <!-- Formule 1 — Essentielle -->
-      <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-gray-700">
-        <div class="text-center mb-6">
-          <div class="w-16 h-16 bg-pizza-orange rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-2xl">🍕</span>
-          </div>
-          <h3 class="text-2xl font-bebas text-white mb-2">{{ t().offers.tiers[0].name }}</h3>
-          <div class="text-3xl font-bold text-pizza-orange mb-4">{{ t().offers.tiers[0].price }}</div>
+      <div class="bg-white/[0.04] border border-white/[0.08] rounded-sm p-8 md:p-9 flex flex-col justify-between" style="min-height: 230px;">
+        <div>
+          <div class="font-playfair font-semibold text-[44px] leading-none mb-3.5" style="color: rgba(255,255,255,0.08)">01</div>
+          <div class="font-playfair font-semibold text-[22px] text-cream leading-[1.2] mb-2.5">Soirée à domicile</div>
+          <p class="font-dm font-light text-[13px] leading-[1.7]" style="color: rgba(255,255,255,0.45)">Dîner intimiste pour 4 à 10 personnes. Ben cuisine en live dans votre cuisine. L'expérience se vit autant qu'elle se mange.</p>
         </div>
-        <ul class="space-y-3 mb-8">
-          @for (feature of t().offers.tiers[0].features; track $index) {
-            <li class="flex items-center text-gray-300">
-              <span class="text-pizza-orange mr-3">✓</span>{{ feature }}
-            </li>
-          }
-        </ul>
-        <button class="w-full bg-pizza-orange hover:bg-pizza-red text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
-          {{ t().offers.bookNow }}
-        </button>
+        <div class="inline-block self-start mt-6 bg-slate text-slate-pale font-dm text-[10px] tracking-[0.1em] uppercase rounded-sm px-3.5 py-1.5">Offre phare</div>
       </div>
 
-      <!-- Formule 2 — Premium (mise en avant) -->
-      <div class="bg-gradient-to-br from-pizza-orange/20 to-pizza-red/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-pizza-orange relative">
-        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <span class="bg-pizza-orange text-white px-4 py-2 rounded-full text-sm font-bold">{{ t().offers.popularBadge }}</span>
+      <div class="bg-white/[0.04] border border-white/[0.08] rounded-sm p-8 md:p-9 flex flex-col justify-between" style="min-height: 230px;">
+        <div>
+          <div class="font-playfair font-semibold text-[44px] leading-none mb-3.5" style="color: rgba(255,255,255,0.08)">02</div>
+          <div class="font-playfair font-semibold text-[22px] text-cream leading-[1.2] mb-2.5">Événement festif</div>
+          <p class="font-dm font-light text-[13px] leading-[1.7]" style="color: rgba(255,255,255,0.45)">Anniversaires, soirées, apéros dînatoires. Animation pizza pour vos invités, de 10 à 30 personnes.</p>
         </div>
-        <div class="text-center mb-6">
-          <div class="w-16 h-16 bg-pizza-red rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-2xl">👑</span>
-          </div>
-          <h3 class="text-2xl font-bebas text-white mb-2">{{ t().offers.tiers[1].name }}</h3>
-          <div class="text-3xl font-bold text-pizza-orange mb-4">{{ t().offers.tiers[1].price }}</div>
-        </div>
-        <ul class="space-y-3 mb-8">
-          @for (feature of t().offers.tiers[1].features; track $index) {
-            <li class="flex items-center text-gray-300">
-              <span class="text-pizza-orange mr-3">✓</span>{{ feature }}
-            </li>
-          }
-        </ul>
-        <button class="w-full bg-pizza-red hover:bg-pizza-orange text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
-          {{ t().offers.bookNow }}
-        </button>
+        <div class="inline-block self-start mt-6 border font-dm text-[10px] tracking-[0.1em] uppercase rounded-sm px-3.5 py-1.5" style="border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.25); background: transparent;">Événement</div>
       </div>
 
-      <!-- Formule 3 — VIP -->
-      <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-gray-700">
-        <div class="text-center mb-6">
-          <div class="w-16 h-16 bg-gradient-to-r from-pizza-orange to-pizza-red rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-2xl">⭐</span>
-          </div>
-          <h3 class="text-2xl font-bebas text-white mb-2">{{ t().offers.tiers[2].name }}</h3>
-          <div class="text-3xl font-bold text-pizza-orange mb-4">{{ t().offers.tiers[2].price }}</div>
+      <div class="bg-white/[0.04] border border-white/[0.08] rounded-sm p-8 md:p-9 flex flex-col justify-between" style="min-height: 230px;">
+        <div>
+          <div class="font-playfair font-semibold text-[44px] leading-none mb-3.5" style="color: rgba(255,255,255,0.08)">03</div>
+          <div class="font-playfair font-semibold text-[22px] text-cream leading-[1.2] mb-2.5">Événement communautaire</div>
+          <p class="font-dm font-light text-[13px] leading-[1.7]" style="color: rgba(255,255,255,0.45)">Brit milah, réceptions, occasions familiales. Menu adapté sur demande, disponibilités à confirmer.</p>
         </div>
-        <ul class="space-y-3 mb-8">
-          @for (feature of t().offers.tiers[2].features; track $index) {
-            <li class="flex items-center text-gray-300">
-              <span class="text-pizza-orange mr-3">✓</span>{{ feature }}
-            </li>
-          }
-        </ul>
-        <button class="w-full bg-gradient-to-r from-pizza-orange to-pizza-red hover:from-pizza-red hover:to-pizza-orange text-white font-bold py-3 px-6 rounded-full transition-all duration-300">
-          {{ t().offers.bookNow }}
-        </button>
+        <div class="inline-block self-start mt-6 border font-dm text-[10px] tracking-[0.1em] uppercase rounded-sm px-3.5 py-1.5" style="border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.25); background: transparent;">Sur mesure</div>
       </div>
 
     </div>

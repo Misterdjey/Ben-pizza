@@ -44,14 +44,30 @@ src/app/
 
 **Couleurs Tailwind custom :**
 
-- `pizza-orange` → `#FF6B35`
-- `pizza-red` → `#D72638`
-- `charcoal` → `#1a1a1a`
+- `stone` → `#EDEAE5` (fond de page par défaut)
+- `stone-mid` → `#D4CFC8`
+- `stone-deep` → `#A39E97`
+- `slate` → `#4A6272` (boutons primaires, accents)
+- `slate-light` → `#7A9AAF`
+- `slate-pale` → `#C8D8E4`
+- `slate-dark` → `#2C3E4D` (hero, offres, footer, CTA)
+- `ink` → `#1C1C1A`
+- `cream` → `#F8F6F3`
 
 **Typographies :**
 
-- `font-bebas` (Bebas Neue) → titres de section
-- `font-poppins` (Poppins) → corps de texte
+- `font-playfair` (Playfair Display) → titres (600 fort, 400 italic accent)
+- `font-dm` (DM Sans) → corps / nav / labels (300 body, 400 normal, 500 boutons)
+
+**Principes de style :**
+
+- Fond de page : `stone`, jamais blanc pur
+- Sections alternées : cream / stone / slate-dark
+- Border-radius : 2–3px max (`rounded-sm`)
+- Boutons primaires : `bg-slate text-cream text-[11px] tracking-[0.12em] uppercase rounded-sm`
+- Bouton ghost : `border border-slate/40 bg-transparent`
+- Nav : sticky, `border-b border-stone-mid`, `px-8 md:px-16 py-5`
+- FloatingToolbar : navigation sections uniquement (pas de switcher thème)
 
 ## i18n
 
@@ -112,3 +128,8 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-10 | Fix     | Locale fr-FR : symbole euro à droite, virgule décimale                            |
 | 2026-05-10 | Fix     | Suppression commande : ON DELETE CASCADE sur depenses (FK 23503)                  |
 | 2026-05-10 | Feature | ToastService + modal confirm custom (remplace alert/confirm natifs)               |
+| 2026-05-14 | Refonte | Refonte design vitrine : Playfair Display + DM Sans, palette stone/slate/cream    |
+| 2026-05-14 | Refonte | Suppression double thème CSS (Artisan/Classic) et FloatingToolbar switcher thème  |
+| 2026-05-14 | Refonte | Refonte templates vitrine sur mockup by_ben_v2 : hero, concept, offres, avis, CTA |
+| 2026-05-14 | Refonte | Suppression section Menu (pizzas) de la vitrine — admin inchangé                  |
+| 2026-05-14 | Feature | Gallery : carrousel auto 3.5s + pause hover + navigation + lightbox + Escape key  |

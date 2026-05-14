@@ -1,34 +1,16 @@
 <!-- Desktop : panneau vertical fixe à droite -->
 <div class="hidden md:flex fixed right-4 top-1/2 -translate-y-1/2 z-[200] flex-col gap-2 select-none">
 
-  <!-- Theme switcher -->
-  <div class="bg-black/85 backdrop-blur-sm rounded-2xl p-3 border border-white/10 shadow-xl">
-    <p class="text-gray-500 text-[10px] uppercase tracking-widest text-center mb-2 font-mono">Thème</p>
-    <button
-      (click)="themeService.toggle()"
-      class="w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 border"
-      [class]="themeService.theme() === 'classic'
-        ? 'bg-[#FF6B35]/20 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35]/30'
-        : 'bg-[#C1440E]/20 border-[#C1440E] text-[#C1440E] hover:bg-[#C1440E]/30'"
-    >
-      @if (themeService.theme() === 'classic') { 🎨 → Artisan }
-      @else { 🎨 → Classic }
-    </button>
-    <p class="text-gray-600 text-[10px] text-center mt-1.5 font-mono">
-      {{ themeService.theme() === 'classic' ? 'Classic' : 'Artisan' }}
-    </p>
-  </div>
-
   <!-- Section navigation -->
-  <div class="bg-black/85 backdrop-blur-sm rounded-2xl p-2 border border-white/10 shadow-xl flex flex-col gap-0.5">
-    <p class="text-gray-500 text-[10px] uppercase tracking-widest text-center mb-1.5 font-mono">Nav</p>
+  <div class="bg-ink/80 backdrop-blur-sm rounded-sm p-2 border border-white/10 shadow-xl flex flex-col gap-0.5">
+    <p class="font-dm text-stone-deep text-[9px] uppercase tracking-widest text-center mb-1.5">Nav</p>
     @for (section of sections; track section.id) {
       <button
         (click)="scrollTo(section.id)"
-        class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200 text-left"
+        class="flex items-center gap-2 px-2.5 py-1.5 rounded-sm text-stone-deep hover:text-cream hover:bg-white/10 transition-all duration-200 text-left"
       >
         <span class="text-sm leading-none">{{ section.icon }}</span>
-        <span class="text-[11px] font-medium">{{ section.label }}</span>
+        <span class="font-dm text-[11px]">{{ section.label }}</span>
       </button>
     }
   </div>
@@ -37,7 +19,7 @@
   @if (showScrollTop()) {
     <button
       (click)="scrollTop()"
-      class="bg-black/85 backdrop-blur-sm rounded-2xl p-2.5 border border-white/10 shadow-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200 text-center text-xs font-mono"
+      class="bg-ink/80 backdrop-blur-sm rounded-sm p-2.5 border border-white/10 shadow-xl text-stone-deep hover:text-cream hover:bg-white/10 transition-all duration-200 text-center font-dm text-xs"
     >
       ↑ top
     </button>
@@ -46,22 +28,13 @@
 </div>
 
 <!-- Mobile : barre fixe en bas -->
-<div class="flex md:hidden fixed bottom-0 left-0 right-0 z-[200] bg-black/90 backdrop-blur-sm border-t border-white/10 select-none">
-
-  <!-- Theme toggle -->
-  <button
-    (click)="themeService.toggle()"
-    class="flex-1 flex flex-col items-center justify-center py-3 text-gray-400 hover:text-white transition-colors"
-  >
-    <span class="text-lg">🎨</span>
-    <span class="text-[10px] mt-0.5 font-mono">{{ themeService.theme() === 'classic' ? 'Artisan' : 'Classic' }}</span>
-  </button>
+<div class="flex md:hidden fixed bottom-0 left-0 right-0 z-[200] bg-ink/90 backdrop-blur-sm border-t border-white/10 select-none">
 
   <!-- Section nav dots -->
   @for (section of sections; track section.id) {
     <button
       (click)="scrollTo(section.id)"
-      class="flex-1 flex flex-col items-center justify-center py-3 text-gray-400 hover:text-white transition-colors"
+      class="flex-1 flex flex-col items-center justify-center py-3 text-stone-deep hover:text-cream transition-colors"
     >
       <span class="text-base leading-none">{{ section.icon }}</span>
     </button>
@@ -71,10 +44,9 @@
   <button
     (click)="scrollTop()"
     class="flex-1 flex flex-col items-center justify-center py-3 transition-colors"
-    [class]="showScrollTop() ? 'text-white' : 'text-gray-700'"
+    [class]="showScrollTop() ? 'text-cream' : 'text-stone-deep/40'"
   >
     <span class="text-lg">↑</span>
-    <span class="text-[10px] mt-0.5 font-mono">top</span>
   </button>
 
 </div>

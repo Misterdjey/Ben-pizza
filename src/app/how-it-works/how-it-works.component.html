@@ -1,35 +1,35 @@
-<section class="py-20 bg-gray-900">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-5xl md:text-6xl font-bebas text-white mb-4">{{ t().howItWorks.title }}</h2>
-      <p class="text-xl text-gray-300 max-w-2xl mx-auto">{{ t().howItWorks.subtitle }}</p>
+<section class="bg-cream py-24 md:py-28 px-8 md:px-16">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-[88px] items-start">
+
+    <div>
+      <p class="font-dm text-[9px] tracking-[0.28em] uppercase text-stone-deep mb-3">Notre concept</p>
+      <h2 class="font-playfair font-semibold text-[50px] leading-[1.05] text-ink">
+        Pas un traiteur.<br><em class="font-normal">Une expérience.</em>
+      </h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      @for (step of t().howItWorks.steps; track $index; let i = $index) {
-        <div class="text-center group">
-          <div class="relative mb-8">
-            <div class="w-20 h-20 bg-pizza-orange rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-              <span class="text-3xl">{{ stepIcons[i] }}</span>
-            </div>
-            <div class="absolute -top-2 -right-2 w-8 h-8 bg-pizza-red rounded-full flex items-center justify-center text-white font-bold text-sm">
-              {{ i + 1 }}
-            </div>
-          </div>
-          <h3 class="text-2xl font-bebas text-white mb-4">{{ step.title }}</h3>
-          <p class="text-gray-300">{{ step.description }}</p>
+    <div class="pt-2">
+      <blockquote class="font-playfair italic text-[22px] text-slate leading-[1.5] border-l-2 border-slate-light pl-5 mb-7">
+        "Je viens chez vous avec mon pétrin, mes ingrédients, et je fais la pizza en direct."
+      </blockquote>
+      <p class="font-dm font-light text-[15px] leading-[1.8] text-[#5A5550] mb-9">
+        Ben a 20 ans, il est pizzaiolo — pas livreur. Chaque pâte est préparée le jour même, chaque pizza sortie du four devant vous. L'expérience fait partie du repas.
+      </p>
+      <div class="flex gap-3.5">
+        <div class="flex-1 bg-stone border border-stone-mid rounded-sm p-5 text-center">
+          <div class="font-playfair font-semibold text-[30px] text-slate leading-none">72h</div>
+          <div class="font-dm text-[10px] tracking-[0.1em] uppercase text-stone-deep mt-1.5">Fermentation</div>
         </div>
-      }
-    </div>
-
-    <div class="text-center mt-16">
-      <div class="bg-gradient-to-r from-pizza-orange to-pizza-red rounded-2xl p-8 max-w-2xl mx-auto">
-        <h3 class="text-3xl font-bebas text-white mb-4">{{ t().howItWorks.ctaTitle }}</h3>
-        <p class="text-white mb-6">{{ t().howItWorks.ctaText }}</p>
-        <button class="bg-white text-pizza-orange font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-colors duration-300">
-          {{ t().howItWorks.ctaButton }}
-        </button>
+        <div class="flex-1 bg-stone border border-stone-mid rounded-sm p-5 text-center">
+          <div class="font-playfair font-semibold text-[30px] text-slate leading-none">100%</div>
+          <div class="font-dm text-[10px] tracking-[0.1em] uppercase text-stone-deep mt-1.5">Fait maison</div>
+        </div>
+        <div class="flex-1 bg-stone border border-stone-mid rounded-sm p-5 text-center">
+          <div class="font-playfair font-semibold text-[30px] text-slate leading-none">IDF</div>
+          <div class="font-dm text-[10px] tracking-[0.1em] uppercase text-stone-deep mt-1.5">Déplacement</div>
+        </div>
       </div>
     </div>
+
   </div>
 </section>

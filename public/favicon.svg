@@ -1,18 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Pizza base (triangle slice) -->
-  <circle cx="32" cy="32" r="30" fill="#C1440E"/>
-  <!-- Cheese / lighter center -->
-  <circle cx="32" cy="32" r="22" fill="#F5C842"/>
-  <!-- Tomato sauce ring -->
-  <circle cx="32" cy="32" r="26" fill="none" stroke="#A01A2E" stroke-width="4"/>
-  <!-- Toppings -->
-  <circle cx="32" cy="20" r="3.5" fill="#A01A2E"/>
-  <circle cx="22" cy="30" r="3.5" fill="#A01A2E"/>
-  <circle cx="42" cy="30" r="3.5" fill="#A01A2E"/>
-  <circle cx="26" cy="42" r="3.5" fill="#A01A2E"/>
-  <circle cx="38" cy="42" r="3.5" fill="#A01A2E"/>
-  <!-- Crust -->
-  <circle cx="32" cy="32" r="30" fill="none" stroke="#7A3010" stroke-width="3"/>
-  <!-- Letter B -->
-  <text x="32" y="38" font-family="Arial Black, sans-serif" font-size="18" font-weight="900" fill="white" text-anchor="middle">B</text>
+  <rect width="64" height="64" fill="#2C3E4D"/>
+  <text x="32" y="44" font-family="Georgia, 'Times New Roman', serif" font-size="36" font-weight="600" fill="#F8F6F3" text-anchor="middle" font-style="normal">B</text>
 </svg>

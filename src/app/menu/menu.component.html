@@ -1,47 +1,48 @@
-<section class="py-20 bg-charcoal">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-20 bg-stone">
+  <div class="max-w-7xl mx-auto px-8 md:px-16">
     <div class="text-center mb-16">
-      <h2 class="text-5xl md:text-6xl font-bebas text-white mb-4">{{ t().menu.title }}</h2>
-      <p class="text-xl text-gray-300 max-w-2xl mx-auto">{{ t().menu.subtitle }}</p>
+      <p class="font-dm text-[9px] tracking-[0.28em] uppercase text-stone-deep mb-4">La carte</p>
+      <h2 class="font-playfair font-semibold text-[50px] leading-tight text-ink mb-4">{{ t().menu.title }}</h2>
+      <p class="font-dm font-light text-[15px] leading-relaxed text-[#5A5550] max-w-2xl mx-auto">{{ t().menu.subtitle }}</p>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-4 mb-12">
+    <div class="flex flex-wrap justify-center gap-3 mb-12">
       <button
         (click)="selectCategory('all')"
-        class="px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-        [class]="selectedCategory() === 'all' ? 'bg-pizza-orange text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'"
+        class="px-5 py-2 font-dm font-medium text-[11px] tracking-[0.12em] uppercase rounded-sm transition-all"
+        [class]="selectedCategory() === 'all' ? 'bg-slate text-cream' : 'border border-slate/40 bg-transparent text-slate hover:bg-slate/5'"
       >
         {{ t().menu.allPizzas }}
       </button>
       @for (category of categories; track category) {
         <button
           (click)="selectCategory(category)"
-          class="px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-          [class]="selectedCategory() === category ? 'bg-pizza-orange text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'"
+          class="px-5 py-2 font-dm font-medium text-[11px] tracking-[0.12em] uppercase rounded-sm transition-all"
+          [class]="selectedCategory() === category ? 'bg-slate text-cream' : 'border border-slate/40 bg-transparent text-slate hover:bg-slate/5'"
         >
           {{ category }}
         </button>
       }
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (pizza of filteredPizzas(); track pizza.name) {
-        <div class="bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+        <div class="bg-cream rounded-sm overflow-hidden border border-stone-mid hover:shadow-md transition-shadow">
           <div class="relative overflow-hidden">
             <img
               [src]="pizza.image"
               [alt]="pizza.name"
-              class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
+              class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
             >
-            <div class="absolute top-4 right-4 bg-pizza-orange text-white px-3 py-1 rounded-full text-sm font-bold">
+            <div class="absolute top-3 right-3 bg-slate text-slate-pale text-[10px] tracking-widest rounded-sm px-2.5 py-1">
               {{ pizza.category }}
             </div>
           </div>
-          <div class="p-6">
-            <h3 class="text-2xl font-bebas text-white mb-3">{{ pizza.name }}</h3>
+          <div class="p-5">
+            <h3 class="font-playfair font-semibold text-[22px] text-ink mb-3">{{ pizza.name }}</h3>
             <div class="flex flex-wrap gap-2">
               @for (ingredient of pizza.ingredients; track ingredient) {
-                <span class="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm">
+                <span class="bg-stone text-[#5A5550] font-dm text-[11px] tracking-wide px-2.5 py-1 rounded-sm">
                   {{ ingredient }}
                 </span>
               }
