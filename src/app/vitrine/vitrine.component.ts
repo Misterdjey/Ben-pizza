@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeroComponent } from '../hero/hero.component';
 import { OffersComponent } from '../offers/offers.component';
@@ -24,4 +24,8 @@ import { LanguageService } from '../services/language.service';
 })
 export class VitrinneComponent {
   protected langService = inject(LanguageService);
+  protected menuOpen = signal(false);
+
+  toggleMenu() { this.menuOpen.update(v => !v); }
+  closeMenu() { this.menuOpen.set(false); }
 }

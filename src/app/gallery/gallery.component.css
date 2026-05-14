@@ -1,3 +1,18 @@
+.gallery-grid {
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 256px 256px;
+}
+
+@media (max-width: 767px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 200px);
+  }
+  .gallery-grid > div {
+    grid-row: auto !important;
+  }
+}
+
 .gallery-cell {
   position: relative;
 }
