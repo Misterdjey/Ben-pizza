@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { unsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 export const adminRoutes: Routes = [
   {
@@ -53,6 +54,7 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'recettes/new',
+        canDeactivate: [unsavedChangesGuard],
         loadComponent: () =>
           import('./recettes/recette-detail/recette-detail.component').then(
             (m) => m.RecetteDetailComponent,
@@ -60,6 +62,7 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'recettes/:id',
+        canDeactivate: [unsavedChangesGuard],
         loadComponent: () =>
           import('./recettes/recette-detail/recette-detail.component').then(
             (m) => m.RecetteDetailComponent,

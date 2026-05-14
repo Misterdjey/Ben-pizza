@@ -7,6 +7,7 @@ import { DepensesService } from '../../services/depenses.service';
 import { Ingredient } from '../../models';
 import { RecetteIngredientView, RecetteType } from '../../models/recette.model';
 import { ToastService } from '../../shared/toast.service';
+import { HasUnsavedChanges } from '../../guards/unsaved-changes.guard';
 
 interface RecetteForm {
   nom: string;
@@ -20,7 +21,7 @@ interface RecetteForm {
   imports: [RouterLink, FormsModule, CurrencyPipe, DecimalPipe],
   templateUrl: './recette-detail.component.html',
 })
-export class RecetteDetailComponent implements OnInit {
+export class RecetteDetailComponent implements OnInit, HasUnsavedChanges {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private service = inject(RecettesService);
@@ -41,6 +42,8 @@ export class RecetteDetailComponent implements OnInit {
   errorMsg = signal<string | null>(null);
 
   form: RecetteForm = { nom: '', type: 'pizza', notes: '' };
+  private originalForm: RecetteForm = { nom: '', type: 'pizza', notes: '' };
+  private saved = false;
 
   catalogue = signal<Ingredient[]>([]);
   lines = signal<RecetteIngredientView[]>([]);
@@ -65,6 +68,7 @@ export class RecetteDetailComponent implements OnInit {
       this.originalLines = [...views];
     }
 
+    this.originalForm = { ...this.form };
     this.loading.set(false);
   }
 
@@ -140,12 +144,28 @@ export class RecetteDetailComponent implements OnInit {
       }
       await this.service.diffSaveIngredients(id!, this.lines(), this.originalLines);
       this.toast.success(this.isNew() ? 'Recette créée' : 'Recette mise à jour');
+      this.saved = true;
       this.router.navigate(['/admin/recettes']);
     } catch (e: unknown) {
       this.errorMsg.set(e instanceof Error ? e.message : 'Erreur inconnue');
     } finally {
       this.saving.set(false);
     }
+  }
+
+  hasUnsavedChanges(): boolean {
+    if (this.saved || this.loading()) return false;
+    const formChanged =
+      this.form.nom !== this.originalForm.nom ||
+      this.form.type !== this.originalForm.type ||
+      this.form.notes !== this.originalForm.notes;
+    if (formChanged) return true;
+    const current = this.lines();
+    if (current.length !== this.originalLines.length) return true;
+    return current.some((l, i) => {
+      const o = this.originalLines[i];
+      return l.ingredient_id !== o.ingredient_id || l.quantite !== o.quantite;
+    });
   }
 
   async deleteRecette() {

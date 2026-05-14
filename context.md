@@ -138,3 +138,4 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-14 | Feature | Gallery : chargement dynamique via gallery.json (pizzas inclus, 21 images)        |
 | 2026-05-14 | Feature | Admin Ingredients : colonne poids_unitaire (g), migration BDD + modele + UI       |
 | 2026-05-14 | Feature | Admin Recettes : liste + detail, tables Supabase, calculs couts/poids signals     |
+| 2026-05-14 | Feature | Guard CanDeactivate recette-detail : modale confirm si modifs non enregistrées    |
