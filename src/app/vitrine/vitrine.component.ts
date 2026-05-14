@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HeroComponent } from '../hero/hero.component';
 import { OffersComponent } from '../offers/offers.component';
 import { HowItWorksComponent } from '../how-it-works/how-it-works.component';
@@ -11,6 +12,7 @@ import { LanguageService } from '../services/language.service';
   selector: 'app-vitrine',
   standalone: true,
   imports: [
+    RouterLink,
     HeroComponent,
     OffersComponent,
     HowItWorksComponent,

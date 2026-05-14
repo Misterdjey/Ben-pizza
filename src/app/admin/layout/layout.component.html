@@ -2,8 +2,8 @@
   <!-- Sidebar desktop -->
   <aside class="hidden md:flex flex-col w-60 bg-slate-dark flex-shrink-0">
     <div class="px-6 py-5 border-b border-white/10">
-      <div class="font-playfair font-semibold text-[19px] text-cream">by Ben</div>
-      <div class="font-dm text-[10px] tracking-[0.22em] uppercase text-white/40 mt-1">Administration</div>
+      <div class="font-playfair font-semibold text-[21px] text-cream">by Ben</div>
+      <div class="font-dm text-[12px] tracking-[0.22em] uppercase text-white/40 mt-1">Administration</div>
     </div>
     <nav class="flex-1 px-3 py-5 space-y-0.5">
       @for (item of navItems; track item.path) {
@@ -12,7 +12,7 @@
           routerLinkActive="bg-white/20 text-cream"
           [routerLinkActiveOptions]="{ exact: item.exact }"
           (click)="closeSidebar()"
-          class="flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/55 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[13px]"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/55 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[15px]"
         >
           <span class="text-base">{{ item.icon }}</span>
           <span>{{ item.label }}</span>
@@ -20,10 +20,10 @@
       }
     </nav>
     <div class="px-3 py-4 border-t border-white/10">
-      <div class="font-dm text-[11px] text-white/35 px-4 mb-2 truncate">{{ auth.user()?.email }}</div>
+      <div class="font-dm text-[13px] text-white/35 px-4 mb-2 truncate">{{ auth.user()?.email }}</div>
       <button
         (click)="auth.logout()"
-        class="w-full text-left flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/50 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[13px]"
+        class="w-full text-left flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/50 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[15px]"
       >
         <span>🚪</span> Déconnexion
       </button>
@@ -37,8 +37,8 @@
       <aside class="absolute left-0 top-0 bottom-0 w-60 bg-slate-dark flex flex-col">
         <div class="px-6 py-5 border-b border-white/10 flex justify-between items-center">
           <div>
-            <div class="font-playfair font-semibold text-[19px] text-cream">by Ben</div>
-            <div class="font-dm text-[10px] tracking-[0.22em] uppercase text-white/40 mt-1">Administration</div>
+            <div class="font-playfair font-semibold text-[21px] text-cream">by Ben</div>
+            <div class="font-dm text-[12px] tracking-[0.22em] uppercase text-white/40 mt-1">Administration</div>
           </div>
           <button (click)="closeSidebar()" class="text-white/50 hover:text-cream text-xl leading-none">✕</button>
         </div>
@@ -49,7 +49,7 @@
               routerLinkActive="bg-white/20 text-cream"
               [routerLinkActiveOptions]="{ exact: item.exact }"
               (click)="closeSidebar()"
-              class="flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/55 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[13px]"
+              class="flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/55 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[15px]"
             >
               <span class="text-base">{{ item.icon }}</span>
               <span>{{ item.label }}</span>
@@ -57,10 +57,10 @@
           }
         </nav>
         <div class="px-3 py-4 border-t border-white/10">
-          <div class="font-dm text-[11px] text-white/35 px-4 mb-2 truncate">{{ auth.user()?.email }}</div>
+          <div class="font-dm text-[13px] text-white/35 px-4 mb-2 truncate">{{ auth.user()?.email }}</div>
           <button
             (click)="auth.logout()"
-            class="w-full text-left flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/50 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[13px]"
+            class="w-full text-left flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/50 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[15px]"
           >
             <span>🚪</span> Déconnexion
           </button>
@@ -81,7 +81,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
-      <a routerLink="/" class="ml-auto font-dm text-[12px] tracking-wide text-gray-400 hover:text-slate transition-colors">
+      <a routerLink="/" class="ml-auto font-dm text-[14px] tracking-wide text-gray-400 hover:text-slate transition-colors">
         ← Voir la vitrine
       </a>
     </header>

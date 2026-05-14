@@ -2,9 +2,9 @@
 
   <!-- Breadcrumb -->
   <div class="flex items-center gap-2.5">
-    <a routerLink="/admin/recettes" class="font-dm text-[13px] text-gray-400 hover:text-slate transition-colors">← Recettes</a>
+    <a routerLink="/admin/recettes" class="font-dm text-[15px] text-gray-400 hover:text-slate transition-colors">← Recettes</a>
     <span class="text-gray-300">/</span>
-    <span class="font-playfair font-semibold text-[20px] text-ink">{{ isNew() ? 'Nouvelle recette' : form.nom }}</span>
+    <span class="font-playfair font-semibold text-[22px] text-ink">{{ isNew() ? 'Nouvelle recette' : form.nom }}</span>
   </div>
 
   @if (loading()) {
@@ -12,33 +12,33 @@
   } @else {
 
     @if (errorMsg()) {
-      <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[13px] rounded-sm px-4 py-3">{{ errorMsg() }}</div>
+      <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[15px] rounded-sm px-4 py-3">{{ errorMsg() }}</div>
     }
 
     <!-- Bloc 1 : Infos recette -->
     <div class="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
-      <h2 class="font-dm font-semibold text-[13px] tracking-wide uppercase text-stone-deep mb-5">Informations</h2>
+      <h2 class="font-dm font-semibold text-[15px] tracking-wide uppercase text-stone-deep mb-5">Informations</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="md:col-span-2">
-          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Nom</label>
+          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Nom</label>
           <input type="text" [(ngModel)]="form.nom" placeholder="ex: Margherita classique"
-            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
         </div>
         <div>
-          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Type</label>
+          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Type</label>
           <select [(ngModel)]="form.type"
-            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
+            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
             @for (opt of typeOptions; track opt.value) {
               <option [value]="opt.value">{{ opt.label }}</option>
             }
           </select>
         </div>
         <div class="md:col-span-3">
-          <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">
+          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">
             Notes <span class="normal-case tracking-normal font-normal text-gray-400">(optionnel)</span>
           </label>
           <textarea [(ngModel)]="form.notes" rows="2"
-            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink focus:outline-none focus:border-slate transition-colors resize-none"></textarea>
+            class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors resize-none"></textarea>
         </div>
       </div>
     </div>
@@ -46,17 +46,17 @@
     <!-- Bloc 2 : Ingrédients -->
     <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
       <div class="px-5 py-4 border-b border-gray-100">
-        <h2 class="font-dm font-semibold text-[13px] tracking-wide uppercase text-stone-deep">Ingrédients</h2>
+        <h2 class="font-dm font-semibold text-[15px] tracking-wide uppercase text-stone-deep">Ingrédients</h2>
       </div>
 
       <table class="w-full">
         <thead class="bg-gray-50 border-b border-gray-100">
           <tr>
-            <th class="px-4 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Ingrédient</th>
-            <th class="px-4 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Unité</th>
-            <th class="px-4 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Quantité</th>
-            <th class="px-4 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-slate">Coût</th>
-            <th class="px-4 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-slate">Poids</th>
+            <th class="px-4 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Ingrédient</th>
+            <th class="px-4 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Unité</th>
+            <th class="px-4 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Quantité</th>
+            <th class="px-4 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-slate">Coût</th>
+            <th class="px-4 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-slate">Poids</th>
             <th class="px-3 py-3"></th>
           </tr>
         </thead>
@@ -67,36 +67,36 @@
                 <select
                   [ngModel]="line.ingredient_id"
                   (ngModelChange)="onIngredientChange(i, $event)"
-                  class="w-full border border-gray-200 rounded-sm px-2 py-2 font-dm text-[12px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"
+                  class="w-full border border-gray-200 rounded-sm px-2 py-2 font-dm text-[14px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"
                 >
                   @for (ing of catalogue(); track ing.id) {
                     <option [value]="ing.id">{{ ing.nom }} ({{ ing.unite }})</option>
                   }
                 </select>
               </td>
-              <td class="px-4 py-2 font-dm text-[12px] text-gray-400 whitespace-nowrap">{{ line.unite }}</td>
+              <td class="px-4 py-2 font-dm text-[14px] text-gray-400 whitespace-nowrap">{{ line.unite }}</td>
               <td class="px-3 py-2">
                 <input
                   type="number"
                   [ngModel]="line.quantite"
                   (ngModelChange)="onQuantiteChange(i, +$event)"
                   min="0" step="0.001"
-                  class="w-24 border border-gray-200 rounded-sm px-2 py-2 font-dm text-[12px] text-ink text-right focus:outline-none focus:border-slate transition-colors"
+                  class="w-24 border border-gray-200 rounded-sm px-2 py-2 font-dm text-[14px] text-ink text-right focus:outline-none focus:border-slate transition-colors"
                 />
               </td>
-              <td class="px-4 py-2 text-right font-dm text-[12px] font-medium text-slate whitespace-nowrap">
+              <td class="px-4 py-2 text-right font-dm text-[14px] font-medium text-slate whitespace-nowrap">
                 {{ line.cout | currency:'EUR':'symbol':'1.2-2' }}
               </td>
-              <td class="px-4 py-2 text-right font-dm text-[12px] font-medium text-slate whitespace-nowrap">
+              <td class="px-4 py-2 text-right font-dm text-[14px] font-medium text-slate whitespace-nowrap">
                 {{ line.poids | number:'1.0-1' }} g
               </td>
               <td class="px-3 py-2 text-center">
-                <button (click)="removeLine(i)" class="text-gray-300 hover:text-red-400 transition-colors text-[16px] leading-none">✕</button>
+                <button (click)="removeLine(i)" class="text-gray-300 hover:text-red-400 transition-colors text-[18px] leading-none">✕</button>
               </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="6" class="px-5 py-8 text-center font-dm text-[13px] text-gray-400">
+              <td colspan="6" class="px-5 py-8 text-center font-dm text-[15px] text-gray-400">
                 Aucun ingrédient — cliquez sur "+ Ajouter un ingrédient" pour commencer.
               </td>
             </tr>
@@ -105,11 +105,11 @@
         @if (lines().length > 0) {
           <tfoot class="border-t border-gray-200 bg-gray-50/60">
             <tr>
-              <td colspan="3" class="px-5 py-3 font-dm text-[10px] tracking-[0.15em] uppercase text-stone-deep">Sous-total ingrédients</td>
-              <td class="px-4 py-3 text-right font-playfair font-semibold text-[15px] text-slate whitespace-nowrap">
+              <td colspan="3" class="px-5 py-3 font-dm text-[12px] tracking-[0.15em] uppercase text-stone-deep">Sous-total ingrédients</td>
+              <td class="px-4 py-3 text-right font-playfair font-semibold text-[17px] text-slate whitespace-nowrap">
                 {{ coutIngredients() | currency:'EUR':'symbol':'1.2-2' }}
               </td>
-              <td class="px-4 py-3 text-right font-playfair font-semibold text-[15px] text-slate whitespace-nowrap">
+              <td class="px-4 py-3 text-right font-playfair font-semibold text-[17px] text-slate whitespace-nowrap">
                 {{ poidsIngredients() | number:'1.0-0' }} g
               </td>
               <td></td>
@@ -120,7 +120,7 @@
 
       <div class="px-5 py-4 border-t border-gray-100">
         <button (click)="addLine()"
-          class="border border-slate/40 text-slate font-dm text-[11px] tracking-[0.12em] uppercase rounded-sm px-4 py-2 hover:bg-slate/5 transition-colors">
+          class="border border-slate/40 text-slate font-dm text-[13px] tracking-[0.12em] uppercase rounded-sm px-4 py-2 hover:bg-slate/5 transition-colors">
           + Ajouter un ingrédient
         </button>
       </div>
@@ -129,21 +129,21 @@
     <!-- Bloc 3 : Pâte (pizza uniquement) -->
     @if (form.type === 'pizza') {
       <div class="bg-cream rounded-sm shadow-sm border border-stone-mid p-6">
-        <h2 class="font-dm font-semibold text-[13px] tracking-wide uppercase text-stone-deep mb-5">Pâte</h2>
+        <h2 class="font-dm font-semibold text-[15px] tracking-wide uppercase text-stone-deep mb-5">Pâte</h2>
 
         @if (pateRecettes().length === 0) {
-          <p class="font-dm text-[13px] text-gray-400">
+          <p class="font-dm text-[15px] text-gray-400">
             Aucune recette de pâte disponible —
             <a routerLink="/admin/recettes/new" class="text-slate underline hover:text-slate-dark transition-colors">créez-en une d'abord</a>.
           </p>
         } @else {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="md:col-span-2">
-              <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Recette de pâte</label>
+              <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Recette de pâte</label>
               <select
                 [ngModel]="pateId() ?? ''"
                 (ngModelChange)="onPateChange($event)"
-                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"
+                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"
               >
                 <option value="">— Aucune —</option>
                 @for (p of pateRecettes(); track p.id) {
@@ -152,24 +152,24 @@
               </select>
             </div>
             <div>
-              <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Poids utilisé (g)</label>
+              <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Poids utilisé (g)</label>
               <input type="number"
                 [ngModel]="patePoids()"
                 (ngModelChange)="onPatePoidsChange(+$event)"
                 [disabled]="!pateId()"
                 min="0" step="1"
-                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink text-right focus:outline-none focus:border-slate transition-colors disabled:bg-gray-50 disabled:text-gray-300"
+                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink text-right focus:outline-none focus:border-slate transition-colors disabled:bg-gray-50 disabled:text-gray-300"
               />
             </div>
           </div>
 
           @if (pateId() && pateRecette()) {
             <div class="mt-4 flex flex-wrap gap-5 px-4 py-3 bg-white/60 rounded-sm border border-slate-pale/30">
-              <span class="font-dm text-[12px] text-stone-deep">Coût pâte : <span class="font-medium text-slate ml-1">{{ coutPate() | currency:'EUR':'symbol':'1.2-2' }}</span></span>
+              <span class="font-dm text-[14px] text-stone-deep">Coût pâte : <span class="font-medium text-slate ml-1">{{ coutPate() | currency:'EUR':'symbol':'1.2-2' }}</span></span>
               <span class="text-stone-mid">|</span>
-              <span class="font-dm text-[12px] text-stone-deep">Poids : <span class="font-medium text-slate ml-1">{{ poidsPate() | number:'1.0-0' }} g</span></span>
+              <span class="font-dm text-[14px] text-stone-deep">Poids : <span class="font-medium text-slate ml-1">{{ poidsPate() | number:'1.0-0' }} g</span></span>
               <span class="text-stone-mid">|</span>
-              <span class="font-dm text-[12px] text-gray-400">Prorata : {{ patePoids() | number:'1.0-0' }} g / {{ pateRecette()!.poids_total | number:'1.0-0' }} g totale</span>
+              <span class="font-dm text-[14px] text-gray-400">Prorata : {{ patePoids() | number:'1.0-0' }} g / {{ pateRecette()!.poids_total | number:'1.0-0' }} g totale</span>
             </div>
           }
         }
@@ -177,21 +177,21 @@
 
       <!-- Bloc 4 : Sauce de base (pizza uniquement) -->
       <div class="bg-cream rounded-sm shadow-sm border border-stone-mid p-6">
-        <h2 class="font-dm font-semibold text-[13px] tracking-wide uppercase text-stone-deep mb-5">Sauce de base</h2>
+        <h2 class="font-dm font-semibold text-[15px] tracking-wide uppercase text-stone-deep mb-5">Sauce de base</h2>
 
         @if (baseRecettes().length === 0) {
-          <p class="font-dm text-[13px] text-gray-400">
+          <p class="font-dm text-[15px] text-gray-400">
             Aucune sauce de base disponible —
             <a routerLink="/admin/recettes/new" class="text-slate underline hover:text-slate-dark transition-colors">créez-en une d'abord</a>.
           </p>
         } @else {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="md:col-span-2">
-              <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Sauce de base</label>
+              <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Sauce de base</label>
               <select
                 [ngModel]="baseId() ?? ''"
                 (ngModelChange)="onBaseChange($event)"
-                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"
+                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"
               >
                 <option value="">— Aucune —</option>
                 @for (b of baseRecettes(); track b.id) {
@@ -200,24 +200,24 @@
               </select>
             </div>
             <div>
-              <label class="block font-dm text-[11px] tracking-wide uppercase text-stone-deep mb-1.5">Poids utilisé (g)</label>
+              <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Poids utilisé (g)</label>
               <input type="number"
                 [ngModel]="basePoids()"
                 (ngModelChange)="onBasePoidsChange(+$event)"
                 [disabled]="!baseId()"
                 min="0" step="1"
-                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[13px] text-ink text-right focus:outline-none focus:border-slate transition-colors disabled:bg-gray-50 disabled:text-gray-300"
+                class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink text-right focus:outline-none focus:border-slate transition-colors disabled:bg-gray-50 disabled:text-gray-300"
               />
             </div>
           </div>
 
           @if (baseId() && baseRecette()) {
             <div class="mt-4 flex flex-wrap gap-5 px-4 py-3 bg-white/60 rounded-sm border border-slate-pale/30">
-              <span class="font-dm text-[12px] text-stone-deep">Coût sauce : <span class="font-medium text-slate ml-1">{{ coutBase() | currency:'EUR':'symbol':'1.2-2' }}</span></span>
+              <span class="font-dm text-[14px] text-stone-deep">Coût sauce : <span class="font-medium text-slate ml-1">{{ coutBase() | currency:'EUR':'symbol':'1.2-2' }}</span></span>
               <span class="text-stone-mid">|</span>
-              <span class="font-dm text-[12px] text-stone-deep">Poids : <span class="font-medium text-slate ml-1">{{ poidsBase() | number:'1.0-0' }} g</span></span>
+              <span class="font-dm text-[14px] text-stone-deep">Poids : <span class="font-medium text-slate ml-1">{{ poidsBase() | number:'1.0-0' }} g</span></span>
               <span class="text-stone-mid">|</span>
-              <span class="font-dm text-[12px] text-gray-400">Prorata : {{ basePoids() | number:'1.0-0' }} g / {{ baseRecette()!.poids_total | number:'1.0-0' }} g totale</span>
+              <span class="font-dm text-[14px] text-gray-400">Prorata : {{ basePoids() | number:'1.0-0' }} g / {{ baseRecette()!.poids_total | number:'1.0-0' }} g totale</span>
             </div>
           }
         }
@@ -228,37 +228,37 @@
     @if (lines().length > 0 || pateId() || baseId()) {
       <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
         <div class="px-5 py-4 border-b border-gray-100">
-          <h2 class="font-dm font-semibold text-[13px] tracking-wide uppercase text-stone-deep">Totaux</h2>
+          <h2 class="font-dm font-semibold text-[15px] tracking-wide uppercase text-stone-deep">Totaux</h2>
         </div>
         <table class="w-full">
           <tbody class="divide-y divide-gray-50">
             @if (lines().length > 0) {
               <tr>
-                <td class="px-5 py-3 font-dm text-[12px] text-stone-deep">Ingrédients</td>
-                <td class="px-5 py-3 text-right font-dm text-[13px] font-medium text-slate whitespace-nowrap">{{ coutIngredients() | currency:'EUR':'symbol':'1.2-2' }}</td>
-                <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-500 whitespace-nowrap">{{ poidsIngredients() | number:'1.0-0' }} g</td>
+                <td class="px-5 py-3 font-dm text-[14px] text-stone-deep">Ingrédients</td>
+                <td class="px-5 py-3 text-right font-dm text-[15px] font-medium text-slate whitespace-nowrap">{{ coutIngredients() | currency:'EUR':'symbol':'1.2-2' }}</td>
+                <td class="px-5 py-3 text-right font-dm text-[15px] text-gray-500 whitespace-nowrap">{{ poidsIngredients() | number:'1.0-0' }} g</td>
               </tr>
             }
             @if (pateId()) {
               <tr>
-                <td class="px-5 py-3 font-dm text-[12px] text-stone-deep">Pâte</td>
-                <td class="px-5 py-3 text-right font-dm text-[13px] font-medium text-slate whitespace-nowrap">{{ coutPate() | currency:'EUR':'symbol':'1.2-2' }}</td>
-                <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-500 whitespace-nowrap">{{ poidsPate() | number:'1.0-0' }} g</td>
+                <td class="px-5 py-3 font-dm text-[14px] text-stone-deep">Pâte</td>
+                <td class="px-5 py-3 text-right font-dm text-[15px] font-medium text-slate whitespace-nowrap">{{ coutPate() | currency:'EUR':'symbol':'1.2-2' }}</td>
+                <td class="px-5 py-3 text-right font-dm text-[15px] text-gray-500 whitespace-nowrap">{{ poidsPate() | number:'1.0-0' }} g</td>
               </tr>
             }
             @if (baseId()) {
               <tr>
-                <td class="px-5 py-3 font-dm text-[12px] text-stone-deep">Sauce de base</td>
-                <td class="px-5 py-3 text-right font-dm text-[13px] font-medium text-slate whitespace-nowrap">{{ coutBase() | currency:'EUR':'symbol':'1.2-2' }}</td>
-                <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-500 whitespace-nowrap">{{ poidsBase() | number:'1.0-0' }} g</td>
+                <td class="px-5 py-3 font-dm text-[14px] text-stone-deep">Sauce de base</td>
+                <td class="px-5 py-3 text-right font-dm text-[15px] font-medium text-slate whitespace-nowrap">{{ coutBase() | currency:'EUR':'symbol':'1.2-2' }}</td>
+                <td class="px-5 py-3 text-right font-dm text-[15px] text-gray-500 whitespace-nowrap">{{ poidsBase() | number:'1.0-0' }} g</td>
               </tr>
             }
           </tbody>
           <tfoot class="border-t-2 border-gray-200 bg-stone/30">
             <tr>
-              <td class="px-5 py-4 font-dm text-[10px] tracking-[0.15em] uppercase text-stone-deep">Total</td>
-              <td class="px-5 py-4 text-right font-playfair font-semibold text-[18px] text-slate whitespace-nowrap">{{ coutTotal() | currency:'EUR':'symbol':'1.2-2' }}</td>
-              <td class="px-5 py-4 text-right font-playfair font-semibold text-[18px] text-slate whitespace-nowrap">{{ poidsTotal() | number:'1.0-0' }} g</td>
+              <td class="px-5 py-4 font-dm text-[12px] tracking-[0.15em] uppercase text-stone-deep">Total</td>
+              <td class="px-5 py-4 text-right font-playfair font-semibold text-[20px] text-slate whitespace-nowrap">{{ coutTotal() | currency:'EUR':'symbol':'1.2-2' }}</td>
+              <td class="px-5 py-4 text-right font-playfair font-semibold text-[20px] text-slate whitespace-nowrap">{{ poidsTotal() | number:'1.0-0' }} g</td>
             </tr>
           </tfoot>
         </table>
@@ -269,16 +269,16 @@
     <div class="flex items-center justify-between pb-4">
       <div class="flex gap-3">
         <button (click)="save()" [disabled]="saving()"
-          class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
+          class="bg-slate-dark text-cream font-dm text-[14px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
           {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}
         </button>
         <a routerLink="/admin/recettes"
-          class="border border-gray-200 text-gray-500 font-dm text-[12px] px-6 py-2.5 rounded-sm hover:text-ink hover:border-gray-300 transition-colors inline-flex items-center">
+          class="border border-gray-200 text-gray-500 font-dm text-[14px] px-6 py-2.5 rounded-sm hover:text-ink hover:border-gray-300 transition-colors inline-flex items-center">
           Annuler
         </a>
       </div>
       @if (!isNew()) {
-        <button (click)="deleteRecette()" class="font-dm text-[12px] text-red-400 hover:text-red-600 transition-colors">
+        <button (click)="deleteRecette()" class="font-dm text-[14px] text-red-400 hover:text-red-600 transition-colors">
           Supprimer la recette
         </button>
       }

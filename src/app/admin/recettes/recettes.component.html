@@ -1,7 +1,7 @@
 <div class="flex flex-col h-full gap-5">
   <div class="flex items-center justify-between flex-shrink-0">
-    <h1 class="font-playfair font-semibold text-[24px] text-ink">Recettes</h1>
-    <a routerLink="/admin/recettes/new" class="bg-slate-dark text-cream font-dm text-[12px] tracking-wide px-4 py-2 rounded-sm hover:bg-ink transition-colors">
+    <h1 class="font-playfair font-semibold text-[26px] text-ink">Recettes</h1>
+    <a routerLink="/admin/recettes/new" class="bg-slate-dark text-cream font-dm text-[14px] tracking-wide px-4 py-2 rounded-sm hover:bg-ink transition-colors">
       + Nouvelle recette
     </a>
   </div>
@@ -13,33 +13,33 @@
       <table class="w-full">
         <thead class="bg-gray-50 border-b border-gray-100">
           <tr>
-            <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Nom</th>
-            <th class="px-5 py-3 text-left font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Type</th>
-            <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Coût total</th>
-            <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Poids total</th>
-            <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Ingréd.</th>
-            <th class="px-5 py-3 text-right font-dm text-[10px] tracking-[0.1em] uppercase text-gray-400">Actions</th>
+            <th class="px-5 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Nom</th>
+            <th class="px-5 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Type</th>
+            <th class="px-5 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Coût total</th>
+            <th class="px-5 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Poids total</th>
+            <th class="px-5 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Ingréd.</th>
+            <th class="px-5 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
           @for (r of recettes(); track r.id) {
             <tr class="hover:bg-stone/40 transition-colors">
-              <td class="px-5 py-3 font-dm text-[13px] font-medium text-ink">{{ r.nom }}</td>
+              <td class="px-5 py-3 font-dm text-[15px] font-medium text-ink">{{ r.nom }}</td>
               <td class="px-5 py-3">
-                <span class="px-2 py-0.5 rounded-full font-dm text-[11px] bg-slate/10 text-slate">{{ typeLabel(r.type) }}</span>
+                <span class="px-2 py-0.5 rounded-full font-dm text-[13px] bg-slate/10 text-slate">{{ typeLabel(r.type) }}</span>
               </td>
-              <td class="px-5 py-3 text-right font-dm text-[13px] font-medium text-slate">{{ r.cout_grand_total | currency:'EUR':'symbol':'1.2-2' }}</td>
-              <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-600">{{ r.poids_grand_total | number:'1.0-0' }} g</td>
-              <td class="px-5 py-3 text-right font-dm text-[13px] text-gray-500">{{ r.nb_ingredients }}</td>
+              <td class="px-5 py-3 text-right font-dm text-[15px] font-medium text-slate">{{ r.cout_grand_total | currency:'EUR':'symbol':'1.2-2' }}</td>
+              <td class="px-5 py-3 text-right font-dm text-[15px] text-gray-600">{{ r.poids_grand_total | number:'1.0-0' }} g</td>
+              <td class="px-5 py-3 text-right font-dm text-[15px] text-gray-500">{{ r.nb_ingredients }}</td>
               <td class="px-5 py-3">
                 <div class="flex justify-end gap-3">
-                  <a [routerLink]="['/admin/recettes', r.id]" class="font-dm text-[12px] text-gray-400 hover:text-ink transition-colors">Éditer</a>
-                  <button (click)="deleteRecette(r)" class="font-dm text-[12px] text-red-400 hover:text-red-600 transition-colors">Suppr.</button>
+                  <a [routerLink]="['/admin/recettes', r.id]" class="font-dm text-[14px] text-gray-400 hover:text-ink transition-colors">Éditer</a>
+                  <button (click)="deleteRecette(r)" class="font-dm text-[14px] text-red-400 hover:text-red-600 transition-colors">Suppr.</button>
                 </div>
               </td>
             </tr>
           } @empty {
-            <tr><td colspan="6" class="px-5 py-10 text-center font-dm text-[13px] text-gray-400">Aucune recette</td></tr>
+            <tr><td colspan="6" class="px-5 py-10 text-center font-dm text-[15px] text-gray-400">Aucune recette</td></tr>
           }
         </tbody>
       </table>
