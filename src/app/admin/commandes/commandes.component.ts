@@ -136,15 +136,18 @@ export class CommandesComponent implements OnInit {
   }
 
   statutLabel(s: StatutCommande): string {
-    return { en_cours: 'En cours', confirmee: 'Confirmée', terminee: 'Terminée' }[s];
+    const labels: Record<StatutCommande, string> = { devis: 'Devis', en_cours: 'En cours', confirmee: 'Confirmée', terminee: 'Terminée' };
+    return labels[s];
   }
 
   statutClass(s: StatutCommande): string {
-    return {
+    const classes: Record<StatutCommande, string> = {
+      devis: 'bg-stone-mid text-stone-deep',
       en_cours: 'bg-yellow-100 text-yellow-700',
       confirmee: 'bg-blue-100 text-blue-700',
       terminee: 'bg-green-100 text-green-700',
-    }[s];
+    };
+    return classes[s];
   }
 
   private emptyForm(): CommandeForm {

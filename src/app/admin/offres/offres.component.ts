@@ -1,5 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { OffresService } from '../services/offres.service';
 import { CommandesService } from '../services/commandes.service';
 import { Offre, Tranche } from '../models';
@@ -10,7 +11,7 @@ type OffreForm = { nom: string; tranches: Tranche[] };
 @Component({
   selector: 'app-offres',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './offres.component.html',
 })
 export class OffresComponent implements OnInit {

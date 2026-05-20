@@ -20,11 +20,29 @@ export interface Tranche {
 export interface Offre {
   id: string;
   nom: string;
+  description?: string;
+  includes?: string[];
   tranches: Tranche[];
   created_at: string;
 }
 
-export type StatutCommande = 'en_cours' | 'confirmee' | 'terminee';
+export interface Extra {
+  id: string;
+  nom: string;
+  description?: string;
+  categorie: string;
+  type: 'par_personne' | 'fixe';
+  prix: number;
+  unite_description?: string;
+  actif?: boolean;
+  created_at?: string;
+}
+
+export interface OffreWithExtras extends Offre {
+  extras: Extra[];
+}
+
+export type StatutCommande = 'devis' | 'en_cours' | 'confirmee' | 'terminee';
 
 export interface Commande {
   id: string;

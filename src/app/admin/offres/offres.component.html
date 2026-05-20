@@ -15,7 +15,7 @@
           <div class="flex justify-between items-start mb-4">
             <h2 class="font-playfair font-semibold text-[20px] text-ink">{{ o.nom }}</h2>
             <div class="flex gap-3">
-              <button (click)="openEdit(o)" class="font-dm text-[14px] text-gray-400 hover:text-ink transition-colors">Éditer</button>
+              <a [routerLink]="['/admin/offres', o.id]" class="font-dm text-[14px] text-slate hover:text-slate-dark transition-colors">Gérer →</a>
               <button (click)="deleteOffre(o)" class="font-dm text-[14px] text-red-400 hover:text-red-600 transition-colors">Suppr.</button>
             </div>
           </div>

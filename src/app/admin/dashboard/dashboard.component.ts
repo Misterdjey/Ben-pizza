@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
       .flat()
       .reduce((s, d) => s + Number(d.prix_total), 0);
 
-    const parStatut = { en_cours: 0, confirmee: 0, terminee: 0 };
+    const parStatut: Record<string, number> = { devis: 0, en_cours: 0, confirmee: 0, terminee: 0 };
     commandes.forEach((c) => parStatut[c.statut]++);
 
     const commandesAvecMarge = commandes

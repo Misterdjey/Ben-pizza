@@ -3,35 +3,80 @@
     <p class="section-label text-slate-light opacity-70">Nos offres</p>
     <h2 class="font-playfair font-semibold text-[50px] leading-[1.05] text-cream mb-12 md:mb-14">Pour chaque moment.</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    @if (loading()) {
+      <div class="font-dm text-white/30 text-[15px]">Chargement…</div>
+    } @else {
 
-      <div class="bg-white/[0.04] border border-white/[0.08] rounded-sm p-8 md:p-9 flex flex-col justify-between" style="min-height: 230px;">
-        <div>
-          <div class="font-playfair font-semibold text-[44px] leading-none mb-3.5" style="color: rgba(255,255,255,0.08)">01</div>
-          <div class="font-playfair font-semibold text-[22px] text-cream leading-[1.2] mb-2.5">Soirée à domicile</div>
-          <p class="font-dm font-light text-[15px] leading-[1.7]" style="color: rgba(255,255,255,0.45)">Dîner intimiste pour 4 à 10 personnes. Ben cuisine en live dans votre cuisine. L'expérience se vit autant qu'elle se mange.</p>
-        </div>
-        <div class="inline-block self-start mt-6 bg-slate text-slate-pale font-dm text-[10px] tracking-[0.1em] uppercase rounded-sm px-3.5 py-1.5">Offre phare</div>
+      <!-- Cartes offres -->
+      <div class="flex flex-col gap-4 mb-10">
+        @for (offre of offres(); track offre.id) {
+          <div class="bg-white/[0.04] border border-white/[0.08] rounded-sm p-8 md:p-10">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+
+              <!-- Colonne gauche : infos offre -->
+              <div class="flex-1">
+                <div class="font-playfair font-semibold text-[26px] text-cream leading-[1.2] mb-2">{{ offre.nom }}</div>
+                @if (offre.description) {
+                  <p class="font-dm font-light text-[14px] leading-[1.7] mb-5" style="color: rgba(200,216,228,0.7)">{{ offre.description }}</p>
+                }
+                @if (offre.includes && offre.includes.length > 0) {
+                  <ul class="space-y-1.5">
+                    @for (item of offre.includes; track $index) {
+                      <li class="flex items-center gap-2.5 font-dm font-light text-[14px]" style="color: rgba(255,255,255,0.55)">
+                        <span class="w-1 h-1 rounded-full bg-slate flex-shrink-0"></span>
+                        {{ item }}
+                      </li>
+                    }
+                  </ul>
+                }
+              </div>
+
+              <!-- Colonne droite : prix + CTA -->
+              <div class="flex flex-col items-start md:items-end gap-4 flex-shrink-0">
+                <div class="text-right">
+                  <div class="font-playfair font-semibold text-[52px] leading-none text-cream">{{ prixAffichage(offre) }}<span class="text-[28px]">€</span></div>
+                  <div class="font-dm font-light text-[13px] tracking-wide mt-1" style="color: rgba(255,255,255,0.4)">par personne</div>
+                </div>
+                <a routerLink="/devis" [queryParams]="{ offre: offre.id }"
+                   class="inline-block bg-slate text-cream font-dm text-[11px] tracking-[0.12em] uppercase px-5 py-3 rounded-sm hover:bg-slate-dark hover:border hover:border-white/20 transition-all">
+                  Demander un devis →
+                </a>
+              </div>
+
+            </div>
+          </div>
+        }
       </div>
 
-      <div class="bg-white/[0.04] border border-white/[0.08] rounded-sm p-8 md:p-9 flex flex-col justify-between" style="min-height: 230px;">
-        <div>
-          <div class="font-playfair font-semibold text-[44px] leading-none mb-3.5" style="color: rgba(255,255,255,0.08)">02</div>
-          <div class="font-playfair font-semibold text-[22px] text-cream leading-[1.2] mb-2.5">Événement festif</div>
-          <p class="font-dm font-light text-[15px] leading-[1.7]" style="color: rgba(255,255,255,0.45)">Anniversaires, soirées, apéros dînatoires. Animation pizza pour vos invités, de 10 à 30 personnes.</p>
+      <!-- Extras par catégorie -->
+      @if (extrasByCategorie().length > 0) {
+        <div class="bg-stone rounded-sm px-7 py-8">
+          <p class="font-dm font-light text-[13px] leading-[1.8] text-slate mb-6 italic">Enrichissez votre soirée avec des extras à préciser lors de votre demande de devis.</p>
+          @for (group of extrasByCategorie(); track group.categorie) {
+            <div class="mb-7 last:mb-0">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="font-dm font-medium text-[10px] tracking-[0.14em] uppercase text-slate">{{ group.categorie }}</span>
+                <div class="flex-1 h-px bg-stone-mid"></div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                @for (extra of group.items; track extra.id) {
+                  <div class="bg-cream border border-stone-mid rounded-sm px-4 py-3 flex items-start justify-between gap-3">
+                    <div>
+                      <div class="font-dm font-medium text-[14px] text-ink">{{ extra.nom }}</div>
+                      @if (extra.description) {
+                        <div class="font-dm font-light text-[12px] text-slate mt-0.5">{{ extra.description }}</div>
+                      }
+                    </div>
+                    <div class="font-dm font-medium text-[13px] text-slate-dark flex-shrink-0">{{ formatPrix(extra) }}</div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+          <p class="font-dm text-[11px] italic text-stone-deep mt-4">Les extras sont à préciser lors de votre demande de devis.</p>
         </div>
-        <div class="inline-block self-start mt-6 border font-dm text-[10px] tracking-[0.1em] uppercase rounded-sm px-3.5 py-1.5" style="border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.25); background: transparent;">Événement</div>
-      </div>
+      }
 
-      <div class="bg-white/[0.04] border border-white/[0.08] rounded-sm p-8 md:p-9 flex flex-col justify-between" style="min-height: 230px;">
-        <div>
-          <div class="font-playfair font-semibold text-[44px] leading-none mb-3.5" style="color: rgba(255,255,255,0.08)">03</div>
-          <div class="font-playfair font-semibold text-[22px] text-cream leading-[1.2] mb-2.5">Événement communautaire</div>
-          <p class="font-dm font-light text-[15px] leading-[1.7]" style="color: rgba(255,255,255,0.45)">Brit milah, réceptions, occasions familiales. Menu adapté sur demande, disponibilités à confirmer.</p>
-        </div>
-        <div class="inline-block self-start mt-6 border font-dm text-[10px] tracking-[0.1em] uppercase rounded-sm px-3.5 py-1.5" style="border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.25); background: transparent;">Sur mesure</div>
-      </div>
-
-    </div>
+    }
   </div>
 </section>

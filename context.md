@@ -143,3 +143,10 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-14 | Fix     | Fix build : imports inutilises (6 composants), allowedCommonJsDependencies        |
 | 2026-05-14 | Fix     | Recettes : blocs Pate/Sauce fond bg-cream visible (vs stone page)                 |
 | 2026-05-14 | Feature | Admin layout : h-screen, scroll isole sur listes, sidebar fixe recette-detail     |
+| 2026-05-14 | Refonte | Navbar : burger menu mobile, gallery responsive, icone Instagram, CTA vitrine     |
+| 2026-05-14 | Style   | .section-label classe generique (12px, tracking-[0.2em], DM Sans uppercase)       |
+| 2026-05-20 | Feature | Supabase : tables extras + offre_extras, RLS, seed 4 extras, includes offres      |
+| 2026-05-20 | Feature | Vitrine Offres : donnees dynamiques Supabase, extras groupes par categorie        |
+| 2026-05-20 | Feature | Page /devis : formulaire, estimation reactive signals, creation commande          |
+| 2026-05-20 | Feature | Admin Extras : CRUD (nom, categorie, type, prix, actif), sidebar nav              |
+| 2026-05-20 | Feature | Admin Offres : page detail /offres/:id, description + includes + extras lies      |

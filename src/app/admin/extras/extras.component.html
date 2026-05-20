@@ -1,0 +1,131 @@
+<div class="space-y-5">
+  <div class="flex items-center justify-between">
+    <h1 class="font-playfair font-semibold text-[26px] text-ink">Extras</h1>
+    <button (click)="openCreate()" class="bg-slate-dark text-cream font-dm text-[14px] tracking-wide px-4 py-2 rounded-sm hover:bg-ink transition-colors">
+      + Nouvel extra
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="font-dm text-gray-400">Chargement…</div>
+  } @else {
+    <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-100 bg-stone/40">
+            <th class="text-left font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Nom</th>
+            <th class="text-left font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Catégorie</th>
+            <th class="text-left font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Type</th>
+            <th class="text-right font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Prix</th>
+            <th class="text-center font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Actif</th>
+            <th class="px-5 py-3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (e of extras(); track e.id) {
+            <tr class="border-b border-gray-50 hover:bg-stone/20 transition-colors">
+              <td class="px-5 py-3.5">
+                <div class="font-dm font-medium text-[15px] text-ink">{{ e.nom }}</div>
+                @if (e.description) {
+                  <div class="font-dm text-[12px] text-gray-400">{{ e.description }}</div>
+                }
+              </td>
+              <td class="px-5 py-3.5 font-dm text-[14px] text-gray-500">{{ e.categorie }}</td>
+              <td class="px-5 py-3.5">
+                <span class="font-dm text-[12px] tracking-wide uppercase px-2 py-1 rounded-sm"
+                  [class]="e.type === 'par_personne' ? 'bg-slate-pale/40 text-slate-dark' : 'bg-stone-mid/60 text-stone-deep'">
+                  {{ e.type === 'par_personne' ? 'Par pers.' : 'Prix fixe' }}
+                </span>
+              </td>
+              <td class="px-5 py-3.5 text-right font-dm font-semibold text-[15px] text-slate">{{ e.prix }} €</td>
+              <td class="px-5 py-3.5 text-center">
+                <button (click)="toggleActif(e)"
+                  class="w-8 h-5 rounded-full transition-colors relative"
+                  [class]="e.actif ? 'bg-slate' : 'bg-gray-200'">
+                  <span class="absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all"
+                    [class]="e.actif ? 'left-[14px]' : 'left-0.5'"></span>
+                </button>
+              </td>
+              <td class="px-5 py-3.5 text-right">
+                <div class="flex justify-end gap-3">
+                  <button (click)="openEdit(e)" class="font-dm text-[14px] text-gray-400 hover:text-ink transition-colors">Éditer</button>
+                  <button (click)="deleteExtra(e)" class="font-dm text-[14px] text-red-400 hover:text-red-600 transition-colors">Suppr.</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="text-center font-dm text-[15px] text-gray-400 py-10">Aucun extra</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+@if (showModal()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" (click)="closeModal()">
+    <div class="bg-white rounded-sm shadow-2xl w-full max-w-md p-7" (click)="$event.stopPropagation()">
+      <h2 class="font-playfair font-semibold text-[22px] text-ink mb-6">
+        {{ editingId() ? "Modifier l'extra" : 'Nouvel extra' }}
+      </h2>
+
+      @if (errorMsg()) {
+        <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[15px] rounded-sm px-4 py-3 mb-4">{{ errorMsg() }}</div>
+      }
+
+      <div class="space-y-4">
+        <div>
+          <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Nom</label>
+          <input type="text" [(ngModel)]="form.nom" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+        </div>
+
+        <div>
+          <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Description</label>
+          <input type="text" [(ngModel)]="form.description" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Catégorie</label>
+            <input type="text" [(ngModel)]="form.categorie" placeholder="ex: Entrées" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+          </div>
+          <div>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Prix (€)</label>
+            <input type="number" [(ngModel)]="form.prix" step="0.5" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-2">Type</label>
+          <div class="flex gap-2">
+            <button type="button" (click)="form.type = 'par_personne'"
+              [class]="form.type === 'par_personne' ? 'bg-slate-dark text-cream' : 'bg-stone text-stone-deep hover:bg-stone-mid'"
+              class="flex-1 font-dm text-[13px] py-2 rounded-sm transition-colors">Par personne</button>
+            <button type="button" (click)="form.type = 'fixe'"
+              [class]="form.type === 'fixe' ? 'bg-slate-dark text-cream' : 'bg-stone text-stone-deep hover:bg-stone-mid'"
+              class="flex-1 font-dm text-[13px] py-2 rounded-sm transition-colors">Prix fixe</button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <label class="font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep">Actif (visible sur la vitrine)</label>
+          <button type="button" (click)="form.actif = !form.actif"
+            class="w-10 h-5 rounded-full transition-colors relative flex-shrink-0"
+            [class]="form.actif ? 'bg-slate' : 'bg-gray-200'">
+            <span class="absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all"
+              [class]="form.actif ? 'left-[22px]' : 'left-0.5'"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-7">
+        <button (click)="closeModal()" class="px-4 py-2 font-dm text-[15px] text-gray-500 hover:text-ink transition-colors">Annuler</button>
+        <button (click)="save()" [disabled]="saving()" class="bg-slate-dark text-cream font-dm text-[14px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
+          {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

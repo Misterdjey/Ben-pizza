@@ -18,5 +18,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./admin/admin.routes').then((m) => m.adminRoutes),
   },
+  {
+    path: 'devis',
+    loadComponent: () => import('./devis/devis.component').then((m) => m.DevisComponent),
+  },
   { path: '**', redirectTo: '' },
 ];

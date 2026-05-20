@@ -1,0 +1,188 @@
+<div class="min-h-screen md:h-screen md:overflow-hidden bg-stone">
+
+  @if (loading()) {
+    <div class="flex items-center justify-center min-h-screen">
+      <span class="font-dm text-stone-deep text-[15px]">Chargement…</span>
+    </div>
+  } @else if (!offre()) {
+    <div class="flex flex-col items-center justify-center min-h-screen gap-4">
+      <p class="font-dm text-stone-deep">Aucune offre disponible.</p>
+      <a routerLink="/" class="font-dm text-[13px] text-slate hover:underline">← Retour à l'accueil</a>
+    </div>
+  } @else {
+
+    <!-- Grille 2 colonnes -->
+    <div class="grid grid-cols-1 md:grid-cols-2 md:h-screen">
+
+      <!-- Colonne gauche : fond slate-dark -->
+      <div class="bg-slate-dark px-8 md:px-12 py-16 md:py-20 flex flex-col md:h-screen md:overflow-y-auto">
+        <a routerLink="/" class="font-dm text-[12px] tracking-[0.12em] uppercase text-white/30 hover:text-white/60 transition-colors mb-12 inline-block">← Retour</a>
+
+        <!-- Offre info -->
+        <div class="flex-1">
+          <p class="font-dm font-medium text-[10px] tracking-[0.18em] uppercase mb-3" style="color: #7A9AAF">{{ offre()!.nom }}</p>
+          <h1 class="font-playfair text-[28px] leading-[1.2] text-cream mb-3">
+            Votre soirée <em class="font-normal">sur-mesure.</em>
+          </h1>
+          @if (offre()!.description) {
+            <p class="font-dm font-light text-[14px] leading-[1.8] mb-7" style="color: rgba(255,255,255,0.5)">{{ offre()!.description }}</p>
+          }
+          @if (offre()!.includes && offre()!.includes!.length > 0) {
+            <ul class="space-y-2 mb-10">
+              @for (item of offre()!.includes!; track $index) {
+                <li class="flex items-center gap-2.5 font-dm font-light text-[14px]" style="color: rgba(255,255,255,0.55)">
+                  <span class="w-1 h-1 rounded-full bg-slate flex-shrink-0"></span>
+                  {{ item }}
+                </li>
+              }
+            </ul>
+          }
+        </div>
+
+        <!-- Bloc estimation -->
+        <div class="border-t border-white/10 pt-7 mt-auto">
+          <p class="font-dm text-[10px] tracking-[0.14em] uppercase text-white/30 mb-3">Estimation indicative</p>
+          @if (estimation()) {
+            <div class="font-playfair font-semibold text-[36px] leading-none text-cream">
+              {{ estimation()!.total | currency:'EUR':'symbol':'1.0-0':'fr' }}
+            </div>
+            <div class="font-dm font-light text-[13px] mt-2" style="color: rgba(255,255,255,0.35)">{{ formatEstimationDetail() }}</div>
+          } @else {
+            <div class="font-playfair font-semibold text-[36px] leading-none" style="color: rgba(255,255,255,0.15)">—</div>
+            <div class="font-dm font-light text-[13px] mt-2" style="color: rgba(255,255,255,0.25)">Sélectionnez le nombre de convives</div>
+          }
+        </div>
+      </div>
+
+      <!-- Colonne droite : formulaire -->
+      <div class="bg-stone px-8 md:px-12 py-16 md:py-20 md:h-screen md:overflow-y-auto">
+
+        @if (submitted()) {
+          <div class="bg-cream border border-slate rounded-sm p-7">
+            <p class="font-playfair font-semibold text-[20px] text-ink mb-2">Demande envoyée !</p>
+            <p class="font-dm font-light text-[15px] leading-[1.8] text-slate">Votre demande a bien été reçue. Ben vous recontacte sous 24h.</p>
+            <a routerLink="/" class="inline-block mt-6 font-dm text-[13px] text-slate hover:underline">← Retour à l'accueil</a>
+          </div>
+        } @else {
+
+          <h2 class="font-playfair font-semibold text-[26px] text-ink mb-8">Demander un devis</h2>
+
+          @if (errorMsg()) {
+            <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[14px] rounded-sm px-4 py-3 mb-5">{{ errorMsg() }}</div>
+          }
+
+          <form (ngSubmit)="submit()" class="space-y-5">
+
+            <!-- Prénom + Nom -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Prénom</label>
+                <input type="text" [(ngModel)]="form.prenom" name="prenom" required
+                  class="w-full border border-stone-mid rounded-sm px-3 py-2.5 bg-cream font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+              </div>
+              <div>
+                <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Nom</label>
+                <input type="text" [(ngModel)]="form.nom" name="nom" required
+                  class="w-full border border-stone-mid rounded-sm px-3 py-2.5 bg-cream font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+              </div>
+            </div>
+
+            <!-- Email + Ville -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Email</label>
+                <input type="email" [(ngModel)]="form.email" name="email" required
+                  class="w-full border border-stone-mid rounded-sm px-3 py-2.5 bg-cream font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+              </div>
+              <div>
+                <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Ville</label>
+                <input type="text" [(ngModel)]="form.ville" name="ville"
+                  class="w-full border border-stone-mid rounded-sm px-3 py-2.5 bg-cream font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+              </div>
+            </div>
+
+            <!-- Nombre de convives -->
+            <div>
+              <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-2.5">Nombre de convives</label>
+              <div class="flex flex-wrap gap-2">
+                @for (n of guestOptions; track n) {
+                  <button type="button" (click)="setGuests(n)"
+                    [class]="guests() === n
+                      ? 'bg-slate-dark text-cream border-slate-dark'
+                      : 'bg-cream text-slate border-stone-mid hover:border-slate'"
+                    class="border rounded-sm font-dm text-[14px] px-4 py-2 transition-colors">
+                    {{ n === 15 ? '15+' : n }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Extras par catégorie -->
+            @if (extrasByCategorie().length > 0) {
+              <div>
+                <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-3">Extras</label>
+                @for (group of extrasByCategorie(); track group.categorie) {
+                  <div class="mb-4">
+                    <div class="flex items-center gap-3 mb-2">
+                      <span class="font-dm font-medium text-[10px] tracking-[0.12em] uppercase text-stone-deep">{{ group.categorie }}</span>
+                      <div class="flex-1 h-px bg-stone-mid"></div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-2">
+                      @for (extra of group.items; track extra.id) {
+                        <button type="button" (click)="toggleExtra(extra)"
+                          [class]="isExtraSelected(extra)
+                            ? 'bg-slate/10 border-slate'
+                            : 'bg-cream border-stone-mid hover:border-slate'"
+                          class="border rounded-sm px-4 py-3 flex items-center justify-between text-left transition-colors w-full">
+                          <div>
+                            <span class="font-dm font-medium text-[14px] text-ink">{{ extra.nom }}</span>
+                            @if (extra.description) {
+                              <span class="font-dm font-light text-[12px] text-slate ml-2">· {{ extra.description }}</span>
+                            }
+                          </div>
+                          <div class="flex items-center gap-3 flex-shrink-0 ml-3">
+                            <span class="font-dm font-medium text-[13px] text-slate-dark">
+                              {{ extra.type === 'fixe' ? extra.prix + ' €' : extra.prix + ' €/pers.' }}
+                            </span>
+                            <span [class]="isExtraSelected(extra) ? 'bg-slate text-cream' : 'bg-stone-mid text-stone-deep'"
+                              class="w-5 h-5 rounded-sm flex items-center justify-center text-[11px] font-dm font-medium transition-colors">
+                              {{ isExtraSelected(extra) ? '✓' : '+' }}
+                            </span>
+                          </div>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Date souhaitée -->
+            <div>
+              <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Date souhaitée</label>
+              <input type="date" [(ngModel)]="form.date" name="date"
+                class="w-full border border-stone-mid rounded-sm px-3 py-2.5 bg-cream font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+            </div>
+
+            <!-- Commentaire -->
+            <div>
+              <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Commentaire</label>
+              <textarea [(ngModel)]="form.commentaire" name="commentaire" rows="3"
+                class="w-full border border-stone-mid rounded-sm px-3 py-2.5 bg-cream font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors resize-none"></textarea>
+            </div>
+
+            <!-- Submit -->
+            <div class="pt-2">
+              <button type="submit" [disabled]="submitting()"
+                class="w-full bg-slate-dark text-cream font-dm text-[11px] tracking-[0.14em] uppercase px-6 py-4 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
+                {{ submitting() ? 'Envoi en cours…' : 'Envoyer ma demande →' }}
+              </button>
+              <p class="font-dm font-light text-[12px] text-stone-deep text-center mt-3">Pas de paiement à cette étape — Ben vous recontacte sous 24h.</p>
+            </div>
+
+          </form>
+        }
+      </div>
+    </div>
+  }
+</div>
