@@ -48,32 +48,42 @@
         }
       </div>
 
-      <!-- Extras par catégorie -->
-      @if (extrasByCategorie().length > 0) {
-        <div class="bg-stone rounded-sm px-7 py-8">
-          <p class="font-dm font-light text-[13px] leading-[1.8] text-slate mb-6 italic">Enrichissez votre soirée avec des extras à préciser lors de votre demande de devis.</p>
-          @for (group of extrasByCategorie(); track group.categorie) {
-            <div class="mb-7 last:mb-0">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="font-dm font-medium text-[10px] tracking-[0.14em] uppercase text-slate">{{ group.categorie }}</span>
-                <div class="flex-1 h-px bg-stone-mid"></div>
+      <!-- Extras en accordéon -->
+      @if (extraCategories().length > 0) {
+        <div class="extras-wrap">
+          <p class="extras-intro">Enrichissez votre soirée avec des extras à préciser lors de votre demande de devis.</p>
+
+          @for (cat of extraCategories(); track cat.nom) {
+            <div class="cat-block" [class.open]="cat.open">
+              <div class="cat-header" (click)="toggleCat(cat)">
+                <span class="cat-name">{{ cat.nom }}</span>
+                <span class="cat-arrow">&#8964;</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                @for (extra of group.items; track extra.id) {
-                  <div class="bg-cream border border-stone-mid rounded-sm px-4 py-3 flex items-start justify-between gap-3">
-                    <div>
-                      <div class="font-dm font-medium text-[14px] text-ink">{{ extra.nom }}</div>
-                      @if (extra.description) {
-                        <div class="font-dm font-light text-[12px] text-slate mt-0.5">{{ extra.description }}</div>
-                      }
-                    </div>
-                    <div class="font-dm font-medium text-[13px] text-slate-dark flex-shrink-0">{{ formatPrix(extra) }}</div>
+              <div class="cat-body">
+                <div class="cat-body-inner">
+                  <div class="extras-grid">
+                    @for (extra of cat.extras; track extra.id) {
+                      <div class="extra-card">
+                        <div>
+                          <div class="extra-name">{{ extra.nom }}</div>
+                          <div class="extra-desc">{{ extra.description }}</div>
+                        </div>
+                        <div class="extra-price">
+                          @if (extra.type === 'par_personne') {
+                            {{ extra.prix }} €/pers.
+                          } @else {
+                            {{ extra.prix }} €
+                          }
+                        </div>
+                      </div>
+                    }
                   </div>
-                }
+                </div>
               </div>
             </div>
           }
-          <p class="font-dm text-[11px] italic text-stone-deep mt-4">Les extras sont à préciser lors de votre demande de devis.</p>
+
+          <p class="extras-note">Les extras sont à préciser lors de votre demande de devis.</p>
         </div>
       }
 

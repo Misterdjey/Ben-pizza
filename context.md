@@ -150,3 +150,4 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-20 | Feature | Page /devis : formulaire, estimation reactive signals, creation commande          |
 | 2026-05-20 | Feature | Admin Extras : CRUD (nom, categorie, type, prix, actif), sidebar nav              |
 | 2026-05-20 | Feature | Admin Offres : page detail /offres/:id, description + includes + extras lies      |
+| 2026-05-20 | Style   | Offres vitrine : extras en accordeon par categorie, tout ferme par defaut         |

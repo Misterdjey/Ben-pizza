@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 import { OffreService } from '../services/offre.service';
 import { OffreWithExtras, Extra } from '../admin/models';
 
+interface CatEntry { nom: string; open: boolean; extras: Extra[] }
+
 @Component({
   selector: 'app-offers',
   standalone: true,
@@ -16,22 +18,19 @@ export class OffersComponent implements OnInit {
   offres = signal<OffreWithExtras[]>([]);
   loading = signal(true);
 
-  extrasByCategorie = computed(() => {
+  extraCategories = computed<CatEntry[]>(() => {
     const allExtras: Extra[] = [];
     for (const o of this.offres()) {
       for (const e of o.extras) {
-        if (!allExtras.find((x) => x.id === e.id)) {
-          allExtras.push(e);
-        }
+        if (!allExtras.find((x) => x.id === e.id)) allExtras.push(e);
       }
     }
-    const map = new Map<string, Extra[]>();
+    const map = new Map<string, CatEntry>();
     for (const e of allExtras) {
-      const list = map.get(e.categorie) ?? [];
-      list.push(e);
-      map.set(e.categorie, list);
+      if (!map.has(e.categorie)) map.set(e.categorie, { nom: e.categorie, open: false, extras: [] });
+      map.get(e.categorie)!.extras.push(e);
     }
-    return Array.from(map.entries()).map(([categorie, items]) => ({ categorie, items }));
+    return Array.from(map.values());
   });
 
   async ngOnInit() {
@@ -43,8 +42,7 @@ export class OffersComponent implements OnInit {
     return this.offreService.getPrixParPersonne(offre, 8);
   }
 
-  formatPrix(e: Extra): string {
-    if (e.type === 'fixe') return `${e.prix} €`;
-    return `${e.prix} €/pers.`;
+  toggleCat(cat: CatEntry) {
+    cat.open = !cat.open;
   }
 }
