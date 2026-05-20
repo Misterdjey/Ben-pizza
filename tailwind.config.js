@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         'playfair': ['Playfair Display', 'serif'],
         'dm': ['DM Sans', 'sans-serif'],
+        'inter': ['Inter', 'sans-serif'],
       },
       colors: {
         'stone': '#EDEAE5',
