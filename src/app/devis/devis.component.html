@@ -31,14 +31,6 @@
           <p class="est-label">Estimation indicative</p>
           @if (estimation()) {
             <div class="est-total">{{ estimationTotal() }} €</div>
-            <div class="est-lines">
-              @for (ligne of estimation()!; track ligne.nom) {
-                <div class="est-line">
-                  <span>{{ ligne.nom }}</span>
-                  <span>{{ ligne.total }} €</span>
-                </div>
-              }
-            </div>
           } @else {
             <div class="est-empty">—</div>
             <div class="est-hint">Sélectionnez convives et offres</div>
@@ -88,16 +80,9 @@
             </div>
 
             <!-- Convives -->
-            <div class="form-section">
+            <div class="form-field" style="max-width: 180px;">
               <label class="form-label">Nombre de convives</label>
-              <div class="guests-row">
-                @for (n of guestOptions; track n) {
-                  <button type="button" (click)="setGuests(n)"
-                    class="guest-btn" [class.active]="guests() === n">
-                    {{ n === 15 ? '15+' : n }}
-                  </button>
-                }
-              </div>
+              <input type="number" min="1" [ngModel]="guests()" (ngModelChange)="setGuests($event)" name="guests" class="form-input"/>
             </div>
 
             <!-- Séparateur Date -->

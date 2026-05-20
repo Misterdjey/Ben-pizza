@@ -37,11 +37,9 @@ export class DevisComponent implements OnInit {
   submitted = signal(false);
   errorMsg = signal<string | null>(null);
 
-  guests = signal<number>(0);
+  guests = signal<number>(12);
   selectedOffres = signal<SelectedOffreEntry[]>([]);
   addOffreId = '';
-
-  readonly guestOptions = [4, 6, 8, 10, 12, 15];
 
   readonly genericIncludes = [
     'Matériel professionnel sur place',
@@ -131,7 +129,7 @@ export class DevisComponent implements OnInit {
   }
 
   async submit() {
-    if (!this.form.prenom || !this.form.nom || !this.form.email || !this.guests()) {
+    if (!this.form.prenom || !this.form.nom || !this.form.email || this.guests() < 1) {
       this.errorMsg.set('Merci de renseigner prénom, nom, email et nombre de convives.');
       return;
     }

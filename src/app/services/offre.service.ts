@@ -25,6 +25,8 @@ export class OffreService {
     const tranche = offre.tranches.find(
       (t) => nbPersonnes >= t.min && (t.max === null || nbPersonnes <= t.max),
     );
-    return tranche ? tranche.prix : 0;
+    if (tranche) return tranche.prix;
+    // Si aucune tranche ne correspond, prendre la dernière (plus grand volume)
+    return offre.tranches[offre.tranches.length - 1]?.prix ?? 0;
   }
 }

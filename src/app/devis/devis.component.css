@@ -211,25 +211,6 @@
 .form-input:focus { border-color: #4A6272; }
 .form-textarea { resize: none; }
 
-/* ── Convives ───────────────────────────────────────────────────── */
-.guests-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.guest-btn {
-  border: 1px solid #C8D8E4;
-  background: transparent;
-  color: #4A6272;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  padding: 8px 16px;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.guest-btn:hover { border-color: #4A6272; }
-.guest-btn.active {
-  background: #2C3E4D;
-  border-color: #2C3E4D;
-  color: #F8F6F3;
-}
 
 /* ── Séparateurs ────────────────────────────────────────────────── */
 .section-sep {
