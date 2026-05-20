@@ -1,3 +1,437 @@
+/* ── Page ───────────────────────────────────────────────────────── */
+.devis-page {
+  background: #EDEAE5;
+  min-height: 100vh;
+}
+.devis-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* ── Grid 2 colonnes ────────────────────────────────────────────── */
+.devis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+@media (max-width: 767px) {
+  .devis-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Colonne gauche ─────────────────────────────────────────────── */
+.devis-left {
+  background: #2C3E4D;
+  padding: 64px 48px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.devis-back {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  margin-bottom: 48px;
+  display: inline-block;
+  transition: color 0.15s;
+}
+.devis-back:hover { color: rgba(255,255,255,0.6); }
+
+.devis-left-content { flex: 1; }
+
+.devis-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7A9AAF;
+  margin-bottom: 12px;
+}
+.devis-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #F8F6F3;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+.devis-title em { font-weight: 400; }
+.devis-subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(200,216,228,0.65);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.devis-includes {
+  list-style: none;
+  margin: 0 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.devis-include-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #C8D8E4;
+}
+.devis-include-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #4A6272;
+  flex-shrink: 0;
+}
+
+/* ── Bloc estimation ────────────────────────────────────────────── */
+.devis-estimation {
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin-top: 32px;
+}
+.est-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(122,154,175,0.8);
+  margin-bottom: 8px;
+}
+.est-total {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #F8F6F3;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.est-empty {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.12);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.est-hint {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.2);
+}
+.est-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.est-line {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(122,154,175,0.8);
+}
+
+/* ── Colonne droite ─────────────────────────────────────────────── */
+.devis-right {
+  background: #EDEAE5;
+  padding: 64px 48px;
+  height: 100vh;
+  overflow-y: auto;
+}
+.devis-confirm {
+  background: #F8F6F3;
+  border: 1px solid #4A6272;
+  border-radius: 2px;
+  padding: 28px;
+}
+.devis-form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1C1C1A;
+  margin-bottom: 28px;
+}
+.devis-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  border-radius: 2px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+
+/* ── Formulaire ─────────────────────────────────────────────────── */
+.devis-form { display: flex; flex-direction: column; gap: 16px; }
+
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-section { display: flex; flex-direction: column; gap: 10px; }
+
+.form-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #A39E97;
+}
+.form-input {
+  background: #F8F6F3;
+  border: 1px solid #D4CFC8;
+  border-radius: 2px;
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #1C1C1A;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.form-input:focus { border-color: #4A6272; }
+.form-textarea { resize: none; }
+
+/* ── Convives ───────────────────────────────────────────────────── */
+.guests-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.guest-btn {
+  border: 1px solid #C8D8E4;
+  background: transparent;
+  color: #4A6272;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.guest-btn:hover { border-color: #4A6272; }
+.guest-btn.active {
+  background: #2C3E4D;
+  border-color: #2C3E4D;
+  color: #F8F6F3;
+}
+
+/* ── Séparateurs ────────────────────────────────────────────────── */
+.section-sep {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+}
+.sep-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4A6272;
+  white-space: nowrap;
+}
+.sep-line { flex: 1; height: 1px; background: #D4CFC8; }
+
+/* ── Sélecteur offre ────────────────────────────────────────────── */
+.offre-add-row { display: flex; gap: 10px; align-items: center; }
+.offre-select {
+  flex: 1;
+  background: #F8F6F3;
+  border: 1px solid #D4CFC8;
+  border-radius: 2px;
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #1C1C1A;
+  outline: none;
+  cursor: pointer;
+}
+.offre-add-btn {
+  background: #2C3E4D;
+  color: #F8F6F3;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 2px;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.offre-add-btn:hover { background: #1C1C1A; }
+
+/* ── Offre sélectionnée ─────────────────────────────────────────── */
+.selected-offre {
+  border: 1px solid #D4CFC8;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.selected-offre-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(200,216,228,0.2);
+  padding: 12px 16px;
+}
+.selected-offre-nom {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2C3E4D;
+}
+.selected-offre-prix {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #4A6272;
+}
+.selected-offre-remove {
+  background: none;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: #4A6272;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.selected-offre-remove:hover { color: #1C1C1A; }
+.selected-offre-extras { padding: 12px 16px 4px; background: #F8F6F3; }
+
+/* ── Catégories extras dans l'offre ─────────────────────────────── */
+.sel-cat { margin-bottom: 12px; }
+.sel-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.sel-cat-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4A6272;
+  white-space: nowrap;
+}
+.sel-cat-line { flex: 1; height: 1px; background: #D4CFC8; }
+
+/* ── Extra cliquable ────────────────────────────────────────────── */
+.sel-extra {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: #F8F6F3;
+  border: 1px solid #D4CFC8;
+  border-radius: 2px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+.sel-extra:hover { border-color: #4A6272; }
+.sel-extra.checked {
+  background: rgba(200,216,228,0.2);
+  border-color: #C8D8E4;
+}
+.sel-extra-check {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #D4CFC8;
+  border-radius: 2px;
+  background: #F8F6F3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #2C3E4D;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.sel-extra.checked .sel-extra-check {
+  background: #2C3E4D;
+  border-color: #2C3E4D;
+  color: #F8F6F3;
+}
+.sel-extra-info { flex: 1; }
+.sel-extra-nom {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #1C1C1A;
+}
+.sel-extra-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: #4A6272;
+}
+.sel-extra-prix {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2C3E4D;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Submit ─────────────────────────────────────────────────────── */
+.form-submit-wrap { display: flex; flex-direction: column; gap: 10px; padding-top: 8px; }
+.form-submit-btn {
+  width: 100%;
+  background: #2C3E4D;
+  color: #F8F6F3;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 2px;
+  padding: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.form-submit-btn:hover { background: #1C1C1A; }
+.form-submit-btn:disabled { opacity: 0.5; cursor: default; }
+.form-submit-note {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: #A39E97;
+  text-align: center;
+}
+
+/* ── Responsive mobile ──────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .devis-left  { position: static; height: auto; padding: 40px 24px; }
+  .devis-right { height: auto; padding: 40px 24px; }
+  .form-row-2  { grid-template-columns: 1fr; }
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0.4;
   cursor: pointer;

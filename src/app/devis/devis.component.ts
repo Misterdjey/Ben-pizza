@@ -4,7 +4,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OffreService } from '../services/offre.service';
 import { SupabaseService } from '../admin/services/supabase.service';
 import { OffreWithExtras, Extra } from '../admin/models';
-import { CurrencyPipe } from '@angular/common';
+
+interface SelectedOffreEntry {
+  offre: OffreWithExtras;
+  selectedExtras: Extra[];
+}
 
 interface DevisForm {
   prenom: string;
@@ -18,7 +22,7 @@ interface DevisForm {
 @Component({
   selector: 'app-devis',
   standalone: true,
-  imports: [FormsModule, RouterLink, CurrencyPipe],
+  imports: [FormsModule, RouterLink],
   templateUrl: './devis.component.html',
   styleUrl: './devis.component.css',
 })
@@ -28,56 +32,52 @@ export class DevisComponent implements OnInit {
   private db = inject(SupabaseService).client;
 
   offres = signal<OffreWithExtras[]>([]);
-  offre = signal<OffreWithExtras | null>(null);
   loading = signal(true);
   submitting = signal(false);
   submitted = signal(false);
   errorMsg = signal<string | null>(null);
 
   guests = signal<number>(0);
-  selectedExtras = signal<Extra[]>([]);
+  selectedOffres = signal<SelectedOffreEntry[]>([]);
+  addOffreId = '';
 
   readonly guestOptions = [4, 6, 8, 10, 12, 15];
 
-  form: DevisForm = {
-    prenom: '',
-    nom: '',
-    email: '',
-    ville: '',
-    date: '',
-    commentaire: '',
-  };
+  readonly genericIncludes = [
+    'Matériel professionnel sur place',
+    'Pâte fermentée 72h',
+    'Service en flux continu',
+    'Déplacement Île-de-France',
+  ];
 
-  extrasByCategorie = computed(() => {
-    const o = this.offre();
-    if (!o) return [];
-    const map = new Map<string, Extra[]>();
-    for (const e of o.extras) {
-      const list = map.get(e.categorie) ?? [];
-      list.push(e);
-      map.set(e.categorie, list);
-    }
-    return Array.from(map.entries()).map(([categorie, items]) => ({ categorie, items }));
-  });
+  form: DevisForm = { prenom: '', nom: '', email: '', ville: '', date: '', commentaire: '' };
 
   estimation = computed(() => {
     const nb = this.guests();
-    const o = this.offre();
-    if (!nb || !o) return null;
-    const prixUnitaire = this.offreService.getPrixParPersonne(o, nb);
-    const base = prixUnitaire * nb;
-    const extrasTotal = this.selectedExtras().reduce((acc, e) => {
-      return acc + (e.type === 'par_personne' ? e.prix * nb : e.prix);
-    }, 0);
-    return { base, extras: extrasTotal, total: base + extrasTotal, prixUnitaire };
+    if (!nb || !this.selectedOffres().length) return null;
+    return this.selectedOffres().map(({ offre, selectedExtras }) => {
+      const prixUnitaire = this.offreService.getPrixParPersonne(offre, nb);
+      const base = prixUnitaire * nb;
+      const extras = selectedExtras.reduce(
+        (acc, e) => acc + (e.type === 'par_personne' ? e.prix * nb : e.prix), 0,
+      );
+      return { nom: offre.nom, base, extras, total: base + extras };
+    });
   });
+
+  estimationTotal = computed(() =>
+    this.estimation()?.reduce((acc, o) => acc + o.total, 0) ?? 0,
+  );
 
   async ngOnInit() {
     const offres = await this.offreService.getOffresWithExtras();
     this.offres.set(offres);
+    if (offres.length > 0) this.addOffreId = offres[0].id;
     const offreId = this.route.snapshot.queryParamMap.get('offre');
-    const found = offreId ? offres.find((o) => o.id === offreId) : offres[0];
-    this.offre.set(found ?? offres[0] ?? null);
+    if (offreId) {
+      const found = offres.find(o => o.id === offreId);
+      if (found) this.selectedOffres.set([{ offre: found, selectedExtras: [] }]);
+    }
     this.loading.set(false);
   }
 
@@ -85,26 +85,49 @@ export class DevisComponent implements OnInit {
     this.guests.set(nb);
   }
 
-  toggleExtra(extra: Extra) {
-    const current = this.selectedExtras();
-    if (current.find((e) => e.id === extra.id)) {
-      this.selectedExtras.set(current.filter((e) => e.id !== extra.id));
-    } else {
-      this.selectedExtras.set([...current, extra]);
+  addOffre() {
+    const offre = this.offres().find(o => o.id === this.addOffreId);
+    if (!offre) return;
+    if (this.selectedOffres().find(s => s.offre.id === offre.id)) return;
+    this.selectedOffres.update(list => [...list, { offre, selectedExtras: [] }]);
+  }
+
+  removeOffre(offreId: string) {
+    this.selectedOffres.update(list => list.filter(s => s.offre.id !== offreId));
+  }
+
+  toggleExtra(offreId: string, extra: Extra) {
+    this.selectedOffres.update(list =>
+      list.map(s => {
+        if (s.offre.id !== offreId) return s;
+        const has = s.selectedExtras.find(e => e.id === extra.id);
+        return {
+          ...s,
+          selectedExtras: has
+            ? s.selectedExtras.filter(e => e.id !== extra.id)
+            : [...s.selectedExtras, extra],
+        };
+      }),
+    );
+  }
+
+  isExtraSelected(offreId: string, extra: Extra): boolean {
+    return !!this.selectedOffres().find(s => s.offre.id === offreId)
+      ?.selectedExtras.find(e => e.id === extra.id);
+  }
+
+  extrasByCategorie(offre: OffreWithExtras) {
+    const map = new Map<string, Extra[]>();
+    for (const e of offre.extras) {
+      const list = map.get(e.categorie) ?? [];
+      list.push(e);
+      map.set(e.categorie, list);
     }
+    return Array.from(map.entries()).map(([nom, items]) => ({ nom, items }));
   }
 
-  isExtraSelected(extra: Extra): boolean {
-    return !!this.selectedExtras().find((e) => e.id === extra.id);
-  }
-
-  formatEstimationDetail(): string {
-    const est = this.estimation();
-    const nb = this.guests();
-    if (!est) return '';
-    let detail = `${nb} pers. · offre ${est.base} €`;
-    if (est.extras > 0) detail += ` + extras ${est.extras} €`;
-    return detail;
+  premierPrix(offre: OffreWithExtras): number {
+    return offre.tranches[0]?.prix ?? 0;
   }
 
   async submit() {
@@ -112,53 +135,47 @@ export class DevisComponent implements OnInit {
       this.errorMsg.set('Merci de renseigner prénom, nom, email et nombre de convives.');
       return;
     }
+    if (!this.selectedOffres().length) {
+      this.errorMsg.set('Merci d\'ajouter au moins une offre.');
+      return;
+    }
     this.submitting.set(true);
     this.errorMsg.set(null);
     try {
-      const offre = this.offre()!;
-      const est = this.estimation();
-
-      // Upsert client
       const { data: clientData, error: clientError } = await this.db
         .from('clients')
         .upsert(
-          {
-            email: this.form.email,
-            prenom: this.form.prenom,
-            nom: this.form.nom,
-            type: 'particulier',
-          },
+          { email: this.form.email, prenom: this.form.prenom, nom: this.form.nom, type: 'particulier' },
           { onConflict: 'email', ignoreDuplicates: false },
         )
         .select()
         .single();
       if (clientError) throw clientError;
 
-      // Construire les notes
-      const extrasNoms = this.selectedExtras().map((e) => e.nom).join(', ');
-      const notes = [
-        this.form.date ? `Date souhaitée : ${this.form.date}` : null,
-        extrasNoms ? `Extras : ${extrasNoms}` : null,
-        this.form.commentaire || null,
-      ]
-        .filter(Boolean)
-        .join('\n');
+      const est = this.estimation() ?? [];
+      for (const { offre, selectedExtras } of this.selectedOffres()) {
+        const ligne = est.find(l => l.nom === offre.nom);
+        const extrasNoms = selectedExtras.map(e => e.nom).join(', ');
+        const notes = [
+          this.form.date ? `Date souhaitée : ${this.form.date}` : null,
+          extrasNoms ? `Extras : ${extrasNoms}` : null,
+          this.form.commentaire || null,
+        ].filter(Boolean).join('\n');
 
-      // Créer la commande
-      const { error: cmdError } = await this.db.from('commandes').insert({
-        client_id: clientData.id,
-        offre_id: offre.id,
-        nb_personnes: this.guests(),
-        prix_total: est?.total ?? 0,
-        statut: 'devis',
-        notes: notes || null,
-        date_presta: this.form.date || null,
-      });
-      if (cmdError) throw cmdError;
+        const { error: cmdError } = await this.db.from('commandes').insert({
+          client_id: clientData.id,
+          offre_id: offre.id,
+          nb_personnes: this.guests(),
+          prix_total: ligne?.total ?? 0,
+          statut: 'devis',
+          notes: notes || null,
+          date_presta: this.form.date || null,
+        });
+        if (cmdError) throw cmdError;
+      }
 
-      // TODO: envoyer notification email via Supabase Edge Function ou Resend
+      // TODO: notification email via Resend
       console.log('Devis soumis — notification email à implémenter');
-
       this.submitted.set(true);
     } catch (e: unknown) {
       this.errorMsg.set(e instanceof Error ? e.message : 'Une erreur est survenue. Veuillez réessayer.');
