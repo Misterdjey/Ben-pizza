@@ -1,0 +1,119 @@
+<div class="h-full flex flex-col">
+
+  <!-- Header fixe -->
+  <div class="flex-shrink-0 flex items-center justify-between mb-6">
+    <div>
+      <p class="section-label">Site vitrine</p>
+      <h1 class="font-playfair text-[32px] text-ink">Galerie photos</h1>
+    </div>
+    <button
+      (click)="openFilePicker()"
+      [disabled]="uploading()"
+      class="flex items-center gap-2 bg-slate text-cream font-dm font-medium text-[12px] tracking-[0.12em] uppercase rounded-sm px-5 py-2.5 hover:bg-slate-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      @if (uploading()) {
+        <span class="animate-spin inline-block w-3 h-3 border-2 border-cream/40 border-t-cream rounded-full"></span>
+        <span>Upload…</span>
+      } @else {
+        <span>+ Ajouter des photos</span>
+      }
+    </button>
+  </div>
+
+  <input
+    #fileInput
+    type="file"
+    accept="image/jpeg,image/webp"
+    multiple
+    class="hidden"
+    (change)="onFilesSelected($event)"
+  >
+
+  <!-- Zone scrollable -->
+  <div class="flex-1 min-h-0 overflow-y-auto pb-4">
+    @if (loading()) {
+      <div class="text-center py-16 font-dm text-stone-deep">Chargement…</div>
+    } @else if (!images().length) {
+      <div class="text-center py-16 font-dm text-stone-deep">Aucune image. Ajoutez des photos pour commencer.</div>
+    } @else {
+      <div
+        cdkDropList
+        cdkDropListOrientation="mixed"
+        [cdkDropListData]="images()"
+        (cdkDropListDropped)="onDrop($event)"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+      >
+        @for (img of images(); track img.id) {
+          <div cdkDrag class="rounded-sm overflow-hidden bg-stone-mid shadow-sm group cursor-grab active:cursor-grabbing">
+
+            <!-- Image -->
+            <div class="relative h-40 overflow-hidden">
+              <img
+                [src]="img.url"
+                [alt]="img.alt"
+                class="w-full h-full object-cover transition-opacity"
+                [class.opacity-40]="!img.visible"
+              >
+
+              <!-- Badge visible / masquée -->
+              <button
+                (click)="toggleVisible(img)"
+                class="absolute top-2 right-2 px-2 py-0.5 rounded-sm font-dm text-[10px] font-medium tracking-[0.1em] uppercase transition-colors"
+                [class]="img.visible ? 'bg-green-600/90 text-white hover:bg-green-700/90' : 'bg-gray-500/80 text-white hover:bg-gray-600/80'"
+              >
+                {{ img.visible ? 'Visible' : 'Masquée' }}
+              </button>
+
+              <!-- Bouton supprimer -->
+              <button
+                (click)="deleteImage(img)"
+                class="absolute top-2 left-2 p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                title="Supprimer"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+
+              <!-- Drag handle hint -->
+              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-60 transition-opacity">
+                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 6a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm8-8a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm-8 8a2 2 0 110-4 2 2 0 010 4zm8 0a2 2 0 110-4 2 2 0 010 4z"/>
+                </svg>
+              </div>
+
+              <!-- CDK drag placeholder -->
+              <div *cdkDragPlaceholder class="absolute inset-0 bg-slate/10 border-2 border-dashed border-slate/30 rounded-sm"></div>
+            </div>
+
+            <!-- Alt text inline edit -->
+            <div class="bg-white px-3 py-2 min-h-[36px] flex items-center">
+              @if (editingAltId() === img.id) {
+                <input
+                  type="text"
+                  [value]="altDraft()"
+                  (input)="altDraft.set($any($event.target).value)"
+                  (blur)="saveAlt(img)"
+                  (keydown.enter)="saveAlt(img)"
+                  (keydown.escape)="cancelEditAlt()"
+                  class="w-full font-dm text-[12px] text-ink border-b border-slate outline-none bg-transparent"
+                  autofocus
+                >
+              } @else {
+                <p
+                  (click)="startEditAlt(img)"
+                  class="font-dm text-[12px] text-stone-deep cursor-text truncate hover:text-ink transition-colors w-full"
+                  title="{{ img.alt || 'Cliquer pour ajouter une description' }}"
+                >
+                  {{ img.alt || 'Ajouter une description…' }}
+                </p>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+</div>

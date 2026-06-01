@@ -5,8 +5,28 @@
       <img src="images/benyochem-wordmark-sombre.svg" alt="BenYoChem Pizza" class="h-8 w-auto">
       <div class="font-dm text-[12px] tracking-[0.22em] uppercase text-white/40 mt-3">Administration</div>
     </div>
-    <nav class="flex-1 px-3 py-5 space-y-0.5">
+    <nav class="flex-1 px-3 py-5 flex flex-col gap-0.5 overflow-y-auto">
       @for (item of navItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="bg-white/20 text-cream"
+          [routerLinkActiveOptions]="{ exact: item.exact }"
+          (click)="closeSidebar()"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/55 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[15px]"
+        >
+          <span class="text-base">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+      <!-- Séparateur Site vitrine -->
+      <div class="mt-3 mb-1 px-4">
+        <div class="flex items-center gap-2">
+          <hr class="flex-1 border-white/10">
+          <span class="section-label text-white/30">Site vitrine</span>
+          <hr class="flex-1 border-white/10">
+        </div>
+      </div>
+      @for (item of navItemsVitrine; track item.path) {
         <a
           [routerLink]="item.path"
           routerLinkActive="bg-white/20 text-cream"
@@ -42,8 +62,27 @@
           </div>
           <button (click)="closeSidebar()" class="text-white/50 hover:text-cream text-xl leading-none">✕</button>
         </div>
-        <nav class="flex-1 px-3 py-5 space-y-0.5">
+        <nav class="flex-1 px-3 py-5 flex flex-col gap-0.5 overflow-y-auto">
           @for (item of navItems; track item.path) {
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="bg-white/20 text-cream"
+              [routerLinkActiveOptions]="{ exact: item.exact }"
+              (click)="closeSidebar()"
+              class="flex items-center gap-3 px-4 py-2.5 rounded-sm text-white/55 hover:bg-white/10 hover:text-cream transition-colors font-dm text-[15px]"
+            >
+              <span class="text-base">{{ item.icon }}</span>
+              <span>{{ item.label }}</span>
+            </a>
+          }
+          <div class="mt-3 mb-1 px-4">
+            <div class="flex items-center gap-2">
+              <hr class="flex-1 border-white/10">
+              <span class="section-label text-white/30">Site vitrine</span>
+              <hr class="flex-1 border-white/10">
+            </div>
+          </div>
+          @for (item of navItemsVitrine; track item.path) {
             <a
               [routerLink]="item.path"
               routerLinkActive="bg-white/20 text-cream"

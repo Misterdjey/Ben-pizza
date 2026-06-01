@@ -153,3 +153,9 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-05-20 | Style   | Offres vitrine : extras en accordeon par categorie, tout ferme par defaut         |
 | 2026-05-20 | Feature | Offres vitrine : accordeon par offre + sous-accordeon extras 1 colonne            |
 | 2026-05-20 | Feature | Page /devis : multi-offres, extras par offre, estimation reactive, submit         |
+| 2026-06-01 | Refonte | Logo BenYoChem : SVG wordmark + monogramme (clair/sombre), fonds transparents     |
+| 2026-06-01 | Feature | Supabase : table gallery_images (RLS), bucket Storage gallery (public read)       |
+| 2026-06-01 | Feature | Admin Galerie : grille drag-and-drop, toggle visible, suppression, alt inline     |
+| 2026-06-01 | Feature | Admin Galerie : upload JPG/WebP avec validation résolution+poids, compression     |
+| 2026-06-01 | Feature | Vitrine Galerie : source migree gallery.json → Supabase gallery_images            |
+| 2026-06-01 | Feature | Admin sidebar : séparateur visuel "Site vitrine" avant section Galerie            |

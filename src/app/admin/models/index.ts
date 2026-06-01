@@ -69,6 +69,15 @@ export interface Ingredient {
   created_at: string;
 }
 
+export interface GalleryImage {
+  id: string;
+  url: string;
+  alt: string;
+  visible: boolean;
+  position: number;
+  created_at?: string;
+}
+
 export interface Depense {
   id: string;
   commande_id: string;

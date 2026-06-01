@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed, HostListener } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { GalleryService } from '../admin/services/gallery.service';
 
 interface GalleryImage { src: string; alt: string; }
 
@@ -10,11 +10,13 @@ interface GalleryImage { src: string; alt: string; }
   styleUrl: './gallery.component.css',
 })
 export class GalleryComponent {
-  private http = inject(HttpClient);
+  private galleryService = inject(GalleryService);
   protected images = signal<GalleryImage[]>([]);
 
   constructor() {
-    this.http.get<GalleryImage[]>('/gallery.json').subscribe(data => this.images.set(data));
+    this.galleryService.getVisible().then((data) =>
+      this.images.set(data.map((img) => ({ src: img.url, alt: img.alt })))
+    );
   }
 
   private readonly perPage = 5;

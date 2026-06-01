@@ -78,6 +78,11 @@ export const adminRoutes: Routes = [
             (m) => m.RecetteDetailComponent,
           ),
       },
+      {
+        path: 'galerie',
+        loadComponent: () =>
+          import('./galerie/galerie.component').then((m) => m.GalerieComponent),
+      },
     ],
   },
 ];

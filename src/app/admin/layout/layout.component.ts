@@ -23,6 +23,10 @@ export class AdminLayoutComponent {
     { path: '/admin/recettes', label: 'Recettes', icon: '📖', exact: false },
   ];
 
+  readonly navItemsVitrine = [
+    { path: '/admin/galerie', label: 'Galerie', icon: '🖼️', exact: false },
+  ];
+
   toggleSidebar() {
     this.sidebarOpen.update((v) => !v);
   }
