@@ -18,7 +18,7 @@ export class FloatingToolbarComponent {
     { id: 'section-offers',       icon: '💰', label: 'Formules' },
     { id: 'section-how-it-works', icon: '👨‍🍳', label: 'Process' },
     { id: 'section-gallery',      icon: '📸', label: 'Galerie' },
-    { id: 'section-testimonials', icon: '⭐', label: 'Avis' },
+    // { id: 'section-testimonials', icon: '⭐', label: 'Avis' },
     { id: 'section-contact',      icon: '📞', label: 'Contact' },
   ];
 
