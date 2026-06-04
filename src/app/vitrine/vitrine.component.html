@@ -8,7 +8,7 @@
     <!-- Desktop -->
     <div class="hidden md:flex items-center gap-10">
       <a href="#section-how-it-works" class="font-dm text-[13px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Concept</a>
-      <a href="#section-offers" class="font-dm text-[13px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Offres</a>
+      <a href="#section-menu" class="font-dm text-[13px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Menu</a>
       <a href="#section-gallery" class="font-dm text-[13px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Photos</a>
       <!-- <a href="#section-testimonials" class="font-dm text-[13px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Avis</a> -->
       <a routerLink="/devis" class="bg-slate text-cream font-dm font-medium text-[12px] tracking-[0.12em] uppercase rounded-sm px-6 py-2.5 hover:bg-slate-dark transition-colors">
@@ -41,7 +41,7 @@
   @if (menuOpen()) {
     <div class="md:hidden border-t border-stone-mid bg-stone px-8 py-6 flex flex-col gap-6">
       <a href="#section-how-it-works" (click)="closeMenu()" class="font-dm text-[15px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Concept</a>
-      <a href="#section-offers" (click)="closeMenu()" class="font-dm text-[15px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Offres</a>
+      <a href="#section-menu" (click)="closeMenu()" class="font-dm text-[15px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Menu</a>
       <a href="#section-gallery" (click)="closeMenu()" class="font-dm text-[15px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Photos</a>
       <!-- <a href="#section-testimonials" (click)="closeMenu()" class="font-dm text-[15px] tracking-[0.1em] text-stone-deep uppercase hover:text-slate transition-colors">Avis</a> -->
       <div class="pt-1 flex items-center gap-5">
@@ -70,7 +70,7 @@
   </div>
 
   <div id="section-how-it-works"><app-how-it-works></app-how-it-works></div>
-  <div id="section-offers"><app-offers></app-offers></div>
+  <div id="section-menu"><app-menu></app-menu></div>
   <div id="section-gallery"><app-gallery></app-gallery></div>
   <!-- <div id="section-testimonials"><app-testimonials></app-testimonials></div> -->
   <div id="section-contact"><app-cta></app-cta></div>

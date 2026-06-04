@@ -15,6 +15,7 @@
           <tr class="border-b border-gray-100 bg-stone/40">
             <th class="text-left font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Nom</th>
             <th class="text-left font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Catégorie</th>
+            <th class="text-center font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Ordre</th>
             <th class="text-left font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Type</th>
             <th class="text-right font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Prix</th>
             <th class="text-center font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep px-5 py-3">Actif</th>
@@ -31,6 +32,7 @@
                 }
               </td>
               <td class="px-5 py-3.5 font-dm text-[14px] text-gray-500">{{ e.categorie }}</td>
+              <td class="px-5 py-3.5 text-center font-dm text-[14px] text-gray-400">{{ e.ordre ?? 0 }}</td>
               <td class="px-5 py-3.5">
                 <span class="font-dm text-[12px] tracking-wide uppercase px-2 py-1 rounded-sm"
                   [class]="e.type === 'par_personne' ? 'bg-slate-pale/40 text-slate-dark' : 'bg-stone-mid/60 text-stone-deep'">
@@ -91,6 +93,12 @@
             <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Catégorie</label>
             <input type="text" [(ngModel)]="form.categorie" placeholder="ex: Entrées" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
           </div>
+          <div>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Ordre catégorie</label>
+            <input type="number" [(ngModel)]="form.ordre" min="0" step="1" placeholder="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Prix (€)</label>
             <input type="number" [(ngModel)]="form.prix" step="0.5" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors"/>

@@ -17,7 +17,6 @@ export class AdminLayoutComponent {
     { path: '/admin', label: 'Dashboard', icon: '📊', exact: true },
     { path: '/admin/commandes', label: 'Commandes', icon: '📋', exact: false },
     { path: '/admin/clients', label: 'Clients', icon: '👥', exact: false },
-    { path: '/admin/offres', label: 'Offres', icon: '💶', exact: false },
     { path: '/admin/extras', label: 'Extras', icon: '✨', exact: false },
     { path: '/admin/ingredients', label: 'Ingrédients', icon: '🧄', exact: false },
     { path: '/admin/recettes', label: 'Recettes', icon: '📖', exact: false },

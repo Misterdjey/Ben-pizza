@@ -46,6 +46,7 @@ export class ExtrasComponent implements OnInit {
       prix: e.prix,
       unite_description: e.unite_description ?? '',
       actif: e.actif ?? true,
+      ordre: e.ordre ?? 0,
     };
     this.editingId.set(e.id);
     this.errorMsg.set(null);
@@ -103,6 +104,6 @@ export class ExtrasComponent implements OnInit {
   }
 
   private emptyForm(): ExtraForm {
-    return { nom: '', description: '', categorie: '', type: 'par_personne', prix: 0, unite_description: '', actif: true };
+    return { nom: '', description: '', categorie: '', type: 'par_personne', prix: 0, unite_description: '', actif: true, ordre: 0 };
   }
 }

@@ -8,7 +8,7 @@
 
     <div class="devis-grid">
 
-      <!-- ── Colonne gauche : résumé + estimation ── -->
+      <!-- ── Colonne gauche : récapitulatif ── -->
       <div class="devis-left">
         <a routerLink="/" class="devis-back">← Retour</a>
 
@@ -16,25 +16,40 @@
           <p class="devis-eyebrow">Votre demande</p>
           <h1 class="devis-title">Un devis <em>sur-mesure.</em></h1>
           <p class="devis-subtitle">Ben se déplace chez vous avec son matériel et cuisine en live pour vos convives.</p>
-
-          <ul class="devis-includes">
-            @for (item of genericIncludes; track $index) {
-              <li class="devis-include-item">
-                <span class="devis-include-dot"></span>{{ item }}
-              </li>
-            }
-          </ul>
         </div>
 
-        <!-- Bloc estimation -->
-        <div class="devis-estimation">
-          <p class="est-label">Estimation indicative</p>
-          @if (estimation()) {
-            <div class="est-total">{{ estimationTotal() }} €</div>
-          } @else {
-            <div class="est-empty">—</div>
-            <div class="est-hint">Sélectionnez convives et offres</div>
+        <!-- Récapitulatif réactif -->
+        <div class="devis-recap">
+          <p class="recap-label">Récapitulatif</p>
+
+          <!-- Ligne pizzas -->
+          <div class="recap-line">
+            <span class="recap-line-name">Pizza à domicile × {{ guests() }}</span>
+            <span class="recap-line-price">{{ totalPizzas() }} €</span>
+          </div>
+
+          <!-- Extras cochés -->
+          @if (extrasCoches().length > 0) {
+            <div class="recap-sep"></div>
+            @for (extra of extrasCoches(); track extra.id) {
+              <div class="recap-line recap-line--extra">
+                <span class="recap-line-name">{{ extra.nom }}</span>
+                <span class="recap-line-price">{{ prixExtra(extra) }} €</span>
+              </div>
+            }
+            <div class="recap-sep"></div>
+            <div class="recap-line recap-line--sub">
+              <span class="recap-line-name">Sous-total extras</span>
+              <span class="recap-line-price">{{ soustotalExtras() }} €</span>
+            </div>
           }
+
+          <!-- Total -->
+          <div class="recap-total-line">
+            <span class="recap-total-label">Total estimé</span>
+            <span class="recap-total-price">{{ totalGeneral() }} €</span>
+          </div>
+          <p class="recap-note">Estimation indicative — pas de paiement à cette étape</p>
         </div>
       </div>
 
@@ -80,9 +95,9 @@
             </div>
 
             <!-- Convives -->
-            <div class="form-field" style="max-width: 180px;">
-              <label class="form-label">Nombre de convives</label>
-              <input type="number" min="1" [ngModel]="guests()" (ngModelChange)="setGuests($event)" name="guests" class="form-input"/>
+            <div class="form-field" style="max-width: 200px;">
+              <label class="form-label">Nombre de convives (min. {{ minPersonnes }})</label>
+              <input type="number" [min]="minPersonnes" [ngModel]="guests()" (ngModelChange)="setGuests($event)" name="guests" class="form-input"/>
             </div>
 
             <!-- Séparateur Date -->
@@ -102,65 +117,36 @@
               <textarea [(ngModel)]="form.commentaire" name="commentaire" rows="3" class="form-input form-textarea"></textarea>
             </div>
 
-            <!-- Séparateur Offres -->
-            <div class="section-sep">
-              <span class="sep-label">Offres</span>
-              <div class="sep-line"></div>
-            </div>
-
-            <!-- Sélecteur d'ajout -->
-            @if (offres().length > 0) {
-              <div class="offre-add-row">
-                <select [(ngModel)]="addOffreId" name="addOffreId" class="offre-select">
-                  @for (o of offres(); track o.id) {
-                    <option [value]="o.id">{{ o.nom }} — {{ premierPrix(o) }} €/pers.</option>
-                  }
-                </select>
-                <button type="button" (click)="addOffre()" class="offre-add-btn">Ajouter</button>
+            <!-- Séparateur Extras -->
+            @if (categories().length > 0) {
+              <div class="section-sep">
+                <span class="sep-label">Extras</span>
+                <div class="sep-line"></div>
               </div>
-            }
 
-            <!-- Offres sélectionnées -->
-            @for (entry of selectedOffres(); track entry.offre.id) {
-              <div class="selected-offre">
-                <div class="selected-offre-header">
-                  <div>
-                    <span class="selected-offre-nom">{{ entry.offre.nom }}</span>
-                    <span class="selected-offre-prix"> — {{ premierPrix(entry.offre) }} €/pers.</span>
-                  </div>
-                  <button type="button" (click)="removeOffre(entry.offre.id)" class="selected-offre-remove">✕ Retirer</button>
-                </div>
-
-                @if (entry.offre.extras.length > 0) {
-                  <div class="selected-offre-extras">
-                    @for (cat of extrasByCategorie(entry.offre); track cat.nom) {
-                      <div class="sel-cat">
-                        <div class="sel-cat-header">
-                          <span class="sel-cat-name">{{ cat.nom }}</span>
-                          <div class="sel-cat-line"></div>
-                        </div>
-                        @for (extra of cat.items; track extra.id) {
-                          <button type="button" (click)="toggleExtra(entry.offre.id, extra)"
-                            class="sel-extra" [class.checked]="isExtraSelected(entry.offre.id, extra)">
-                            <div class="sel-extra-check">
-                              {{ isExtraSelected(entry.offre.id, extra) ? '✓' : '' }}
-                            </div>
-                            <div class="sel-extra-info">
-                              <span class="sel-extra-nom">{{ extra.nom }}</span>
-                              @if (extra.description) {
-                                <span class="sel-extra-desc"> · {{ extra.description }}</span>
-                              }
-                            </div>
-                            <div class="sel-extra-prix">
-                              {{ extra.type === 'par_personne' ? extra.prix + ' €/pers.' : extra.prix + ' €' }}
-                            </div>
-                          </button>
+              @for (cat of categories(); track cat.nom) {
+                <div class="extras-cat">
+                  <p class="extras-cat-name">{{ cat.nom }}</p>
+                  @for (extra of cat.extras; track extra.id) {
+                    <button type="button" (click)="toggleExtra(extra.id)"
+                      class="extra-row" [class.checked]="isChecked(extra.id)">
+                      <div class="extra-check">
+                        @if (isChecked(extra.id)) { <span>✓</span> }
+                      </div>
+                      <div class="extra-info">
+                        <span class="extra-nom">{{ extra.nom }}</span>
+                        @if (extra.description) {
+                          <span class="extra-detail"> · {{ extra.description }}</span>
                         }
                       </div>
-                    }
-                  </div>
-                }
-              </div>
+                      <div class="extra-prix">
+                        {{ extra.prix }} €
+                        <span class="extra-prix-suffix">{{ extra.type === 'par_personne' ? '/ pers.' : 'forfait' }}</span>
+                      </div>
+                    </button>
+                  }
+                </div>
+              }
             }
 
             <!-- Submit -->

@@ -15,7 +15,7 @@ export class FloatingToolbarComponent {
   protected sections = [
     { id: 'section-hero',         icon: '🏠', label: 'Accueil' },
     { id: 'section-menu',         icon: '🍕', label: 'Menu' },
-    { id: 'section-offers',       icon: '💰', label: 'Formules' },
+    { id: 'section-menu',         icon: '🍕', label: 'Menu' },
     { id: 'section-how-it-works', icon: '👨‍🍳', label: 'Process' },
     { id: 'section-gallery',      icon: '📸', label: 'Galerie' },
     // { id: 'section-testimonials', icon: '⭐', label: 'Avis' },

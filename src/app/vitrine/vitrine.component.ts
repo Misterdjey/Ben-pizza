@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeroComponent } from '../hero/hero.component';
-import { OffersComponent } from '../offers/offers.component';
+import { MenuComponent } from '../menu/menu.component';
 import { HowItWorksComponent } from '../how-it-works/how-it-works.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
@@ -14,7 +14,7 @@ import { LanguageService } from '../services/language.service';
   imports: [
     RouterLink,
     HeroComponent,
-    OffersComponent,
+    MenuComponent,
     HowItWorksComponent,
     GalleryComponent,
     TestimonialsComponent,

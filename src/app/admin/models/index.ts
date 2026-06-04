@@ -35,6 +35,7 @@ export interface Extra {
   prix: number;
   unite_description?: string;
   actif?: boolean;
+  ordre?: number;
   created_at?: string;
 }
 

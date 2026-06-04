@@ -1,55 +1,68 @@
-<section class="py-20 bg-stone">
-  <div class="max-w-7xl mx-auto px-8 md:px-16">
-    <div class="text-center mb-16">
-      <p class="section-label mb-4">La carte</p>
-      <h2 class="font-playfair font-semibold text-[50px] leading-tight text-ink mb-4">{{ t().menu.title }}</h2>
-      <p class="font-dm font-light text-[15px] leading-relaxed text-[#5A5550] max-w-2xl mx-auto">{{ t().menu.subtitle }}</p>
+<section class="bg-slate-dark">
+  <!-- En-tête : aligné comme les autres sections -->
+  <div class="px-8 md:px-16 pt-24 md:pt-28 pb-12 md:pb-14">
+    <div class="max-w-7xl mx-auto">
+      <p class="section-label text-slate-pale opacity-70 mb-3">La prestation</p>
+      <h2 class="font-playfair font-semibold text-[42px] md:text-[50px] leading-[1.05] text-cream">Ce que vous recevez.</h2>
     </div>
+  </div>
 
-    <div class="flex flex-wrap justify-center gap-3 mb-12">
-      <button
-        (click)="selectCategory('all')"
-        class="px-5 py-2 font-dm font-medium text-[11px] tracking-[0.12em] uppercase rounded-sm transition-all"
-        [class]="selectedCategory() === 'all' ? 'bg-slate text-cream' : 'border border-slate/40 bg-transparent text-slate hover:bg-slate/5'"
-      >
-        {{ t().menu.allPizzas }}
-      </button>
-      @for (category of categories; track category) {
-        <button
-          (click)="selectCategory(category)"
-          class="px-5 py-2 font-dm font-medium text-[11px] tracking-[0.12em] uppercase rounded-sm transition-all"
-          [class]="selectedCategory() === category ? 'bg-slate text-cream' : 'border border-slate/40 bg-transparent text-slate hover:bg-slate/5'"
-        >
-          {{ category }}
-        </button>
-      }
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (pizza of filteredPizzas(); track pizza.name) {
-        <div class="bg-cream rounded-sm overflow-hidden border border-stone-mid hover:shadow-md transition-shadow">
-          <div class="relative overflow-hidden">
-            <img
-              [src]="pizza.image"
-              [alt]="pizza.name"
-              class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
-            >
-            <div class="absolute top-3 right-3 bg-slate text-slate-pale text-[10px] tracking-widest rounded-sm px-2.5 py-1">
-              {{ pizza.category }}
-            </div>
+  <!-- Carte tarif fixe -->
+  <div class="px-8 md:px-16 pb-0">
+    <div class="max-w-7xl mx-auto">
+      <div class="bg-ink rounded-sm p-8 md:p-10">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div>
+            <p class="section-label text-slate-light opacity-70 mb-3">Formule unique</p>
+            <h3 class="font-playfair font-semibold text-[28px] md:text-[32px] text-cream leading-tight">Pizza à domicile</h3>
           </div>
-          <div class="p-5">
-            <h3 class="font-playfair font-semibold text-[22px] text-ink mb-3">{{ pizza.name }}</h3>
-            <div class="flex flex-wrap gap-2">
-              @for (ingredient of pizza.ingredients; track ingredient) {
-                <span class="bg-stone text-[#5A5550] font-dm text-[11px] tracking-wide px-2.5 py-1 rounded-sm">
-                  {{ ingredient }}
-                </span>
-              }
-            </div>
+          <div class="text-right">
+            <div class="font-playfair font-semibold text-[40px] md:text-[48px] text-cream leading-none">26 <span class="text-[28px]">€</span></div>
+            <div class="font-dm font-light text-[13px] text-slate-pale opacity-70 mt-1">par personne</div>
           </div>
         </div>
-      }
+        <div class="mt-6 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <span class="font-dm font-light text-[13px] tracking-wide text-white/40">À partir de 12 personnes</span>
+          <a routerLink="/devis" class="inline-block bg-cream text-ink font-dm font-medium text-[11px] tracking-[0.12em] uppercase rounded-sm px-7 py-3 hover:bg-stone transition-colors self-start md:self-auto">
+            Demander un devis →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extras : cadre fond clair sur fond slate-dark -->
+  <div class="px-8 md:px-16 pb-24 md:pb-28 mt-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="bg-stone rounded-sm px-8 md:px-10 py-10">
+        @if (loading()) {
+          <div class="font-dm text-stone-deep text-[15px]">Chargement…</div>
+        } @else if (categories().length > 0) {
+          <div class="flex flex-col gap-8">
+            @for (cat of categories(); track cat.nom) {
+              <div>
+                <p class="section-label text-stone-deep mb-4">{{ cat.nom }}</p>
+                <div class="flex flex-col">
+                  @for (extra of cat.extras; track extra.id) {
+                    <div class="flex items-center justify-between py-4 border-b border-stone-mid last:border-b-0">
+                      <div>
+                        <span class="font-dm font-light text-[16px] text-ink">{{ extra.nom }}</span>
+                        @if (extra.description) {
+                          <span class="font-dm font-light text-[13px] text-stone-deep ml-2">· {{ extra.description }}</span>
+                        }
+                      </div>
+                      <div class="font-dm font-medium text-[15px] text-slate ml-6 whitespace-nowrap">
+                        {{ extra.prix }} €
+                        <span class="font-dm font-light text-[12px] text-stone-deep">{{ extra.type === 'par_personne' ? '/ pers.' : 'forfait' }}</span>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
     </div>
   </div>
 </section>

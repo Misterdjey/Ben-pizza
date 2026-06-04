@@ -21,24 +21,20 @@ Application Angular mono-page (pas de routing). Chaque section est un composant 
 
 ```text
 src/app/
-├── app.ts / app.html / app.css     — Root (navbar + footer)
-├── hero/                           — Section hero avec photo de Benjamin
-├── menu/                           — Grille de pizzas filtrée par catégorie
-├── offers/                         — 3 formules tarifaires
+├── app.ts / app.html / app.css     — Root (router-outlet)
+├── vitrine/                        — One-page vitrine (nav, sections, footer)
+├── hero/                           — Section hero avec vidéo de Benjamin
+├── menu/                           — Tarif unique + extras depuis Supabase (remplace offers)
 ├── how-it-works/                   — Process en 4 étapes
-├── gallery/                        — Galerie photos
-├── testimonials/                   — Avis clients + stats
+├── gallery/                        — Galerie photos (Supabase)
+├── testimonials/                   — Avis clients (masqués, à réactiver)
 ├── cta/                            — Call-to-action final
-└── services/pizza.service.ts       — Fetch HTTP de pizzas.json
+├── devis/                          — Formulaire devis : nb personnes + extras cochables
+├── floating-toolbar/               — Navigation sections
+└── services/                       — pizza.service, language.service, theme.service
 ```
 
-**Données** : `public/pizzas.json` — 15 pizzas en 5 catégories :
-
-- Base sauce tomate
-- Base creme fraiche
-- Spécialités du chef
-- Sans fromage
-- Desserts
+**Données** : Supabase — tables `extras`, `commandes`, `clients`, `gallery_images`, `ingredients`, `recettes`
 
 ## Design system
 
@@ -159,3 +155,10 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-06-01 | Feature | Admin Galerie : upload JPG/WebP avec validation résolution+poids, compression     |
 | 2026-06-01 | Feature | Vitrine Galerie : source migree gallery.json → Supabase gallery_images            |
 | 2026-06-01 | Feature | Admin sidebar : séparateur visuel "Site vitrine" avant section Galerie            |
+| 2026-06-04 | Migrate | Supabase : colonne ordre int sur extras (Entrées=1, Desserts=2)                   |
+| 2026-06-04 | Migrate | Supabase : drop offre_extras + offres (CASCADE), TRUNCATE commandes               |
+| 2026-06-04 | Refonte | Vitrine : menu remplace offers — tarif fixe 26€/pers + extras Supabase            |
+| 2026-06-04 | Refonte | Page /devis : extras cochables par categorie, calcul reactif via signals          |
+| 2026-06-04 | Feature | Admin Extras : champ Ordre categorie dans formulaire + colonne ordre liste        |
+| 2026-06-04 | Supprim | Admin Offres : composant, routes lazy-load et entree sidebar, suppression         |
+| 2026-06-04 | Chore   | Section avis masquee temporairement (nav desktop/mobile + toolbar + section)      |

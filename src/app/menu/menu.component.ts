@@ -1,42 +1,41 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { PizzaService, Pizza } from '../services/pizza.service';
-import { LanguageService } from '../services/language.service';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { SupabaseService } from '../admin/services/supabase.service';
+import { Extra } from '../admin/models';
+
+interface CatGroup { nom: string; extras: Extra[] }
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
 })
 export class MenuComponent implements OnInit {
-  protected t = inject(LanguageService).t;
-  private pizzaService = inject(PizzaService);
+  private db = inject(SupabaseService).client;
 
-  pizzas = signal<Pizza[]>([]);
-  selectedCategory = signal('all');
+  loading = signal(true);
+  private extrasRaw = signal<Extra[]>([]);
 
-  categories = [
-    'Base sauce tomate',
-    'Base creme fraiche',
-    'Spécialités du chef',
-    'Sans fromage',
-    'Desserts',
-  ];
-
-  filteredPizzas = computed(() => {
-    if (this.selectedCategory() === 'all') return this.pizzas();
-    return this.pizzas().filter(p => p.category === this.selectedCategory());
+  categories = computed<CatGroup[]>(() => {
+    const map = new Map<string, Extra[]>();
+    for (const e of this.extrasRaw()) {
+      const list = map.get(e.categorie) ?? [];
+      list.push(e);
+      map.set(e.categorie, list);
+    }
+    return Array.from(map.entries()).map(([nom, extras]) => ({ nom, extras }));
   });
 
-  ngOnInit() {
-    this.pizzaService.getPizzas().subscribe({
-      next: (response) => { this.pizzas.set(response.pizzas); },
-      error: (error) => { console.error('Erreur lors du chargement des pizzas:', error); },
-    });
-  }
-
-  selectCategory(category: string) {
-    this.selectedCategory.set(category);
+  async ngOnInit() {
+    const { data, error } = await this.db
+      .from('extras')
+      .select('*')
+      .eq('actif', true)
+      .order('ordre', { ascending: true })
+      .order('nom', { ascending: true });
+    if (!error) this.extrasRaw.set(data as Extra[]);
+    this.loading.set(false);
   }
 }

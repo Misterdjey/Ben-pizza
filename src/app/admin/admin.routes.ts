@@ -34,16 +34,6 @@ export const adminRoutes: Routes = [
           import('./clients/clients.component').then((m) => m.ClientsComponent),
       },
       {
-        path: 'offres',
-        loadComponent: () =>
-          import('./offres/offres.component').then((m) => m.OffresComponent),
-      },
-      {
-        path: 'offres/:id',
-        loadComponent: () =>
-          import('./offres/offre-detail/offre-detail.component').then((m) => m.OffreDetailComponent),
-      },
-      {
         path: 'extras',
         loadComponent: () =>
           import('./extras/extras.component').then((m) => m.ExtrasComponent),
