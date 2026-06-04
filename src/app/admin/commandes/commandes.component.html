@@ -26,7 +26,7 @@
             @for (c of commandes(); track c.id) {
               <tr class="hover:bg-stone/40 transition-colors">
                 <td class="px-5 py-3 font-dm text-[15px] text-gray-500">{{ c.date_presta }}</td>
-                <td class="px-5 py-3 font-dm text-[15px] font-medium text-ink">{{ c.client?.nom }}</td>
+                <td class="px-5 py-3 font-dm text-[15px] font-medium text-ink">{{ c.client?.prenom ? c.client.prenom + ' ' + c.client.nom : c.client?.nom }}</td>
                 <td class="px-5 py-3 font-dm text-[15px] text-gray-600">{{ c.nb_personnes }}</td>
                 <td class="px-5 py-3 text-right font-dm text-[15px] font-semibold text-ink">{{ c.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
                 <td class="px-5 py-3">
@@ -59,18 +59,24 @@
 <!-- Modal création / édition -->
 @if (showModal()) {
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" (click)="closeModal()">
-    <div class="bg-white rounded-sm shadow-2xl w-full max-w-lg p-7" (click)="$event.stopPropagation()">
-      <h2 class="font-playfair font-semibold text-[22px] text-ink mb-6">
-        {{ editingId() ? 'Modifier la commande' : 'Nouvelle commande' }}
-      </h2>
+    <div class="bg-white rounded-sm shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col" (click)="$event.stopPropagation()">
 
-      @if (errorMsg()) {
-        <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[15px] rounded-sm px-4 py-3 mb-4">{{ errorMsg() }}</div>
-      }
+      <!-- Header modal fixe -->
+      <div class="px-7 pt-7 pb-4 border-b border-gray-100 flex-shrink-0">
+        <h2 class="font-playfair font-semibold text-[22px] text-ink">
+          {{ editingId() ? 'Modifier la commande' : 'Nouvelle commande' }}
+        </h2>
+        @if (errorMsg()) {
+          <div class="bg-red-50 border border-red-200 text-red-600 font-dm text-[14px] rounded-sm px-4 py-2.5 mt-3">{{ errorMsg() }}</div>
+        }
+      </div>
 
-      <div class="space-y-4">
+      <!-- Corps scrollable -->
+      <div class="flex-1 overflow-y-auto px-7 py-5 space-y-5">
+
+        <!-- Client + date + nb personnes -->
         <div>
-          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Client</label>
+          <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Client</label>
           <select [(ngModel)]="form.client_id" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
             <option value="">— Sélectionner —</option>
             @for (cl of clients(); track cl.id) {
@@ -81,47 +87,110 @@
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Date de prestation</label>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Date de prestation</label>
             <input type="date" [(ngModel)]="form.date_presta" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
           </div>
           <div>
-            <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Nb personnes</label>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Nb personnes</label>
             <input type="number" [(ngModel)]="form.nb_personnes" min="1" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
           </div>
         </div>
 
-        <div>
-          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Prix total (€)</label>
-          <input type="number" [(ngModel)]="form.prix_total" min="0" step="1" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
-        </div>
+        <!-- Extras -->
+        @if (categories().length > 0) {
+          <div>
+            <p class="font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-3">Extras</p>
+            <div class="border border-gray-200 rounded-sm divide-y divide-gray-100">
+              @for (cat of categories(); track cat.nom) {
+                <div class="px-4 py-3">
+                  <p class="font-dm text-[10px] tracking-[0.14em] uppercase text-stone-deep mb-2">{{ cat.nom }}</p>
+                  <div class="flex flex-col gap-1.5">
+                    @for (e of cat.extras; track e.id) {
+                      <label class="flex items-center justify-between gap-3 cursor-pointer group">
+                        <div class="flex items-center gap-2.5">
+                          <input type="checkbox" [checked]="isChecked(e.id)" (change)="toggleExtra(e.id)"
+                            class="w-4 h-4 rounded-sm border-gray-300 text-slate accent-slate cursor-pointer"/>
+                          <span class="font-dm text-[14px] text-ink group-hover:text-slate transition-colors">{{ e.nom }}</span>
+                          @if (e.description) {
+                            <span class="font-dm text-[12px] text-gray-400">· {{ e.description }}</span>
+                          }
+                        </div>
+                        <span class="font-dm text-[13px] font-medium text-slate whitespace-nowrap">
+                          {{ prixExtraForNb(e) }} €
+                          <span class="font-dm font-light text-[11px] text-gray-400">{{ e.type === 'par_personne' ? '/ pers. × ' + form.nb_personnes : 'forfait' }}</span>
+                        </span>
+                      </label>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
 
+        <!-- Réduction -->
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Pizzas prévues</label>
-            <input type="number" [(ngModel)]="form.pizzas_prevues" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
-          </div>
-          <div>
-            <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Pizzas réalisées</label>
-            <input type="number" [(ngModel)]="form.pizzas_realisees" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Réduction (%)</label>
+            <input type="number" [ngModel]="reduction()" (ngModelChange)="setReduction($event)" min="0" max="100" step="1" placeholder="0"
+              class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
           </div>
         </div>
 
+        <!-- Récap prix calculé -->
+        <div class="bg-stone border border-stone-mid rounded-sm px-5 py-4 space-y-2">
+          <div class="flex justify-between font-dm text-[14px] text-gray-500">
+            <span>Pizzas ({{ form.nb_personnes }} × {{ 26 }} €)</span>
+            <span>{{ soustotalPizzas() }} €</span>
+          </div>
+          @if (soustotalExtras() > 0) {
+            <div class="flex justify-between font-dm text-[14px] text-gray-500">
+              <span>Extras</span>
+              <span>{{ soustotalExtras() }} €</span>
+            </div>
+          }
+          @if (remise() > 0) {
+            <div class="flex justify-between font-dm text-[14px] text-red-500">
+              <span>Réduction ({{ reduction() }}%)</span>
+              <span>− {{ remise() }} €</span>
+            </div>
+          }
+          <div class="flex justify-between font-dm text-[16px] font-semibold text-ink pt-2 border-t border-stone-mid">
+            <span>Total</span>
+            <span>{{ prixCalcule() }} €</span>
+          </div>
+        </div>
+
+        <!-- Statut + pizzas -->
         <div>
-          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Statut</label>
+          <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Statut</label>
           <select [(ngModel)]="form.statut" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
+            <option value="devis">Devis</option>
             <option value="en_cours">En cours</option>
             <option value="confirmee">Confirmée</option>
             <option value="terminee">Terminée</option>
           </select>
         </div>
 
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Pizzas prévues</label>
+            <input type="number" [(ngModel)]="form.pizzas_prevues" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
+          </div>
+          <div>
+            <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Pizzas réalisées</label>
+            <input type="number" [(ngModel)]="form.pizzas_realisees" min="0" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
+          </div>
+        </div>
+
         <div>
-          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Notes</label>
+          <label class="block font-dm text-[11px] tracking-[0.12em] uppercase text-stone-deep mb-1.5">Notes</label>
           <textarea [(ngModel)]="form.notes" rows="2" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink focus:outline-none focus:border-slate transition-colors resize-none"></textarea>
         </div>
       </div>
 
-      <div class="flex justify-end gap-3 mt-7">
+      <!-- Footer modal fixe -->
+      <div class="px-7 py-4 border-t border-gray-100 flex justify-end gap-3 flex-shrink-0">
         <button (click)="closeModal()" class="px-4 py-2 font-dm text-[15px] text-gray-500 hover:text-ink transition-colors">Annuler</button>
         <button (click)="save()" [disabled]="saving()" class="bg-slate-dark text-cream font-dm text-[14px] tracking-wide px-6 py-2.5 rounded-sm hover:bg-ink transition-colors disabled:opacity-50">
           {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}

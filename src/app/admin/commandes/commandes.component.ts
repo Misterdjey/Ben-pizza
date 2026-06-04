@@ -1,18 +1,22 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { CommandesService } from '../services/commandes.service';
 import { ClientsService } from '../services/clients.service';
-import { Commande, Client, StatutCommande } from '../models';
+import { ExtrasService } from '../services/extras.service';
+import { Commande, Client, Extra, StatutCommande } from '../models';
 import { generateFacturePdf } from '../utils/facture-pdf';
 import { ToastService } from '../shared/toast.service';
+
+const PRIX_PAR_PERSONNE = 26;
+
+interface CatGroup { nom: string; extras: Extra[] }
 
 type CommandeForm = {
   client_id: string;
   date_presta: string;
   nb_personnes: number;
-  prix_total: number;
   pizzas_prevues: number | null;
   pizzas_realisees: number | null;
   statut: StatutCommande;
@@ -29,17 +33,51 @@ type CommandeForm = {
 export class CommandesComponent implements OnInit {
   private commandesService = inject(CommandesService);
   private clientsService = inject(ClientsService);
+  private extrasService = inject(ExtrasService);
   private toastService = inject(ToastService);
 
   commandes = signal<Commande[]>([]);
   clients = signal<Client[]>([]);
+  extras = signal<Extra[]>([]);
   loading = signal(true);
   showModal = signal(false);
   editingId = signal<string | null>(null);
   saving = signal(false);
   errorMsg = signal<string | null>(null);
 
+  private checkedIds = signal<Set<string>>(new Set());
+  reduction = signal<number>(0);
+
   form: CommandeForm = this.emptyForm();
+
+  categories = computed<CatGroup[]>(() => {
+    const map = new Map<string, Extra[]>();
+    for (const e of this.extras()) {
+      const list = map.get(e.categorie) ?? [];
+      list.push(e);
+      map.set(e.categorie, list);
+    }
+    return Array.from(map.entries()).map(([nom, extras]) => ({ nom, extras }));
+  });
+
+  extrasCoches = computed(() =>
+    this.extras().filter(e => this.checkedIds().has(e.id))
+  );
+
+  soustotalPizzas = computed(() => this.form.nb_personnes * PRIX_PAR_PERSONNE);
+
+  soustotalExtras = computed(() => {
+    const nb = this.form.nb_personnes;
+    return this.extrasCoches().reduce(
+      (acc, e) => acc + (e.type === 'par_personne' ? e.prix * nb : e.prix), 0
+    );
+  });
+
+  soustotalBrut = computed(() => this.soustotalPizzas() + this.soustotalExtras());
+
+  remise = computed(() => Math.round(this.soustotalBrut() * this.reduction() / 100));
+
+  prixCalcule = computed(() => this.soustotalBrut() - this.remise());
 
   async ngOnInit() {
     await this.loadAll();
@@ -47,17 +85,21 @@ export class CommandesComponent implements OnInit {
 
   private async loadAll() {
     this.loading.set(true);
-    const [commandes, clients] = await Promise.all([
+    const [commandes, clients, extras] = await Promise.all([
       this.commandesService.getAll(),
       this.clientsService.getAll(),
+      this.extrasService.getAll(),
     ]);
     this.commandes.set(commandes);
     this.clients.set(clients);
+    this.extras.set(extras);
     this.loading.set(false);
   }
 
   openCreate() {
     this.form = this.emptyForm();
+    this.checkedIds.set(new Set());
+    this.reduction.set(0);
     this.editingId.set(null);
     this.errorMsg.set(null);
     this.showModal.set(true);
@@ -68,12 +110,13 @@ export class CommandesComponent implements OnInit {
       client_id: c.client_id,
       date_presta: c.date_presta,
       nb_personnes: c.nb_personnes,
-      prix_total: c.prix_total,
       pizzas_prevues: c.pizzas_prevues,
       pizzas_realisees: c.pizzas_realisees,
       statut: c.statut,
       notes: c.notes ?? '',
     };
+    this.checkedIds.set(new Set());
+    this.reduction.set(0);
     this.editingId.set(c.id);
     this.errorMsg.set(null);
     this.showModal.set(true);
@@ -83,13 +126,34 @@ export class CommandesComponent implements OnInit {
     this.showModal.set(false);
   }
 
+  toggleExtra(id: string) {
+    this.checkedIds.update(s => {
+      const next = new Set(s);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
+
+  isChecked(id: string): boolean {
+    return this.checkedIds().has(id);
+  }
+
+  setReduction(val: number) {
+    this.reduction.set(Math.min(100, Math.max(0, val || 0)));
+  }
+
   async save() {
     this.saving.set(true);
     this.errorMsg.set(null);
     try {
+      const extrasNoms = this.extrasCoches().map(e => e.nom).join(', ');
+      const notesExtras = extrasNoms ? `Extras : ${extrasNoms}` : '';
+      const notes = [notesExtras, this.form.notes].filter(Boolean).join('\n') || null;
+
       const payload = {
         ...this.form,
-        notes: this.form.notes || null,
+        prix_total: this.prixCalcule(),
+        notes,
         pizzas_prevues: this.form.pizzas_prevues || null,
         pizzas_realisees: this.form.pizzas_realisees || null,
       };
@@ -123,6 +187,10 @@ export class CommandesComponent implements OnInit {
     generateFacturePdf(c);
   }
 
+  prixExtraForNb(e: Extra): number {
+    return e.type === 'par_personne' ? e.prix * this.form.nb_personnes : e.prix;
+  }
+
   statutLabel(s: StatutCommande): string {
     const labels: Record<StatutCommande, string> = { devis: 'Devis', en_cours: 'En cours', confirmee: 'Confirmée', terminee: 'Terminée' };
     return labels[s];
@@ -143,7 +211,6 @@ export class CommandesComponent implements OnInit {
       client_id: '',
       date_presta: '',
       nb_personnes: 12,
-      prix_total: 0,
       pizzas_prevues: null,
       pizzas_realisees: null,
       statut: 'devis',
