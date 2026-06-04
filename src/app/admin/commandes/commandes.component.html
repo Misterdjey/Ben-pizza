@@ -26,7 +26,7 @@
             @for (c of commandes(); track c.id) {
               <tr class="hover:bg-stone/40 transition-colors">
                 <td class="px-5 py-3 font-dm text-[15px] text-gray-500">{{ c.date_presta }}</td>
-                <td class="px-5 py-3 font-dm text-[15px] font-medium text-ink">{{ c.client?.prenom ? c.client.prenom + ' ' + c.client.nom : c.client?.nom }}</td>
+                <td class="px-5 py-3 font-dm text-[15px] font-medium text-ink">{{ c.client ? (c.client.prenom ? c.client.prenom + ' ' + c.client.nom : c.client.nom) : '' }}</td>
                 <td class="px-5 py-3 font-dm text-[15px] text-gray-600">{{ c.nb_personnes }}</td>
                 <td class="px-5 py-3 text-right font-dm text-[15px] font-semibold text-ink">{{ c.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
                 <td class="px-5 py-3">

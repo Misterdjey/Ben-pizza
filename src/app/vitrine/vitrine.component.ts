@@ -4,7 +4,6 @@ import { HeroComponent } from '../hero/hero.component';
 import { MenuComponent } from '../menu/menu.component';
 import { HowItWorksComponent } from '../how-it-works/how-it-works.component';
 import { GalleryComponent } from '../gallery/gallery.component';
-import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { CtaComponent } from '../cta/cta.component';
 import { LanguageService } from '../services/language.service';
 
@@ -17,7 +16,6 @@ import { LanguageService } from '../services/language.service';
     MenuComponent,
     HowItWorksComponent,
     GalleryComponent,
-    TestimonialsComponent,
     CtaComponent,
   ],
   templateUrl: './vitrine.component.html',
