@@ -4,8 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { CommandesService } from '../services/commandes.service';
 import { ClientsService } from '../services/clients.service';
-import { OffresService } from '../services/offres.service';
-import { Commande, Client, Offre, StatutCommande } from '../models';
+import { Commande, Client, StatutCommande } from '../models';
 import { generateFacturePdf } from '../utils/facture-pdf';
 import { ToastService } from '../shared/toast.service';
 
@@ -13,7 +12,7 @@ type CommandeForm = {
   client_id: string;
   date_presta: string;
   nb_personnes: number;
-  offre_id: string;
+  prix_total: number;
   pizzas_prevues: number | null;
   pizzas_realisees: number | null;
   statut: StatutCommande;
@@ -30,12 +29,10 @@ type CommandeForm = {
 export class CommandesComponent implements OnInit {
   private commandesService = inject(CommandesService);
   private clientsService = inject(ClientsService);
-  private offresService = inject(OffresService);
   private toastService = inject(ToastService);
 
   commandes = signal<Commande[]>([]);
   clients = signal<Client[]>([]);
-  offres = signal<Offre[]>([]);
   loading = signal(true);
   showModal = signal(false);
   editingId = signal<string | null>(null);
@@ -44,26 +41,18 @@ export class CommandesComponent implements OnInit {
 
   form: CommandeForm = this.emptyForm();
 
-  get prixCalcule(): number {
-    const offre = this.offres().find((o) => o.id === this.form.offre_id);
-    if (!offre || !this.form.nb_personnes) return 0;
-    return this.offresService.calculerPrix(offre, this.form.nb_personnes);
-  }
-
   async ngOnInit() {
     await this.loadAll();
   }
 
   private async loadAll() {
     this.loading.set(true);
-    const [commandes, clients, offres] = await Promise.all([
+    const [commandes, clients] = await Promise.all([
       this.commandesService.getAll(),
       this.clientsService.getAll(),
-      this.offresService.getAll(),
     ]);
     this.commandes.set(commandes);
     this.clients.set(clients);
-    this.offres.set(offres);
     this.loading.set(false);
   }
 
@@ -79,7 +68,7 @@ export class CommandesComponent implements OnInit {
       client_id: c.client_id,
       date_presta: c.date_presta,
       nb_personnes: c.nb_personnes,
-      offre_id: c.offre_id,
+      prix_total: c.prix_total,
       pizzas_prevues: c.pizzas_prevues,
       pizzas_realisees: c.pizzas_realisees,
       statut: c.statut,
@@ -100,7 +89,6 @@ export class CommandesComponent implements OnInit {
     try {
       const payload = {
         ...this.form,
-        prix_total: this.prixCalcule,
         notes: this.form.notes || null,
         pizzas_prevues: this.form.pizzas_prevues || null,
         pizzas_realisees: this.form.pizzas_realisees || null,
@@ -154,11 +142,11 @@ export class CommandesComponent implements OnInit {
     return {
       client_id: '',
       date_presta: '',
-      nb_personnes: 10,
-      offre_id: '',
+      nb_personnes: 12,
+      prix_total: 0,
       pizzas_prevues: null,
       pizzas_realisees: null,
-      statut: 'en_cours',
+      statut: 'devis',
       notes: '',
     };
   }

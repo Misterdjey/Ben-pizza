@@ -9,7 +9,7 @@ export class CommandesService {
   async getAll(): Promise<Commande[]> {
     const { data, error } = await this.db
       .from('commandes')
-      .select('*, client:clients(*), offre:offres(*)')
+      .select('*, client:clients(*)')
       .order('date_presta', { ascending: false });
     if (error) throw error;
     return data as Commande[];
@@ -18,7 +18,7 @@ export class CommandesService {
   async getById(id: string): Promise<Commande> {
     const { data, error } = await this.db
       .from('commandes')
-      .select('*, client:clients(*), offre:offres(*)')
+      .select('*, client:clients(*)')
       .eq('id', id)
       .single();
     if (error) throw error;
@@ -28,7 +28,7 @@ export class CommandesService {
   async getByClient(clientId: string): Promise<Commande[]> {
     const { data, error } = await this.db
       .from('commandes')
-      .select('*, offre:offres(*)')
+      .select('*')
       .eq('client_id', clientId)
       .order('date_presta', { ascending: false });
     if (error) throw error;
@@ -41,7 +41,7 @@ export class CommandesService {
     const { data, error } = await this.db
       .from('commandes')
       .insert(commande)
-      .select('*, client:clients(*), offre:offres(*)')
+      .select('*, client:clients(*)')
       .single();
     if (error) throw error;
     return data as Commande;
@@ -56,7 +56,7 @@ export class CommandesService {
       .from('commandes')
       .update(payload)
       .eq('id', id)
-      .select('*, client:clients(*), offre:offres(*)')
+      .select('*, client:clients(*)')
       .single();
     if (error) throw error;
     return data as Commande;

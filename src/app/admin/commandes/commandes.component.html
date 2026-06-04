@@ -17,7 +17,6 @@
               <th class="px-5 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Date</th>
               <th class="px-5 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Client</th>
               <th class="px-5 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Pers.</th>
-              <th class="px-5 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Offre</th>
               <th class="px-5 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Prix</th>
               <th class="px-5 py-3 text-left font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Statut</th>
               <th class="px-5 py-3 text-right font-dm text-[12px] tracking-[0.1em] uppercase text-gray-400">Actions</th>
@@ -29,7 +28,6 @@
                 <td class="px-5 py-3 font-dm text-[15px] text-gray-500">{{ c.date_presta }}</td>
                 <td class="px-5 py-3 font-dm text-[15px] font-medium text-ink">{{ c.client?.nom }}</td>
                 <td class="px-5 py-3 font-dm text-[15px] text-gray-600">{{ c.nb_personnes }}</td>
-                <td class="px-5 py-3 font-dm text-[15px] text-gray-500">{{ c.offre?.nom }}</td>
                 <td class="px-5 py-3 text-right font-dm text-[15px] font-semibold text-ink">{{ c.prix_total | currency:'EUR':'symbol':'1.0-0' }}</td>
                 <td class="px-5 py-3">
                   <span class="px-2 py-0.5 rounded-full font-dm text-[13px] font-medium" [class]="statutClass(c.statut)">
@@ -49,7 +47,7 @@
                 </td>
               </tr>
             } @empty {
-              <tr><td colspan="7" class="px-5 py-10 text-center font-dm text-[15px] text-gray-400">Aucune commande</td></tr>
+              <tr><td colspan="6" class="px-5 py-10 text-center font-dm text-[15px] text-gray-400">Aucune commande</td></tr>
             }
           </tbody>
         </table>
@@ -93,20 +91,9 @@
         </div>
 
         <div>
-          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Offre</label>
-          <select [(ngModel)]="form.offre_id" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors">
-            <option value="">— Sélectionner —</option>
-            @for (o of offres(); track o.id) {
-              <option [value]="o.id">{{ o.nom }}</option>
-            }
-          </select>
+          <label class="block font-dm text-[13px] tracking-wide uppercase text-stone-deep mb-1.5">Prix total (€)</label>
+          <input type="number" [(ngModel)]="form.prix_total" min="0" step="1" class="w-full border border-gray-200 rounded-sm px-3 py-2.5 font-dm text-[15px] text-ink bg-white focus:outline-none focus:border-slate transition-colors"/>
         </div>
-
-        @if (prixCalcule > 0) {
-          <div class="bg-stone border border-stone-mid rounded-sm px-4 py-2.5 font-dm text-[15px]">
-            Prix calculé : <strong class="text-slate font-semibold">{{ prixCalcule | currency:'EUR' }}</strong>
-          </div>
-        }
 
         <div class="grid grid-cols-2 gap-4">
           <div>

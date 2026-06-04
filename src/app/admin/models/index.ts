@@ -50,7 +50,7 @@ export interface Commande {
   client_id: string;
   date_presta: string;
   nb_personnes: number;
-  offre_id: string;
+  offre_id?: string | null;
   prix_total: number;
   pizzas_prevues: number | null;
   pizzas_realisees: number | null;
