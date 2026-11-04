@@ -162,3 +162,4 @@ Système de traduction maison basé sur les signals Angular 21.
 | 2026-06-04 | Feature | Admin Extras : champ Ordre categorie dans formulaire + colonne ordre liste        |
 | 2026-06-04 | Supprim | Admin Offres : composant, routes lazy-load et entree sidebar, suppression         |
 | 2026-06-04 | Chore   | Section avis masquee temporairement (nav desktop/mobile + toolbar + section)      |
+| 2026-11-04 | Fix     | Test app.spec : verifie le router-outlet au lieu du h1 boilerplate Angular        |
